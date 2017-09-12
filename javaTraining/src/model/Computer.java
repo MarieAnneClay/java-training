@@ -11,6 +11,30 @@ public class Computer implements Serializable{
 	private Timestamp discontinued;
 	private long companyId;
 	
+	/* CONSTRUCTEURS */
+	public Computer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Computer(long id, String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.companyId = companyId;
+	}
+
+	public Computer(String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.companyId = companyId;
+	}
+
 	/* GETTERS & SETTERS */
 	public long getId() {
 		return id;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
+		</jsp-property-group>
+	</jsp-config>
+
+	<servlet>
+	    <servlet-name>HomeView</servlet-name>
+	    <servlet-class>view.HomeView</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>HomeView</servlet-name>
+	    <url-pattern>/home</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>AddComputerView</servlet-name>
+	    <servlet-class>view.AddComputerView</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>AddComputerView</servlet-name>
+	    <url-pattern>/add_computer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>UpdateComputerView</servlet-name>
+	    <servlet-class>view.UpdateComputerView</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>UpdateComputerView</servlet-name>
+	    <url-pattern>/update_computer</url-pattern>
+	</servlet-mapping>
+
+</web-app>

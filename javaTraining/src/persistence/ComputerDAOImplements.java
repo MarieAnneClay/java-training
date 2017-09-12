@@ -16,6 +16,8 @@ public class ComputerDAOImplements implements ComputerDAO{
 	
 	private DAOFactory daoFactory;
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
+    private static final String SQL_DELETE_PAR_ID = "DELETE FROM computer WHERE id = ?";
 	
 	public ComputerDAOImplements(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -30,7 +32,7 @@ public class ComputerDAOImplements implements ComputerDAO{
 
         try {
             connexion = (Connection) daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true, Computer.getName(), Computer.getIntroduced(), Computer.getDiscontinued(), Computer.getCompanyId());
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true, Computer.getName(), Computer.getIntroduced(), Computer.getDiscontinued(), ( (Computer.getCompanyId() == 0)? null : Computer.getCompanyId() ) );
             int statut = preparedStatement.executeUpdate();
             if( statut == 0 ){
             	System.out.println("==0");
@@ -39,10 +41,31 @@ public class ComputerDAOImplements implements ComputerDAO{
             if( valeursAutoGenerees.next() ){
                 Computer.setId( valeursAutoGenerees.getLong( 1 ) );
             } else {
-            	System.out.println("ELSE");
+            	System.out.println("ELSE  INSERT COMPUTER");
             }
         } catch ( SQLException e ) {
-        	System.out.println("SQL EXCEPTIO?");
+        	System.out.println("SQL EXCEPTION INSERT COMPUTER");
+        } finally {
+            fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+        }
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface ComputerDao */
+    @Override
+    public void modifier(Computer computer) {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        try {
+            connexion = (Connection) daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), ( (computer.getCompanyId() == 0)? null : computer.getCompanyId() ), computer.getId() );
+            int statut = preparedStatement.executeUpdate();
+            if( statut == 0 ){
+            	System.out.println(SQL_UPDATE+computer.getName()+ computer.getIntroduced()+ computer.getDiscontinued()+ ( (computer.getCompanyId() == 0)? null : computer.getCompanyId() )+ computer.getId() );
+            }
+        } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION UPDATE COMPUTER");
         } finally {
             fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
         }
@@ -82,7 +105,30 @@ public class ComputerDAOImplements implements ComputerDAO{
         return computers;
     }
 	
-	
+    /* Implémentation de la méthode définie dans l'interface CommandeDao */
+    @Override
+    public void supprimer(Computer computer) {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+        	connexion = (Connection) daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, true, computer.getId() );
+            int statut = preparedStatement.executeUpdate();
+            System.out.println(statut);
+            if ( statut == 0 ) {
+            	System.out.println("Échec de la suppression de la commande, aucune ligne supprimée de la table.");
+            } else {
+            	System.out.println("computer.setId(0)");
+            	computer.setId(0);
+            }
+        } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION DELETE COMPUTER");
+        } finally {
+            fermeturesSilencieuses( preparedStatement, connexion );
+        }
+    }
+
 	
 	/*
 	 * Simple méthode utilitaire permettant de faire la correspondance (le
