@@ -63,7 +63,7 @@
                                             <label for="promotion">Entreprise</label>
                                             <select class="input-lg form-control" id="companyId" name="companyId">
                                             	<option value="0"></option>
-                                                <c:forEach items="${controller.getCompanies()}" var="c">
+                                                <c:forEach items="${serviceCompany.getCompanies()}" var="c">
                                                 	<option value="${c.getId()}" <c:if test="${c.getId() == companyId}"> selected </c:if> >
 			                                                	${c.getName()}
 			                                                	</option>

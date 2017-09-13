@@ -1,16 +1,18 @@
-package persistence;
+package dao;
 
+import static dao.DAOUtilitaire.fermeturesSilencieuses;
+import static dao.DAOUtilitaire.initialisationRequetePreparee;
+
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import model.Computer;
-
-import static persistence.DAOUtilitaire.fermeturesSilencieuses;
-import static persistence.DAOUtilitaire.initialisationRequetePreparee;
 
 public class ComputerDAOImplements implements ComputerDAO{
 	
@@ -23,7 +25,6 @@ public class ComputerDAOImplements implements ComputerDAO{
         this.daoFactory = daoFactory;
     }
 	
-	/* Implémentation de la méthode définie dans l'interface ComputerDao */
     @Override
     public void creer(Computer Computer) {
         Connection connexion = null;
@@ -50,7 +51,6 @@ public class ComputerDAOImplements implements ComputerDAO{
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface ComputerDao */
     @Override
     public void modifier(Computer computer) {
         Connection connexion = null;
@@ -71,33 +71,24 @@ public class ComputerDAOImplements implements ComputerDAO{
         }
     }
 
-    /*
-     * Méthode générique utilisée pour retourner un Computer depuis la base
-     * de données, correspondant à la requête SQL donnée prenant en paramètres
-     * les objets passés en argument.
-     */
-    public Vector<Computer> trouver(String sql, Object... objets){
+    public LinkedList<Computer> trouver(String sql, Object... objets){
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Computer computer = null;
-        Vector<Computer> computers = new Vector<Computer>();
+        LinkedList<Computer> computers = new LinkedList<Computer>();
 
         try {
-            /* Récupération d'une connexion depuis la Factory */
             connexion = (Connection) daoFactory.getConnection();
-            /*
-             * Préparation de la requête avec les objets passés en arguments
-             * (ici, uniquement une adresse email) et exécution.
-             */
             preparedStatement = initialisationRequetePreparee( connexion, sql, false, objets );
             resultSet = preparedStatement.executeQuery();
-            /* Parcours de la ligne de données retournée dans le ResultSet */
+
             while ( resultSet.next() ) {
             	computer = map(resultSet);
             	computers.add(computer);
             }
         } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION SELECT COMPUTER");
         } finally {
             fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
@@ -105,7 +96,6 @@ public class ComputerDAOImplements implements ComputerDAO{
         return computers;
     }
 	
-    /* Implémentation de la méthode définie dans l'interface CommandeDao */
     @Override
     public void supprimer(Computer computer) {
         Connection connexion = null;
@@ -129,12 +119,6 @@ public class ComputerDAOImplements implements ComputerDAO{
         }
     }
 
-	
-	/*
-	 * Simple méthode utilitaire permettant de faire la correspondance (le
-	 * mapping) entre une ligne issue de la table des Computers (un
-	 * ResultSet) et un bean Computer.
-	 */
 	private static Computer map(ResultSet resultSet) throws SQLException {
 		Computer computer = new Computer();
 		computer.setId(resultSet.getLong("id"));

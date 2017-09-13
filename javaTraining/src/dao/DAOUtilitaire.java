@@ -1,4 +1,4 @@
-package persistence;
+package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import com.mysql.jdbc.Statement;
 
 public class DAOUtilitaire {
 	
-	/*
+	/**
 	 * Initialise la requête préparée basée sur la connexion passée en argument,
 	 * avec la requête SQL et les objets donnés.
 	 */
@@ -21,7 +21,7 @@ public class DAOUtilitaire {
 	    return preparedStatement;
 	}
 	
-	/* Fermeture silencieuse du resultset */
+	/** Fermeture silencieuse du resultset */
 	public static void fermetureSilencieuse( ResultSet resultSet ) {
 	    if ( resultSet != null ) {
 	        try {
@@ -32,7 +32,7 @@ public class DAOUtilitaire {
 	    }
 	}
 
-	/* Fermeture silencieuse du statement */
+	/** Fermeture silencieuse du statement */
 	public static void fermetureSilencieuse( Statement statement ) {
 	    if ( statement != null ) {
 	        try {
@@ -43,7 +43,7 @@ public class DAOUtilitaire {
 	    }
 	}
 
-	/* Fermeture silencieuse de la connexion */
+	/** Fermeture silencieuse de la connexion */
 	public static void fermetureSilencieuse( Connection connexion ) {
 	    if ( connexion != null ) {
 	        try {
@@ -54,13 +54,13 @@ public class DAOUtilitaire {
 	    }
 	}
 
-	/* Fermetures silencieuses du statement et de la connexion */
+	/** Fermetures silencieuses du statement et de la connexion */
 	public static void fermeturesSilencieuses( Statement statement, Connection connexion ) {
 	    fermetureSilencieuse( statement );
 	    fermetureSilencieuse( connexion );
 	}
 
-	/* Fermetures silencieuses du resultset, du statement et de la connexion */
+	/** Fermetures silencieuses du resultset, du statement et de la connexion */
 	public static void fermeturesSilencieuses( ResultSet resultSet, Statement statement, Connection connexion ) {
 	    fermetureSilencieuse( resultSet );
 	    fermetureSilencieuse( statement );

@@ -42,5 +42,11 @@
 	    <servlet-name>UpdateComputerView</servlet-name>
 	    <url-pattern>/update_computer</url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+
+    <listener-class>servlet.InitialisationDaoFactory</listener-class>
+
+    </listener>
 
 </web-app>

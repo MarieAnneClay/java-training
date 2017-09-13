@@ -3,7 +3,6 @@ package view;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
@@ -11,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.Main;
+import dao.DAOFactory;
 import model.Computer;
+import service.ServiceCompany;
+import service.ServiceComputer;
 
 public class AddComputerView extends HttpServlet{
 	//Obligatoire pour la définition d'un servlet
@@ -24,10 +25,21 @@ public class AddComputerView extends HttpServlet{
 	public static final String FIELD_INTRODUCED = "introduced";
 	public static final String FIELD_DISCONTINUED = "discontinued";
 	public static final String FIELD_COMPANY_ID = "companyId";
-	public static Main mainController = Main.getInstance();
+	
+	private ServiceComputer serviceComputer;
+	private ServiceCompany serviceCompany;
+    public static final String CONF_DAO_FACTORY = "daofactory";
+	
+	public void init() throws ServletException {
+        /* Récupération d'une instance de nos DAO Client et Commande */
+        this.serviceComputer = new ServiceComputer(( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getComputerDao());
+        this.serviceCompany = new ServiceCompany(( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getCompanyDao());
+
+    }
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-		request.setAttribute("controller", mainController);
+		request.setAttribute("serviceComputer", serviceComputer);
+		request.setAttribute("serviceCompany", serviceCompany);
 		this.getServletContext().getRequestDispatcher(VIEW).forward( request, response );
 	}
 	
@@ -54,44 +66,15 @@ public class AddComputerView extends HttpServlet{
 		String result = "";
         String errors = "";
     	
-		mainController.createComputer(new Computer(name,introduced,discontinued,companyId));
+        serviceComputer.createComputer(new Computer(name,introduced,discontinued,companyId));
     	//result = "Utilisateur \""+name+"\" crée avec succès.";
 
-		request.setAttribute("controller", mainController);
+        request.setAttribute("serviceComputer", serviceComputer);
+		request.setAttribute("serviceCompany", serviceCompany);
 		request.setAttribute("errors", errors );
         request.setAttribute("result", result);
 		this.getServletContext().getRequestDispatcher(VIEW_ACCUEIL).forward(request, response );
 	}
 	
-	private void validationName(String name) throws Exception {
-		if (name == null || name.trim().length() == 0)
-    		throw new Exception("Le nom du nouveau membre ne peut pas être vide");
-	}
 	
-	private void validationEmail(String email) throws Exception {
-		if ( email != null && email.trim().length() != 0 ) {
-	        if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-	            throw new Exception( "L'addresse email n'est pas valide." );
-	        }
-	    } else {
-	        throw new Exception( "L'addresse email ne peut pas être vide" );
-	    }
-	}
-	
-	private void validationBirthdate(String birthdate) throws Exception {
-		SimpleDateFormat fmt = new SimpleDateFormat("dd/mm/yyyy");
-		if ( birthdate != null && birthdate.trim().length() != 0 ) {
-	        try {
-	        	fmt.parse(birthdate);
-	        } catch (ParseException e) {
-	        	throw new Exception( "Le format de la date de naissance n'est pas valide." );
-	        }
-	    } else {
-	        throw new Exception( "La date de naissance ne peut pas être vide" );
-	    }
-	}
-	
-	private void validationPromo(String promo) throws Exception {
-		
-	}
 }

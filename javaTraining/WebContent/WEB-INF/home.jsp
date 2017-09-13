@@ -34,7 +34,7 @@
                                     <i class="fa fa-laptop fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"> <c:out value="${controller.computers.size()}"/></div>
+                                    <div class="huge"> <c:out value="${serviceComputer.computers.size()}"/></div>
                                     <div class="huge-label">Ordinateurs</div>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                                     <i class="fa fa-industry fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><c:out value="${controller.companies.size()}"/></div>
+                                    <div class="huge"><c:out value="${serviceCompany.companies.size()}"/></div>
                                     <div class="huge-label">Entreprises</div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                                     <th><i class="fa fa-laptop fa-fw"></i> Nom</th>
                                                     <th><i class="fa fa-clock-o fa-fw"></i>Introduit</th>
                                                     <th><i class="fa fa-clock-o fa-fw"></i>Discontinué</th>
-                                                    <th><i class="fa fa-industry fa-fw"></i> ID</th>
+                                                    <th><i class="fa fa-industry fa-fw"></i> Entreprise</th>
                                                     <th class="text-right">Action</th>                                                   
                                                 </tr>
                                             </thead>
@@ -93,7 +93,7 @@
 													    <td>${c.name}</td>
 													    <td>${c.introduced}</td>
 													    <td>${c.discontinued}</td>
-													    <td><c:out value="${c.companyId != 0 ? controller.getCompany(c.companyId).getName(): ''}"/></td>
+													    <td><c:out value="${c.companyId != 0 ? serviceCompany.getCompany(c.companyId).getName(): ''}"/></td>
 													    <td  class="text-right">
 													        <a href="<c:url value="/update_computer?id=${c.id}"/>" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
                                                        		<a href="<c:url value="/home?id=${c.id}"/>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</a>
