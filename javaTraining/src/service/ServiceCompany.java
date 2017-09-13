@@ -1,17 +1,15 @@
 package service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import dao.CompanyDAO;
 import model.Company;
 
 public class ServiceCompany {
-	private LinkedList<Company> companies;
 	private CompanyDAO companyDAO;
 	
-	public ServiceCompany(CompanyDAO companyDAO) {
-		this.companyDAO = companyDAO;
-		this.companies = companyDAO.trouver("SELECT * FROM company WHERE 1 = ?", "1");
+	public ArrayList<Company> ServiceCompany(CompanyDAO companyDAO) {
+		return companyDAO.trouver("SELECT * FROM company WHERE 1 = ?", "1");
 	}
 	
 	public LinkedList<Company> getCompanies(){

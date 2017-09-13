@@ -1,4 +1,4 @@
-package dao;
+package daoUtil;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +9,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DAOFactory {
+import dao.CompanyDAO;
+import dao.ComputerDAO;
+import daoImpl.CompanyDAOImpl;
+import daoImpl.ComputerDAOImpl;
+
+public class ConnectionManager {
 	
 	private static final String FICHIER_PROPERTIES = "dao/dao.properties";
     private static final String PROPERTY_URL = "url";
@@ -20,20 +25,26 @@ public class DAOFactory {
     private String url;
     private String username;
     private String password;
+    private final static ConnectionManager instance = new ConnectionManager();
+
+  	/** Point d'accès pour l'instance unique du singleton */
+  	public static ConnectionManager getInstance () {
+  		return instance;
+  	}
 
 
-    DAOFactory( String url, String username, String password ) {
+    ConnectionManager( String url, String username, String password ) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
-    public static DAOFactory getInstance() {
+    private ConnectionManager () throws DAOConfigurationException{
 
     	String url = "jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&useSSL=false";
         String driver = "com.mysql.jdbc.Driver";
-        String nomUtilisateur = "root";
-        String motDePasse = "ebiz";
+        String username = "root";
+        String password = "ebiz";
 
         /*
         Properties properties = new Properties();
@@ -41,7 +52,7 @@ public class DAOFactory {
         InputStream fichierProperties = classLoader.getResourceAsStream( FICHIER_PROPERTIES );
 
         if ( fichierProperties == null ) {
-            System.out.println("Le fichier properties " + FICHIER_PROPERTIES + " est introuvable." );
+            throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FICHIER_PROPERTIES, e );
         }
 
         try {
@@ -51,7 +62,7 @@ public class DAOFactory {
             nomUtilisateur = properties.getProperty( PROPERTY_NOM_UTILISATEUR );
             motDePasse = properties.getProperty( PROPERTY_MOT_DE_PASSE );
         } catch ( FileNotFoundException e ) {
-        	System.out.println("Le fichier properties " + FICHIER_PROPERTIES + " est introuvable." );
+        	throw new DAOConfigurationException( "Impossible de charger le fichier properties " + FICHIER_PROPERTIES, e );
         } catch ( IOException e ) {
         	System.out.println("Impossible de charger le fichier properties " + FICHIER_PROPERTIES );
         }*/
@@ -59,12 +70,12 @@ public class DAOFactory {
         try {
             Class.forName(driver);
         } catch ( ClassNotFoundException e ) {
-        	System.out.println("Le driver est introuvable dans le classpath.");
+        	throw new DAOConfigurationException( "Le driver est introuvable dans le classpath.", e );
         }
         
-        DAOFactory instance = new DAOFactory( url, nomUtilisateur, motDePasse );
-        return instance;
-
+        this.url = url;
+		this.username = username;
+		this.password = password;
     }
     
     public Connection getConnection() throws SQLException {
@@ -72,10 +83,10 @@ public class DAOFactory {
     }
 
     public ComputerDAO getComputerDao() {
-        return new ComputerDAOImplements(this);
+        return new ComputerDAOImpl(this);
     }
     
     public CompanyDAO getCompanyDao() {
-        return new CompanyDAOImplements(this);
+        return new CompanyDAOImpl(this);
     }
 }

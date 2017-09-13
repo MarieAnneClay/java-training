@@ -1,10 +1,11 @@
 package dao;
 
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.ArrayList;
 
+import daoUtil.DAOException;
 import model.Company;
 
 public interface CompanyDAO {
-    LinkedList<Company> trouver(String sql, Object... objets);
+	public ArrayList<Company> findAllCompanies () throws DAOException;
+	public Company findByIdCompany (int id) throws DAOException;
 }

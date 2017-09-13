@@ -6,24 +6,23 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import dao.CompanyDAOImplements;
-import dao.ComputerDAOImplements;
-import dao.DAOFactory;
+import daoImpl.CompanyDAOImpl;
+import daoImpl.ComputerDAOImpl;
+import daoUtil.ConnectionManager;
 import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
-import validator.Validator;
 
-public class Page {	
+public class Main {	
 	// Une liste par table de la base de données
 	private static LinkedList<Computer> computers = new LinkedList<Computer>();
 	private static LinkedList<Company> companies = new LinkedList<Company>();
 	// Connexion a la base de donnée 
-	private static DAOFactory daoFactory = DAOFactory.getInstance();
+	private static ConnectionManager daoFactory = ConnectionManager.getInstance();
 	
-	private static ComputerDAOImplements computerDao = new ComputerDAOImplements( daoFactory );
-	private static CompanyDAOImplements companyDao = new CompanyDAOImplements( daoFactory );
+	private static ComputerDAOImpl computerDao = new ComputerDAOImpl( daoFactory );
+	private static CompanyDAOImpl companyDao = new CompanyDAOImpl( daoFactory );
 	private static ServiceComputer serviceComputer;
     private static ServiceCompany serviceCompany;
 	private static Scanner sc = new Scanner(System.in);
@@ -33,13 +32,13 @@ public class Page {
 	static String str;
 	
 	public static void main(String[] args) {
-		Page instance=new Page();
+		Main instance=new Main();
 		boolean flagMenu = false;
 		computerTotalPages = 1 + serviceComputer.getComputers().size() / PAGE_SIZE;
 		companyTotalPages = 1 + serviceCompany.getCompanies().size() / PAGE_SIZE;
 		
 
-		while(flagMenu == false) {
+		while (flagMenu == false) {
 			System.out.println("Menu :");
 			System.out.println("0 : sortir");
 			System.out.println("1 : afficher ordinateur");
@@ -50,7 +49,7 @@ public class Page {
 			System.out.println("6 : supprimer ordinateur");
 			System.out.println("Veuillez saisir le numéro de votre choix");
 			str = sc.nextLine();
-			switch(str) {
+			switch (str) {
 				case "0":
 					flagMenu = true;
 					System.exit(0);
@@ -85,14 +84,11 @@ public class Page {
 				default :
 					System.out.println("Veuillez resaisir");
 			}
-		}
-		
-
-		
+		}	
 	}
 
   	/* CONSTRUCTEUR */
-  	public Page() {
+  	public Main () {
   		this.serviceComputer = new ServiceComputer(computerDao);
         this.serviceCompany = new ServiceCompany(companyDao);
 		// Remplit les listes avec les infos de la BDD
@@ -102,9 +98,9 @@ public class Page {
 	
 	/* LIST */
 	// COMPUTER
-	public void printComputers() {
+	public void printComputers () {
 		boolean flag = false;
-		while(flag == false) {
+		while (flag == false) {
 			System.out.println("Veuillez saisir le numéro de la page souhaité ("+computerTotalPages+" pages) ou 0 pour sortir ");
 			int nb = Integer.parseInt(sc.nextLine());
 			if ( nb > 0 && nb <= computerTotalPages ) {
@@ -123,9 +119,9 @@ public class Page {
 	}
 	
 	//COMPANIES
-	public void printCompanies() {
+	public void printCompanies () {
 		boolean flag = false;
-		while(flag == false) {
+		while (flag == false) {
 			System.out.println("Veuillez saisir le numéro de la page souhaité ("+companyTotalPages+" pages) ou 0 pour sortir ");
 			int nb = Integer.parseInt(sc.nextLine());
 			if ( nb > 0 && nb <= companyTotalPages ) {
@@ -145,7 +141,7 @@ public class Page {
 	
 	/* COMPUTERS */
 	// details
-	public void printDetails(long id) {
+	public void printDetails (long id) {
 		Computer computer;
 		computer = computerDao.trouver("SELECT * FROM computer WHERE id = ?", id).get(0);
 		System.out.println("/***** AFFICHAGE DES INFOS DU COMPUTER ID : " + computer.getId() + " *****/");
@@ -156,7 +152,7 @@ public class Page {
 	}
 	
 	// create
-	public void create() {
+	public void create () {
 		String name = null;
 		Timestamp introduced = null;
 		Timestamp discontinued = null;
@@ -170,8 +166,7 @@ public class Page {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		    Date parsedDate = (Date) dateFormat.parse(sc.nextLine());
 		    discontinued = new java.sql.Timestamp(parsedDate.getTime());
-		} catch(Exception e) { //this generic but you can control another types of exception
-		    // look the origin of excption 
+		} catch(Exception e) { 
 		}
 		
 		System.out.println("Veuillez saisir le discontinued de l'ordinateur");
@@ -179,14 +174,13 @@ public class Page {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		    Date parsedDate = (Date) dateFormat.parse(sc.nextLine());
 		    introduced = new java.sql.Timestamp(parsedDate.getTime());
-		} catch(Exception e) { //this generic but you can control another types of exception
-		    // look the origin of excption 
+		} catch(Exception e) { 
 		}
 		
 		System.out.println("Veuillez saisir l'id de l'entreprise de l'ordinateur");
 		companyId = sc.nextLine();
 		
-		serviceComputer.createComputer(new Computer(name,introduced,discontinued,(companyId == "")? 0 : Integer.parseInt(companyId)));
+		serviceComputer.createComputer(new Computer(name,introduced,discontinued,(companyId == "")? 0 : Integer.parseInt(companyId) ) );
 	}
 	
 	// update
@@ -200,12 +194,6 @@ public class Page {
 		
 		System.out.println("Veuillez saisir le id de l'ordinateur");
 		id = Integer.parseInt(sc.nextLine());
-		/*
-		int result = -1;
-		while (result != 1) {
-			System.out.println("Veuillez saisir le nom de l'ordinateur");
-			result = Validator.validationName(sc.nextLine());
-		}		*/
 		name = sc.nextLine();
 		
 		System.out.println("Veuillez saisir le introduced de l'ordinateur");
@@ -221,9 +209,8 @@ public class Page {
 		try {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		    Date parsedDate = (Date) dateFormat.parse(sc.nextLine());
-		    introduced = new java.sql.Timestamp(parsedDate.getTime());
-		} catch(Exception e) { //this generic but you can control another types of exception
-		    // look the origin of excption 
+		    introduced = new java.sql.Timestamp( parsedDate.getTime() );
+		} catch(Exception e) { 
 		}
 		
 		System.out.println("Veuillez saisir l'id de l'entreprise de l'ordinateur");
@@ -232,7 +219,7 @@ public class Page {
         computer.setName(name);
         computer.setIntroduced(introduced);        
         computer.setDiscontinued(discontinued);
-        computer.setCompanyId((companyId == "")? 0 : Integer.parseInt(companyId));
+        computer.setCompanyId( (companyId == "")? 0 : Integer.parseInt(companyId) );
     	
         serviceComputer.updateComputer(computer);
 	}
@@ -243,9 +230,9 @@ public class Page {
 		Computer computer;
 		
 		System.out.println("Veuillez saisir le id de l'ordinateur");
-		id = Integer.parseInt(sc.nextLine());
+		id = Integer.parseInt( sc.nextLine() );
 		computer = serviceComputer.getComputer(id);
-		if (computer != null) {
+		if ( computer != null ) {
 			serviceComputer.deleteComputer(computer);
 		}
 	}

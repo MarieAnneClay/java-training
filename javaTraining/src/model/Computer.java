@@ -1,9 +1,8 @@
 package model;
 
 import java.sql.Timestamp;
-import java.io.Serializable;
 
-public class Computer implements Serializable{
+public class Computer {
 	
 	private long id;
 	private String name;
@@ -12,12 +11,11 @@ public class Computer implements Serializable{
 	private long companyId;
 	
 	/* CONSTRUCTEURS */
-	public Computer() {
-		super();
-		// TODO Auto-generated constructor stub
+	public Computer () {
+		super ();
 	}
 	
-	public Computer(long id, String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+	public Computer (long id, String name, Timestamp introduced, Timestamp discontinued, long companyId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,9 +24,8 @@ public class Computer implements Serializable{
 		this.companyId = companyId;
 	}
 
-	public Computer(String name, Timestamp introduced, Timestamp discontinued, long companyId) {
-		super();
-		this.id = id;
+	public Computer (String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+		super ();
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
@@ -36,34 +33,34 @@ public class Computer implements Serializable{
 	}
 
 	/* GETTERS & SETTERS */
-	public long getId() {
+	public long getId  () {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId (long id) {
 		this.id = id;
 	}
-	public String getName() {
+	public String getName () {
 		return name;
 	}
-	public void setName(String name) {
+	public void setName (String name) {
 		this.name = name;
 	}
-	public Timestamp getIntroduced() {
+	public Timestamp getIntroduced () {
 		return introduced;
 	}
-	public void setIntroduced(Timestamp introduced) {
+	public void setIntroduced (Timestamp introduced) {
 		this.introduced = introduced;
 	}
-	public Timestamp getDiscontinued() {
+	public Timestamp getDiscontinued () {
 		return discontinued;
 	}
-	public void setDiscontinued(Timestamp discontinued) {
+	public void setDiscontinued (Timestamp discontinued) {
 		this.discontinued = discontinued;
 	}
-	public long getCompanyId() {
+	public long getCompanyId () {
 		return companyId;
 	}
-	public void setCompanyId(long companyId) {
+	public void setCompanyId (long companyId) {
 		this.companyId = companyId;
 	}	
 	

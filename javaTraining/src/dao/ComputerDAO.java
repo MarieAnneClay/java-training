@@ -1,13 +1,14 @@
 package dao;
 
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.ArrayList;
 
+import daoUtil.DAOException;
 import model.Computer;
 
 public interface ComputerDAO {
-    void creer(Computer computer);
-    LinkedList<Computer> trouver(String sql, Object... objets);
-    void modifier(Computer computer);
-    void supprimer(Computer computer);
+	public ArrayList<Computer> findAllComputers () throws DAOException;
+	public Computer findByIdComputer (int id) throws DAOException;	
+	public void createComputer (Computer computer) throws DAOException;
+	public void updateComputer (Computer computer) throws DAOException;
+	public void deleteComputer (int id) throws DAOException;
 }

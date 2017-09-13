@@ -1,32 +1,85 @@
-package dao;
+package daoImpl;
 
-import static dao.DAOUtilitaire.fermeturesSilencieuses;
-import static dao.DAOUtilitaire.initialisationRequetePreparee;
+import static daoUtil.DAOUtilitaire.fermeturesSilencieuses;
+import static daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
+import dao.ComputerDAO;
+import daoUtil.ConnectionManager;
+import daoUtil.DAOException;
 import model.Computer;
 
-public class ComputerDAOImplements implements ComputerDAO{
+public class ComputerDAOImpl implements ComputerDAO{
 	
-	private DAOFactory daoFactory;
+	private ConnectionManager daoFactory;
+	private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
+	private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-    private static final String SQL_DELETE_PAR_ID = "DELETE FROM computer WHERE id = ?";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
 	
-	public ComputerDAOImplements(DAOFactory daoFactory) {
+	public ComputerDAOImpl (ConnectionManager daoFactory) {
         this.daoFactory = daoFactory;
     }
 	
+	@Override
+	public ArrayList<Computer> findAllComputers () throws DAOException{
+		Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Computer computer = null;
+        ArrayList<Computer> computers = new ArrayList<Computer>();
+
+        try {
+            connexion = (Connection) daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_ALL, false );
+            resultSet = preparedStatement.executeQuery();
+
+            while ( resultSet.next() ) {
+            	computer = map(resultSet);
+            	computers.add(computer);
+            }
+        } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION SELECT COMPUTER");
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+
+        return computers;
+	}
+	
+	@Override
+	public Computer findByIdComputer (int id) throws DAOException{
+		Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Computer computer = null;
+
+        try {
+            connexion = (Connection) daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_BY_ID, false, id );
+            resultSet = preparedStatement.executeQuery();
+
+            while ( resultSet.next() ) {
+            	computer = map(resultSet);
+            }
+        } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION SELECT COMPUTER");
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+
+        return computer;
+	}
+	
     @Override
-    public void creer(Computer Computer) {
+    public void createComputer (Computer Computer)  throws IllegalArgumentException, DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet valeursAutoGenerees = null;
@@ -52,7 +105,7 @@ public class ComputerDAOImplements implements ComputerDAO{
     }
     
     @Override
-    public void modifier(Computer computer) {
+    public void updateComputer(Computer computer)  throws IllegalArgumentException, DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet valeursAutoGenerees = null;
@@ -70,46 +123,19 @@ public class ComputerDAOImplements implements ComputerDAO{
             fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
         }
     }
-
-    public LinkedList<Computer> trouver(String sql, Object... objets){
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        Computer computer = null;
-        LinkedList<Computer> computers = new LinkedList<Computer>();
-
-        try {
-            connexion = (Connection) daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, sql, false, objets );
-            resultSet = preparedStatement.executeQuery();
-
-            while ( resultSet.next() ) {
-            	computer = map(resultSet);
-            	computers.add(computer);
-            }
-        } catch ( SQLException e ) {
-        	System.out.println("SQL EXCEPTION SELECT COMPUTER");
-        } finally {
-            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
-        }
-
-        return computers;
-    }
 	
     @Override
-    public void supprimer(Computer computer) {
+    public void deleteComputer(int id)  throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
 
         try {
         	connexion = (Connection) daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, true, computer.getId() );
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_BY_ID, true, id );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {
             	System.out.println("Échec de la suppression de la commande, aucune ligne supprimée de la table.");
-            } else {
-            	computer.setId(0);
-            }
+            } 
         } catch ( SQLException e ) {
         	System.out.println("SQL EXCEPTION DELETE COMPUTER");
         } finally {
