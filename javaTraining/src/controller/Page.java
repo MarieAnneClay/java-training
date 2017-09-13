@@ -13,9 +13,9 @@ import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
+import validator.Validator;
 
-public class Page {
-	
+public class Page {	
 	// Une liste par table de la base de données
 	private static LinkedList<Computer> computers = new LinkedList<Computer>();
 	private static LinkedList<Company> companies = new LinkedList<Company>();
@@ -25,18 +25,18 @@ public class Page {
 	private static ComputerDAOImplements computerDao = new ComputerDAOImplements( daoFactory );
 	private static CompanyDAOImplements companyDao = new CompanyDAOImplements( daoFactory );
 	private static ServiceComputer serviceComputer;
-    private ServiceCompany serviceCompany;
+    private static ServiceCompany serviceCompany;
 	private static Scanner sc = new Scanner(System.in);
-	public static final int PAGE_SIZE_COMPUTER = 11;
-	static int computerPage = 1;
+	public static final int PAGE_SIZE= 10;
 	static int computerTotalPages;
+	static int companyTotalPages;
 	static String str;
 	
 	public static void main(String[] args) {
 		Page instance=new Page();
 		boolean flagMenu = false;
-		boolean flagSousMenu1 = false;
-		computerTotalPages = 1 + serviceComputer.getComputers().size() / PAGE_SIZE_COMPUTER;
+		computerTotalPages = 1 + serviceComputer.getComputers().size() / PAGE_SIZE;
+		companyTotalPages = 1 + serviceCompany.getCompanies().size() / PAGE_SIZE;
 		
 
 		while(flagMenu == false) {
@@ -57,18 +57,7 @@ public class Page {
 					break;
 				
 				case "1":
-					while(flagSousMenu1 == false) {
-						System.out.println("Veuillez saisir le numéro de la page souhaité ("+computerTotalPages+" pages) ou 0 pour sortir ");
-						int nb = Integer.parseInt(sc.nextLine());
-						if ( nb > 0 && nb <= computerTotalPages ) {
-							computerPage = nb;
-							instance.printComputers();
-						}
-						else if ( nb == 0) {
-							flagSousMenu1 = true;
-						}
-					}
-					
+					instance.printComputers();					
 					break;
 					
 				case "2":
@@ -114,22 +103,44 @@ public class Page {
 	/* LIST */
 	// COMPUTER
 	public void printComputers() {
-		LinkedList<Computer> computerSubest = serviceComputer.getComputerSubest( (computerPage - 1) * PAGE_SIZE_COMPUTER, PAGE_SIZE_COMPUTER);
-		System.out.println("/***** AFFICHAGE DES ORDINATEUR  *****/");
-		for(int i = 0 ; i < computerSubest.size() ; i++) {
-			Computer computer = computerSubest.get(i);
-			System.out.println("ID : "+computer.getId()+" nom : "+computer.getName());
-		}
-		System.out.println("/***** FIN D'AFFICHAGE DES ORDINATEUR  *****/");
+		boolean flag = false;
+		while(flag == false) {
+			System.out.println("Veuillez saisir le numéro de la page souhaité ("+computerTotalPages+" pages) ou 0 pour sortir ");
+			int nb = Integer.parseInt(sc.nextLine());
+			if ( nb > 0 && nb <= computerTotalPages ) {
+				LinkedList<Computer> computerSubest = serviceComputer.getComputerSubest( (nb - 1) * PAGE_SIZE, PAGE_SIZE);
+				System.out.println("/***** AFFICHAGE DES ORDINATEUR  *****/");
+				for(int i = 0 ; i < computerSubest.size() ; i++) {
+					Computer computer = computerSubest.get(i);
+					System.out.println("ID : "+computer.getId()+" nom : "+computer.getName());
+				}
+				System.out.println("/***** FIN D'AFFICHAGE DES ORDINATEUR  *****/");
+			}
+			else if ( nb == 0) {
+				flag = true;
+			}
+		}	
 	}
 	
 	//COMPANIES
 	public void printCompanies() {
-		System.out.println("/***** AFFICHAGE DES ENTREPRISES  *****/");
-		for(int i = 0 ; i < companies.size() ; i++) {
-			System.out.println(companies.get(i).getName());
-		}	
-		System.out.println("/***** FIN D'AFFICHAGE DES ENTREPRISES  *****/");
+		boolean flag = false;
+		while(flag == false) {
+			System.out.println("Veuillez saisir le numéro de la page souhaité ("+companyTotalPages+" pages) ou 0 pour sortir ");
+			int nb = Integer.parseInt(sc.nextLine());
+			if ( nb > 0 && nb <= companyTotalPages ) {
+				LinkedList<Company> companySubest = serviceCompany.getCompanySubest( (nb - 1) * PAGE_SIZE, PAGE_SIZE);
+				System.out.println("/***** AFFICHAGE DES ENTREPRISES  *****/");
+				for(int i = 0 ; i < companySubest.size() ; i++) {
+					Company company = companySubest.get(i);
+					System.out.println("ID : "+company.getId()+" nom : "+company.getName());
+				}	
+				System.out.println("/***** FIN D'AFFICHAGE DES ENTREPRISES  *****/");
+			}
+			else if ( nb == 0) {
+				flag = true;
+			}
+		}		
 	}
 	
 	/* COMPUTERS */
@@ -149,7 +160,7 @@ public class Page {
 		String name = null;
 		Timestamp introduced = null;
 		Timestamp discontinued = null;
-		long companyId = 0;
+		String companyId = "";
 		
 		System.out.println("Veuillez saisir le nom de l'ordinateur");
 		name = sc.nextLine();
@@ -172,10 +183,10 @@ public class Page {
 		    // look the origin of excption 
 		}
 		
-		System.out.println("Veuillez saisir le nom de l'ordinateur");
-		companyId = Integer.parseInt(sc.nextLine());
+		System.out.println("Veuillez saisir l'id de l'entreprise de l'ordinateur");
+		companyId = sc.nextLine();
 		
-		serviceComputer.createComputer(new Computer(name,introduced,discontinued,companyId));
+		serviceComputer.createComputer(new Computer(name,introduced,discontinued,(companyId == "")? 0 : Integer.parseInt(companyId)));
 	}
 	
 	// update
@@ -183,14 +194,18 @@ public class Page {
 		String name = null;
 		Timestamp introduced = null;
 		Timestamp discontinued = null;
-		long companyId = 0;
+		String companyId = "";
 		long id = 0;
 		Computer computer;
 		
 		System.out.println("Veuillez saisir le id de l'ordinateur");
 		id = Integer.parseInt(sc.nextLine());
-		
-		System.out.println("Veuillez saisir le nom de l'ordinateur");
+		/*
+		int result = -1;
+		while (result != 1) {
+			System.out.println("Veuillez saisir le nom de l'ordinateur");
+			result = Validator.validationName(sc.nextLine());
+		}		*/
 		name = sc.nextLine();
 		
 		System.out.println("Veuillez saisir le introduced de l'ordinateur");
@@ -211,14 +226,13 @@ public class Page {
 		    // look the origin of excption 
 		}
 		
-		System.out.println("Veuillez saisir le nom de l'ordinateur");
-		companyId = Integer.parseInt(sc.nextLine());
-		
+		System.out.println("Veuillez saisir l'id de l'entreprise de l'ordinateur");
+		companyId = sc.nextLine();
 		computer = serviceComputer.getComputer(id);
         computer.setName(name);
         computer.setIntroduced(introduced);        
         computer.setDiscontinued(discontinued);
-        computer.setCompanyId(companyId);
+        computer.setCompanyId((companyId == "")? 0 : Integer.parseInt(companyId));
     	
         serviceComputer.updateComputer(computer);
 	}

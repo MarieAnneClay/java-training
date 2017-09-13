@@ -105,11 +105,9 @@ public class ComputerDAOImplements implements ComputerDAO{
         	connexion = (Connection) daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, true, computer.getId() );
             int statut = preparedStatement.executeUpdate();
-            System.out.println(statut);
             if ( statut == 0 ) {
             	System.out.println("Échec de la suppression de la commande, aucune ligne supprimée de la table.");
             } else {
-            	System.out.println("computer.setId(0)");
             	computer.setId(0);
             }
         } catch ( SQLException e ) {

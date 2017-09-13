@@ -15,33 +15,11 @@ import model.Company;
 
 public class CompanyDAOImplements implements CompanyDAO{
 	
-	private DAOFactory          daoFactory;
-    private static final String SQL_INSERT           = "INSERT INTO Company (name) VALUES (?)";
+	private DAOFactory daoFactory;
+    private static final String SQL_INSERT = "INSERT INTO Company (name) VALUES (?)";
 	
 	public CompanyDAOImplements(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
-    }
-    @Override
-    public void creer(Company Company) {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet valeursAutoGenerees = null;
-
-        try {
-            connexion = (Connection) daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true, Company.getName());
-            int statut = preparedStatement.executeUpdate();
-            if( statut == 0 ){
-            }
-            valeursAutoGenerees = preparedStatement.getGeneratedKeys();
-            if( valeursAutoGenerees.next() ){
-                Company.setId( valeursAutoGenerees.getLong( 1 ) );
-            } else {
-            }
-        } catch ( SQLException e ) {
-        } finally {
-            fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
-        }
     }
 
     public LinkedList<Company> trouver(String sql, Object... objets){
@@ -62,6 +40,7 @@ public class CompanyDAOImplements implements CompanyDAO{
             	companies.add(company);
             }
         } catch ( SQLException e ) {
+        	System.out.println("SQL EXCEPTION SELECT COMPANY");
         } finally {
             fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
