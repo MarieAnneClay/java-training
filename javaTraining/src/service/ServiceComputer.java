@@ -1,59 +1,56 @@
 package service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import dao.ComputerDAO;
+import daoUtil.ConnectionManager;
 import model.Computer;
 
 public class ServiceComputer {
-	private LinkedList<Computer> computers = new LinkedList<Computer>();
 	private ComputerDAO computerDAO;
 	
-	public ServiceComputer(ComputerDAO computerDAO) {
-		this.computerDAO = computerDAO;
-		this.computers = computerDAO.trouver("SELECT * FROM computer WHERE 1 = ?", "1");
+	public ServiceComputer () {		
+		this.computerDAO = ConnectionManager.getInstance().getComputerDao();
 	}
 	
-	public LinkedList<Computer> getComputers(){
-  		return this.computers;
+	public ArrayList<Computer> getAllComputers () {
+  		return computerDAO.findAllComputers();
   	}
   	
-  	public Computer getComputer(long id){
-  		Computer computer = this.computerDAO.trouver("SELECT * FROM computer WHERE id = ?", id).get(0);  		
-  		return computer;
+  	public Computer getComputer (long id) {
+  		return this.computerDAO.findByIdComputer(id);
   	}
   	
-  	public void setComputers(LinkedList<Computer> computers) {
-  		this.computers = computers;
-  	}
-  	
-  	public LinkedList<Computer> getComputerSubest(int start, int size) {
-  		LinkedList<Computer> ret = new LinkedList<Computer>();
+  	public ArrayList<Computer> getComputerSubest (int start, int size, ArrayList<Computer> computers) {
+  		ArrayList<Computer> ret = new ArrayList<Computer>();
 		for (int i = start ; i < (start+size) ; i++) {
-			if ( i >= this.computers.size() ) {
+			if ( i >= computers.size() ) {
 				break;
 			}
-			ret.add(this.computers.get(i));
+			ret.add ( computers.get(i) );
 		}
 		return ret;
 	}
   	
-  	public void createComputer(Computer computer) {
-  		this.computerDAO.creer(computer);
-  		this.computers.removeAll(this.computers);
-  		this.computers = this.computerDAO.trouver("SELECT * FROM computer WHERE 1 = ?", "1");
+  	public ArrayList<Computer> setComputer (Computer computer, ArrayList<Computer> computers) {
+  		this.computerDAO.createComputer(computer);
+  		computers.add(computer);
+  		return computers;
   	}
   	
-  	public void updateComputer(Computer computer) {
-  		this.computerDAO.modifier(computer);
-  		this.computers.removeAll(this.computers);
-  		this.computers = this.computerDAO.trouver("SELECT * FROM computer WHERE 1 = ?", "1");
+  	public void updateComputer (Computer computer) {
+  		this.computerDAO.updateComputer(computer);
   	}
   	
-  	public void deleteComputer(Computer computer) {
-  		this.computerDAO.supprimer(computer);
-  		this.computers.removeAll(this.computers);
-  		this.computers = this.computerDAO.trouver("SELECT * FROM computer WHERE 1 = ?", "1");
+  	public ArrayList<Computer> deleteComputer (long id, ArrayList<Computer> computers) {
+  		this.computerDAO.deleteComputer(id);
+  		for (Computer computer : computers) {
+  			if ( computer.getId() == id ) {
+  				computers.remove(computer);
+  				break;
+  			}
+  		}
+  		return computers;
   	}	
 
 }

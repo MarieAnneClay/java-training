@@ -3,30 +3,26 @@ package service;
 import java.util.ArrayList;
 
 import dao.CompanyDAO;
+import daoUtil.ConnectionManager;
 import model.Company;
 
 public class ServiceCompany {
-	private CompanyDAO companyDAO;
+private CompanyDAO companyDAO;
 	
-	public ArrayList<Company> ServiceCompany(CompanyDAO companyDAO) {
-		return companyDAO.trouver("SELECT * FROM company WHERE 1 = ?", "1");
+	public ServiceCompany () {		
+		this.companyDAO = ConnectionManager.getInstance().getCompanyDao();
 	}
-	
-	public LinkedList<Company> getCompanies(){
-   		return companies;
-   	}
-   	
-   	public Company getCompany(long id){
-   		Company company = companyDAO.trouver("SELECT * FROM company WHERE id = ?", id).get(0);  		
-  		return company;
+
+	public ArrayList<Company> getAllCompanies () {
+  		return companyDAO.findAllCompanies();
+  	}
+  	
+  	public Company getCompany (long id) {
+  		return this.companyDAO.findByIdCompany(id);
   	}
    	
-   	public void setCompanies(LinkedList<Company> companies) {
-   		this.companies = companies;
-   	}
-   	
-   	public LinkedList<Company> getCompanySubest(int start, int size) {
-   		LinkedList<Company> ret = new LinkedList<Company>();
+   	public ArrayList<Company> getCompanySubest(int start, int size, ArrayList<Company> companies) {
+   		ArrayList<Company> ret = new ArrayList<Company>();
 		for (int i = start ; i < (start+size) ; i++) {
 			if ( i >= companies.size() ) {
 				break;

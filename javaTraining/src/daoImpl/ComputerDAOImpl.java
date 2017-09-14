@@ -55,7 +55,7 @@ public class ComputerDAOImpl implements ComputerDAO{
 	}
 	
 	@Override
-	public Computer findByIdComputer (int id) throws DAOException{
+	public Computer findByIdComputer (long id) throws DAOException{
 		Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -125,7 +125,7 @@ public class ComputerDAOImpl implements ComputerDAO{
     }
 	
     @Override
-    public void deleteComputer(int id)  throws DAOException {
+    public void deleteComputer(long id)  throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
 

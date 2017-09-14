@@ -12,6 +12,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import dao.CompanyDAO;
 import daoUtil.ConnectionManager;
+import daoUtil.DAOException;
 import model.Company;
 
 public class CompanyDAOImpl implements CompanyDAO{
@@ -25,7 +26,8 @@ public class CompanyDAOImpl implements CompanyDAO{
         this.daoFactory = daoFactory;
     }
 
-    public ArrayList<Company> findAllCompanies(){
+	@Override
+	public ArrayList<Company> findAllCompanies(){
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -50,7 +52,8 @@ public class CompanyDAOImpl implements CompanyDAO{
         return companies;
     }
     
-    public Company findByIdCompany(int id){
+	@Override
+	public Company findByIdCompany(long id)  throws DAOException{
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
