@@ -1,10 +1,10 @@
-package service;
+package main.service;
 
 import java.util.ArrayList;
 
-import dao.ComputerDAO;
-import daoUtil.ConnectionManager;
-import model.Computer;
+import main.dao.dao.ComputerDAO;
+import main.dao.daoUtil.ConnectionManager;
+import main.model.Computer;
 
 public class ServiceComputer {
 	private ComputerDAO computerDAO;

@@ -1,9 +1,9 @@
-package dao;
+package main.dao.dao;
 
 import java.util.ArrayList;
 
-import daoUtil.DAOException;
-import model.Computer;
+import main.dao.daoUtil.DAOException;
+import main.model.Computer;
 
 public interface ComputerDAO {
 	public ArrayList<Computer> findAllComputers () throws DAOException;

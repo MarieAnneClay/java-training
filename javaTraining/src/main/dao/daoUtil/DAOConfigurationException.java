@@ -1,4 +1,4 @@
-package daoUtil;
+package main.dao.daoUtil;
 
 public class DAOConfigurationException extends RuntimeException {
 

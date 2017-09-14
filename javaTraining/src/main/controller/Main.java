@@ -1,13 +1,13 @@
-package controller;
+package main.controller;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.Company;
-import model.Computer;
-import service.ServiceCompany;
-import service.ServiceComputer;
-import view.MainView;
+import main.model.Company;
+import main.model.Computer;
+import main.service.ServiceCompany;
+import main.service.ServiceComputer;
+import main.view.MainView;
 
 public class Main {	
 	// Une liste par table de la base de données

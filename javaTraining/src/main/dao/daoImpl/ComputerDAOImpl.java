@@ -1,7 +1,7 @@
-package daoImpl;
+package main.dao.daoImpl;
 
-import static daoUtil.DAOUtilitaire.fermeturesSilencieuses;
-import static daoUtil.DAOUtilitaire.initialisationRequetePreparee;
+import static main.dao.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
+import static main.dao.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import dao.ComputerDAO;
-import daoUtil.ConnectionManager;
-import daoUtil.DAOException;
-import model.Computer;
+import main.dao.dao.ComputerDAO;
+import main.dao.daoUtil.ConnectionManager;
+import main.dao.daoUtil.DAOException;
+import main.model.Computer;
 
 public class ComputerDAOImpl implements ComputerDAO{
 	

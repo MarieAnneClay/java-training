@@ -1,10 +1,10 @@
-package service;
+package main.service;
 
 import java.util.ArrayList;
 
-import dao.CompanyDAO;
-import daoUtil.ConnectionManager;
-import model.Company;
+import main.dao.dao.CompanyDAO;
+import main.dao.daoUtil.ConnectionManager;
+import main.model.Company;
 
 public class ServiceCompany {
 private CompanyDAO companyDAO;

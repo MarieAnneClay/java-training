@@ -1,9 +1,9 @@
-package dao;
+package main.dao.dao;
 
 import java.util.ArrayList;
 
-import daoUtil.DAOException;
-import model.Company;
+import main.dao.daoUtil.DAOException;
+import main.model.Company;
 
 public interface CompanyDAO {
 	public ArrayList<Company> findAllCompanies () throws DAOException;

@@ -1,11 +1,11 @@
-package view;
+package main.view;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-import model.Computer;
+import main.model.Computer;
 
 public class MainView {
 	private static Scanner sc = new Scanner(System.in);

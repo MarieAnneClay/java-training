@@ -1,4 +1,4 @@
-package daoUtil;
+package main.dao.daoUtil;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -9,10 +9,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import dao.CompanyDAO;
-import dao.ComputerDAO;
-import daoImpl.CompanyDAOImpl;
-import daoImpl.ComputerDAOImpl;
+import main.dao.dao.CompanyDAO;
+import main.dao.dao.ComputerDAO;
+import main.dao.daoImpl.CompanyDAOImpl;
+import main.dao.daoImpl.ComputerDAOImpl;
 
 public class ConnectionManager {
 	
