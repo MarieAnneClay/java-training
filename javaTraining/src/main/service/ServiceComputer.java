@@ -6,18 +6,27 @@ import main.dao.dao.ComputerDAO;
 import main.dao.daoUtil.ConnectionManager;
 import main.model.Computer;
 
+/** Class of service for Computer DAO. */
 public class ServiceComputer {
 	private ComputerDAO computerDAO;
 	
-	public ServiceComputer () {		
+	/** Constructor that instance the connection to the database for Computer DAO. */
+	public ServiceComputer() {		
 		this.computerDAO = ConnectionManager.getInstance().getComputerDao();
 	}
 	
-	public ArrayList<Computer> getAllComputers () {
+	/** Function to get all the data from the table computer. 
+	 * @return A list of all the Computer in the database
+	 */
+	public ArrayList<Computer> getAllComputers() {
   		return computerDAO.findAllComputers();
   	}
   	
-  	public Computer getComputer (long id) {
+	/** Function to get the computer. 
+	 * @param id 
+	 * @return A list of all the Computer in the database
+	 */
+	public Computer getComputer (long id) {
   		return this.computerDAO.findByIdComputer(id);
   	}
   	
