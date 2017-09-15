@@ -1,3 +1,3 @@
 /** package for JUnit test of service, view and controller. */
-package resource;
+package main.resources;
 

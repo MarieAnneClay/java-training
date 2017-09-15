@@ -5,9 +5,33 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] 
 [INFO] --- maven-checkstyle-plugin:2.17:check (default-cli) @ javaTraining ---
-[INFO] There are 780 errors reported by Checkstyle 6.11.2 with sun_checks.xml ruleset.
-[ERROR] src/test/ServiceComputerTest.java:[15,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
-[ERROR] src/main/validator/Validator.java:[14,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
+[INFO] There are 561 errors reported by Checkstyle 6.11.2 with sun_checks.xml ruleset.
+[ERROR] src/test/ComputerDaoImplTest.java:[23] (javadoc) JavadocType: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[26,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[29,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[32,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[35,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[38,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[38,12] (design) VisibilityModifier: La variable 'computer' devrait être privée et avoir des accesseurs.
+[ERROR] src/test/ComputerDaoImplTest.java:[40,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[44] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[46] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[48] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[50] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[55] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[57] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[59] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[61] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[63] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/test/ComputerDaoImplTest.java:[70,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[77,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/test/ComputerDaoImplTest.java:[84,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/validator/Validator.java:[13] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/main/validator/Validator.java:[28] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/main/validator/Validator.java:[49] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/main/validator/Validator.java:[50,6] (javadoc) JavadocMethod: Balise javadoc @param inutilisé pour 'input'.
+[ERROR] src/main/validator/Validator.java:[54,50] (misc) FinalParameters: Le paramètre date devrait être final.
+[ERROR] src/main/validator/Validator.java:[54,57] (javadoc) JavadocMethod: Balise javadoc @param manquante pour 'date'.
 [ERROR] src/main/service/ServiceComputer.java:[11,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
 [ERROR] src/main/service/ServiceComputer.java:[11,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
 [ERROR] src/main/service/ServiceComputer.java:[12] (regexp) RegexpSingleline: Line has trailing spaces.
@@ -92,313 +116,93 @@
 [ERROR] src/main/service/ServiceCompany.java:[27,29] (whitespace) ParenPad: Il y a une espace de trop après  '('.
 [ERROR] src/main/service/ServiceCompany.java:[27,51] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
 [ERROR] src/main/controller/Main.java:[15] (javadoc) JavadocType: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[15] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[15,20] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
-[ERROR] src/main/controller/Main.java:[17,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[18,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[20,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[21,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[23,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[24,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[26,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[26,38] (whitespace) WhitespaceAround: Il manque une espace avant '='.
-[ERROR] src/main/controller/Main.java:[27,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[28,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[30] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[30,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[30,33] (naming) ConstantName: Le nom 'slf4jLogger' n'est pas conforme à l'expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.
-[ERROR] src/main/controller/Main.java:[32,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[32,29] (misc) FinalParameters: Le paramètre args devrait être final.
-[ERROR] src/main/controller/Main.java:[48,25] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
-[ERROR] src/main/controller/Main.java:[57] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[61] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[70] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[74] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[78] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[85] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[89] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[89,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[89,17] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[92] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[97,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[97,5] (design) DesignForExtension: La méthode 'printComputers' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[97,32] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[99,21] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
-[ERROR] src/main/controller/Main.java:[100] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[100,81] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[100,82] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[100,100] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[100,101] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[102,17] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[102,52] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/controller/Main.java:[103] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[103,88] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[105,20] (whitespace) WhitespaceAround: Il manque une espace après 'for'.
-[ERROR] src/main/controller/Main.java:[105,30] (whitespace) NoWhitespaceBefore: Il y a une espace de trop avant ';'.
-[ERROR] src/main/controller/Main.java:[105,58] (whitespace) NoWhitespaceBefore: Il y a une espace de trop avant ';'.
-[ERROR] src/main/controller/Main.java:[107] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[107,47] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[107,48] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[107,64] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[107,65] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[107,74] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[107,75] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[109] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[110,13] (blocks) RightCurly: '}' à la colonne 6 devrait être sur la même ligne que la prochaine partie dune instruction multi-bloc.
-[ERROR] src/main/controller/Main.java:[111,22] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[114] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[118,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[118,5] (design) DesignForExtension: La méthode 'printCompanies' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[118,32] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[120,21] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
-[ERROR] src/main/controller/Main.java:[121] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[121,81] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[121,82] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[121,99] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[121,100] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[123,17] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[123,51] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/controller/Main.java:[124] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[124,84] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[126,20] (whitespace) WhitespaceAround: Il manque une espace après 'for'.
-[ERROR] src/main/controller/Main.java:[126,30] (whitespace) NoWhitespaceBefore: Il y a une espace de trop avant ';'.
-[ERROR] src/main/controller/Main.java:[126,57] (whitespace) NoWhitespaceBefore: Il y a une espace de trop avant ';'.
-[ERROR] src/main/controller/Main.java:[128] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[128,47] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[128,48] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[128,63] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[128,64] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[128,73] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/controller/Main.java:[128,74] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/controller/Main.java:[129] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[130] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[131,13] (blocks) RightCurly: '}' à la colonne 6 devrait être sur la même ligne que la prochaine partie dune instruction multi-bloc.
-[ERROR] src/main/controller/Main.java:[132,22] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[135] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[140,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[140,5] (design) DesignForExtension: La méthode 'printDetails' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[140,30] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[140,31] (misc) FinalParameters: Le paramètre id devrait être final.
-[ERROR] src/main/controller/Main.java:[143,31] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[147] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[147,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[147,5] (design) DesignForExtension: La méthode 'create' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[147,24] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/controller/Main.java:[148] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/controller/Main.java:[148,85] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/controller/Main.java:[152,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[152,5] (design) DesignForExtension: La méthode 'update' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[156] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/controller/Main.java:[164,5] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/controller/Main.java:[164,5] (design) DesignForExtension: La méthode 'delete' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/controller/Main.java:[166,13] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/controller/Main.java:[166,20] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/controller/Main.java:[167,47] (whitespace) WhitespaceAfter: Il manque une espace après ','.
-[ERROR] src/main/view/MainView.java:[11] (javadoc) JavadocType: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[11,1] (design) HideUtilityClassConstructor: Les classes utilitaires ne doivent pas avoir de constructeur par défaut ou public.
-[ERROR] src/main/view/MainView.java:[12,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
-[ERROR] src/main/view/MainView.java:[12,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[13,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[14] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[15,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[28] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[30,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[30,41] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/view/MainView.java:[30,42] (misc) FinalParameters: Le paramètre computer devrait être final.
-[ERROR] src/main/view/MainView.java:[31] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[32,44] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/view/MainView.java:[32,45] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/view/MainView.java:[33,51] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/view/MainView.java:[33,52] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/view/MainView.java:[34] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[34,53] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/view/MainView.java:[34,54] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/view/MainView.java:[35,51] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/view/MainView.java:[35,52] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/view/MainView.java:[37] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[39,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[39,47] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/view/MainView.java:[44] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[47] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[48] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[50] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[51] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[53] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[53,24] (whitespace) WhitespaceAround: Il manque une espace après 'catch'.
-[ERROR] src/main/view/MainView.java:[55] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[56] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[58] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[59] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[61] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[61,24] (whitespace) WhitespaceAround: Il manque une espace après 'catch'.
-[ERROR] src/main/view/MainView.java:[63] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[64] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[65] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[66] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[66,42] (whitespace) WhitespaceAfter: Il manque une espace après ','.
-[ERROR] src/main/view/MainView.java:[66,53] (whitespace) WhitespaceAfter: Il manque une espace après ','.
-[ERROR] src/main/view/MainView.java:[66,66] (whitespace) WhitespaceAfter: Il manque une espace après ','.
-[ERROR] src/main/view/MainView.java:[66,83] (whitespace) WhitespaceAround: Il manque une espace avant '?'.
-[ERROR] src/main/view/MainView.java:[66,83] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
-[ERROR] src/main/view/MainView.java:[66,116] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/view/MainView.java:[68] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[70,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[77] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[81] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[82] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[84] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[87] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[87,24] (whitespace) WhitespaceAround: Il manque une espace après 'catch'.
-[ERROR] src/main/view/MainView.java:[88] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[90] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[91] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[92] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[92,35] (naming) LocalVariableName: Le nom 'formatter_1' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9]*$'.
-[ERROR] src/main/view/MainView.java:[92,46] (whitespace) WhitespaceAround: Il manque une espace avant '='.
-[ERROR] src/main/view/MainView.java:[92,47] (whitespace) WhitespaceAround: Il manque une espace après '='.
-[ERROR] src/main/view/MainView.java:[93] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[93,27] (naming) LocalVariableName: Le nom 'localDate_1' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9]*$'.
-[ERROR] src/main/view/MainView.java:[93,38] (whitespace) WhitespaceAround: Il manque une espace avant '='.
-[ERROR] src/main/view/MainView.java:[93,70] (whitespace) WhitespaceAfter: Il manque une espace après ','.
-[ERROR] src/main/view/MainView.java:[94] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[95] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[99] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[101] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/view/MainView.java:[101,31] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/view/MainView.java:[101,49] (whitespace) WhitespaceAround: Il manque une espace avant '?'.
-[ERROR] src/main/view/MainView.java:[101,49] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
-[ERROR] src/main/view/MainView.java:[101,82] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/view/MainView.java:[102] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[105] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[107,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/view/MainView.java:[109] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/view/MainView.java:[111,39] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/view/MainView.java:[111,53] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
+[ERROR] src/main/controller/Main.java:[17,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[18,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[20,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[21,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[23,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[24,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[26,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[28,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[28,31] (naming) ConstantName: Le nom 'slf4jLogger' n'est pas conforme à l'expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.
+[ERROR] src/main/controller/Main.java:[30,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[30,27] (misc) FinalParameters: Le paramètre args devrait être final.
+[ERROR] src/main/controller/Main.java:[43,21] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
+[ERROR] src/main/controller/Main.java:[57] (sizes) LineLength: La ligne excède 80 caractères.
+[ERROR] src/main/controller/Main.java:[85,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[94,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[94,3] (design) DesignForExtension: La méthode 'printComputers' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Main.java:[99,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[99,3] (design) DesignForExtension: La méthode 'printCompanies' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Main.java:[105,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[105,3] (design) DesignForExtension: La méthode 'printDetails' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Main.java:[105,28] (misc) FinalParameters: Le paramètre id devrait être final.
+[ERROR] src/main/controller/Main.java:[112,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[112,3] (design) DesignForExtension: La méthode 'create' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Main.java:[118,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[118,3] (design) DesignForExtension: La méthode 'update' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Main.java:[130,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Main.java:[130,3] (design) DesignForExtension: La méthode 'delete' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Page.java:[11] (javadoc) JavadocType: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[13,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[14,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[15,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[16,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[18,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[18,15] (misc) FinalParameters: Le paramètre computers devrait être final.
+[ERROR] src/main/controller/Page.java:[18,46] (misc) FinalParameters: Le paramètre companies devrait être final.
+[ERROR] src/main/controller/Page.java:[25,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[25,3] (design) DesignForExtension: La méthode 'printComputers' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Page.java:[25,30] (misc) FinalParameters: Le paramètre computers devrait être final.
+[ERROR] src/main/controller/Page.java:[26,7] (misc) FinalParameters: Le paramètre serviceComputer devrait être final.
+[ERROR] src/main/controller/Page.java:[28,17] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
+[ERROR] src/main/controller/Page.java:[49,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/controller/Page.java:[49,3] (design) DesignForExtension: La méthode 'printCompanies' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/controller/Page.java:[49,30] (misc) FinalParameters: Le paramètre companies devrait être final.
+[ERROR] src/main/controller/Page.java:[50,7] (misc) FinalParameters: Le paramètre serviceCompany devrait être final.
+[ERROR] src/main/controller/Page.java:[52,17] (coding) SimplifyBooleanExpression: L'expression peut être simplifiée.
+[ERROR] src/main/view/MainView.java:[9] (javadoc) JavadocType: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[9,1] (design) HideUtilityClassConstructor: Les classes utilitaires ne doivent pas avoir de constructeur par défaut ou public.
+[ERROR] src/main/view/MainView.java:[10,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[11,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[13,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[28,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[28,35] (misc) FinalParameters: Le paramètre computer devrait être final.
+[ERROR] src/main/view/MainView.java:[38,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[56,27] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
+[ERROR] src/main/view/MainView.java:[60,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/view/MainView.java:[84,45] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
+[ERROR] src/main/view/MainView.java:[90,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[18] (javadoc) JavadocType: Commentaire javadoc manquant.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[18,52] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[19] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[19,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[20,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[21,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[20,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[21,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[22] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[22,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[22,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[23] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[23,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[23,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[24] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[24,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[24,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[25] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[25,5] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[26] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,32] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,33] (misc) FinalParameters: Le paramètre daoFactory devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,51] (coding) HiddenField: 'daoFactory' masque un attribut.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[30] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[31,9] (design) DesignForExtension: La méthode 'findAllComputers' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[32,53] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[32,75] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[41] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[41,63] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[41,96] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[44,20] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[44,37] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[48,18] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[48,33] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[51,36] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[51,76] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[56] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[57,9] (design) DesignForExtension: La méthode 'findByIdComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[58,42] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[58,43] (misc) FinalParameters: Le paramètre id devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[58,71] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[66] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[66,63] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[66,102] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[69,20] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[69,37] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[72,18] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[72,33] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[75,36] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[75,76] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[80] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[81,5] (design) DesignForExtension: La méthode 'createComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[82] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[82,32] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[82,33] (misc) FinalParameters: Le paramètre Computer devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[82,42] (naming) ParameterName: Le nom 'Computer' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9]*$'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,63] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,168] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,199] (whitespace) WhitespaceAround: Il manque une espace avant '?'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,199] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,231] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[89,233] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[91,15] (whitespace) WhitespaceAround: Il manque une espace après 'if'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[91,16] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[91,28] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[91,30] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[95,15] (whitespace) WhitespaceAround: Il manque une espace après 'if'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[95,16] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[95,43] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[95,45] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[96,32] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[96,61] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[96,63] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[96,65] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[100,18] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[100,33] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[103] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[103,36] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[103,86] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[106] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[107,5] (design) DesignForExtension: La méthode 'updateComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[108] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[108,32] (misc) FinalParameters: Le paramètre computer devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,63] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,168] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,199] (whitespace) WhitespaceAround: Il manque une espace avant '?'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,199] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,231] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[115,251] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[117,15] (whitespace) WhitespaceAround: Il manque une espace après 'if'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[117,16] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[117,28] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[117,30] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,46] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,47] (whitespace) WhitespaceAround: Il manque une espace après '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,65] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,91] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,119] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,122] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,153] (whitespace) WhitespaceAround: Il manque une espace avant '?'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,153] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,185] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,187] (whitespace) WhitespaceAround: Il manque une espace avant '+'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[118,205] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[120,18] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[120,33] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[123] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[123,36] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[123,86] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[126] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[127,5] (design) DesignForExtension: La méthode 'deleteComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[128,32] (misc) FinalParameters: Le paramètre id devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[134] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[134,63] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[134,101] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[136,17] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[136,29] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[137] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[138] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[139,18] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[139,33] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[142,36] (whitespace) ParenPad: Il y a une espace de trop après  '('.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[142,65] (whitespace) ParenPad: Il y a une espace de trop avant ')'.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[146,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[146,37] (misc) FinalParameters: Le paramètre resultSet devrait être final.
-[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[151] (sizes) LineLength: La ligne excède 80 caractères.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[25,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,26] (misc) FinalParameters: Le paramètre daoFactory devrait être final.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[27,44] (coding) HiddenField: 'daoFactory' masque un attribut.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[31,3] (design) DesignForExtension: La méthode 'findAllComputers' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[58,3] (design) DesignForExtension: La méthode 'findByIdComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[59,36] (misc) FinalParameters: Le paramètre id devrait être final.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[83,3] (design) DesignForExtension: La méthode 'createComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[84,30] (misc) FinalParameters: Le paramètre Computer devrait être final.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[84,39] (naming) ParameterName: Le nom 'Computer' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9]*$'.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[95,43] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[113,3] (design) DesignForExtension: La méthode 'updateComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[114,30] (misc) FinalParameters: Le paramètre computer devrait être final.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[125,43] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[131,47] (coding) AvoidInlineConditionals: L'utilisation de l'opérateur conditionel est prohibée.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[141,3] (design) DesignForExtension: La méthode 'deleteComputer' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[142,30] (misc) FinalParameters: Le paramètre id devrait être final.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[153] (sizes) LineLength: La ligne excède 80 caractères.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[162,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/dao/daoImpl/ComputerDAOImpl.java:[162,31] (misc) FinalParameters: Le paramètre resultSet devrait être final.
 [ERROR] src/main/dao/daoImpl/CompanyDAOImpl.java:[0] (misc) NewlineAtEndOfFile: Il manque un caractère NewLine à la fin du fichier
 [ERROR] src/main/dao/daoImpl/CompanyDAOImpl.java:[18] (javadoc) JavadocType: Commentaire javadoc manquant.
 [ERROR] src/main/dao/daoImpl/CompanyDAOImpl.java:[18,50] (whitespace) WhitespaceAround: Il manque une espace avant '{'.
@@ -668,85 +472,62 @@
 [ERROR] src/main/dao/dao/CompanyDAO.java:[10,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
 [ERROR] src/main/dao/dao/CompanyDAO.java:[10,9] (modifier) RedundantModifier: Mot-clef 'public' redondant.
 [ERROR] src/main/model/Computer.java:[5] (javadoc) JavadocType: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[6] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/model/Computer.java:[6,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
-[ERROR] src/main/model/Computer.java:[7,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[8,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[9,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[10,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[11,9] (javadoc) JavadocVariable: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[12] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/model/Computer.java:[14,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[14,25] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[15,23] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[17] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/model/Computer.java:[18] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/model/Computer.java:[18,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[18,25] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[18,26] (misc) FinalParameters: Le paramètre id devrait être final.
-[ERROR] src/main/model/Computer.java:[18,31] (coding) HiddenField: 'id' masque un attribut.
-[ERROR] src/main/model/Computer.java:[18,35] (misc) FinalParameters: Le paramètre name devrait être final.
-[ERROR] src/main/model/Computer.java:[18,42] (coding) HiddenField: 'name' masque un attribut.
-[ERROR] src/main/model/Computer.java:[18,48] (misc) FinalParameters: Le paramètre introduced devrait être final.
-[ERROR] src/main/model/Computer.java:[18,58] (coding) HiddenField: 'introduced' masque un attribut.
-[ERROR] src/main/model/Computer.java:[18,70] (misc) FinalParameters: Le paramètre discontinued devrait être final.
-[ERROR] src/main/model/Computer.java:[18,80] (coding) HiddenField: 'discontinued' masque un attribut.
-[ERROR] src/main/model/Computer.java:[18,94] (misc) FinalParameters: Le paramètre companyId devrait être final.
-[ERROR] src/main/model/Computer.java:[18,99] (coding) HiddenField: 'companyId' masque un attribut.
-[ERROR] src/main/model/Computer.java:[27] (sizes) LineLength: La ligne excède 80 caractères.
-[ERROR] src/main/model/Computer.java:[27,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[27,25] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[27,26] (misc) FinalParameters: Le paramètre name devrait être final.
-[ERROR] src/main/model/Computer.java:[27,33] (coding) HiddenField: 'name' masque un attribut.
-[ERROR] src/main/model/Computer.java:[27,39] (misc) FinalParameters: Le paramètre introduced devrait être final.
-[ERROR] src/main/model/Computer.java:[27,49] (coding) HiddenField: 'introduced' masque un attribut.
-[ERROR] src/main/model/Computer.java:[27,61] (misc) FinalParameters: Le paramètre discontinued devrait être final.
-[ERROR] src/main/model/Computer.java:[27,71] (coding) HiddenField: 'discontinued' masque un attribut.
-[ERROR] src/main/model/Computer.java:[27,85] (misc) FinalParameters: Le paramètre companyId devrait être final.
-[ERROR] src/main/model/Computer.java:[27,90] (coding) HiddenField: 'companyId' masque un attribut.
-[ERROR] src/main/model/Computer.java:[28,23] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[36,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[36,9] (design) DesignForExtension: La méthode 'getId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[36,28] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[39,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[39,9] (design) DesignForExtension: La méthode 'setId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[39,27] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[39,28] (misc) FinalParameters: Le paramètre id devrait être final.
-[ERROR] src/main/model/Computer.java:[39,33] (coding) HiddenField: 'id' masque un attribut.
-[ERROR] src/main/model/Computer.java:[42,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[42,9] (design) DesignForExtension: La méthode 'getName' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[42,31] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[45,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[45,9] (design) DesignForExtension: La méthode 'setName' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[45,29] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[45,30] (misc) FinalParameters: Le paramètre name devrait être final.
-[ERROR] src/main/model/Computer.java:[45,37] (coding) HiddenField: 'name' masque un attribut.
-[ERROR] src/main/model/Computer.java:[48,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[48,9] (design) DesignForExtension: La méthode 'getIntroduced' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[48,40] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[51,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[51,9] (design) DesignForExtension: La méthode 'setIntroduced' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[51,35] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[51,36] (misc) FinalParameters: Le paramètre introduced devrait être final.
-[ERROR] src/main/model/Computer.java:[51,46] (coding) HiddenField: 'introduced' masque un attribut.
-[ERROR] src/main/model/Computer.java:[54,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[54,9] (design) DesignForExtension: La méthode 'getDiscontinued' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[54,42] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[57,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[57,9] (design) DesignForExtension: La méthode 'setDiscontinued' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[57,37] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[57,38] (misc) FinalParameters: Le paramètre discontinued devrait être final.
-[ERROR] src/main/model/Computer.java:[57,48] (coding) HiddenField: 'discontinued' masque un attribut.
-[ERROR] src/main/model/Computer.java:[60,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[60,9] (design) DesignForExtension: La méthode 'getCompanyId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[60,34] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[63,9] (javadoc) JavadocMethod: Commentaire javadoc manquant.
-[ERROR] src/main/model/Computer.java:[63,9] (design) DesignForExtension: La méthode 'setCompanyId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
-[ERROR] src/main/model/Computer.java:[63,34] (whitespace) MethodParamPad: Il y a une espace de trop avant '('.
-[ERROR] src/main/model/Computer.java:[63,35] (misc) FinalParameters: Le paramètre companyId devrait être final.
-[ERROR] src/main/model/Computer.java:[63,40] (coding) HiddenField: 'companyId' masque un attribut.
-[ERROR] src/main/model/Computer.java:[65] (regexp) RegexpSingleline: Line has trailing spaces.
-[ERROR] src/main/model/Computer.java:[66] (regexp) RegexpSingleline: Line has trailing spaces.
+[ERROR] src/main/model/Computer.java:[7,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[8,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[9,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[10,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[11,3] (javadoc) JavadocVariable: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[14,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[18,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[18,19] (misc) FinalParameters: Le paramètre id devrait être final.
+[ERROR] src/main/model/Computer.java:[18,24] (coding) HiddenField: 'id' masque un attribut.
+[ERROR] src/main/model/Computer.java:[18,28] (misc) FinalParameters: Le paramètre name devrait être final.
+[ERROR] src/main/model/Computer.java:[18,35] (coding) HiddenField: 'name' masque un attribut.
+[ERROR] src/main/model/Computer.java:[18,41] (misc) FinalParameters: Le paramètre introduced devrait être final.
+[ERROR] src/main/model/Computer.java:[18,51] (coding) HiddenField: 'introduced' masque un attribut.
+[ERROR] src/main/model/Computer.java:[19,7] (misc) FinalParameters: Le paramètre discontinued devrait être final.
+[ERROR] src/main/model/Computer.java:[19,17] (coding) HiddenField: 'discontinued' masque un attribut.
+[ERROR] src/main/model/Computer.java:[19,31] (misc) FinalParameters: Le paramètre companyId devrait être final.
+[ERROR] src/main/model/Computer.java:[19,36] (coding) HiddenField: 'companyId' masque un attribut.
+[ERROR] src/main/model/Computer.java:[28,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[28,19] (misc) FinalParameters: Le paramètre name devrait être final.
+[ERROR] src/main/model/Computer.java:[28,26] (coding) HiddenField: 'name' masque un attribut.
+[ERROR] src/main/model/Computer.java:[28,32] (misc) FinalParameters: Le paramètre introduced devrait être final.
+[ERROR] src/main/model/Computer.java:[28,42] (coding) HiddenField: 'introduced' masque un attribut.
+[ERROR] src/main/model/Computer.java:[28,54] (misc) FinalParameters: Le paramètre discontinued devrait être final.
+[ERROR] src/main/model/Computer.java:[28,64] (coding) HiddenField: 'discontinued' masque un attribut.
+[ERROR] src/main/model/Computer.java:[29,7] (misc) FinalParameters: Le paramètre companyId devrait être final.
+[ERROR] src/main/model/Computer.java:[29,12] (coding) HiddenField: 'companyId' masque un attribut.
+[ERROR] src/main/model/Computer.java:[38,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[38,3] (design) DesignForExtension: La méthode 'getId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[42,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[42,3] (design) DesignForExtension: La méthode 'setId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[42,21] (misc) FinalParameters: Le paramètre id devrait être final.
+[ERROR] src/main/model/Computer.java:[42,26] (coding) HiddenField: 'id' masque un attribut.
+[ERROR] src/main/model/Computer.java:[46,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[46,3] (design) DesignForExtension: La méthode 'getName' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[50,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[50,3] (design) DesignForExtension: La méthode 'setName' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[50,23] (misc) FinalParameters: Le paramètre name devrait être final.
+[ERROR] src/main/model/Computer.java:[50,30] (coding) HiddenField: 'name' masque un attribut.
+[ERROR] src/main/model/Computer.java:[54,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[54,3] (design) DesignForExtension: La méthode 'getIntroduced' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[58,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[58,3] (design) DesignForExtension: La méthode 'setIntroduced' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[58,29] (misc) FinalParameters: Le paramètre introduced devrait être final.
+[ERROR] src/main/model/Computer.java:[58,39] (coding) HiddenField: 'introduced' masque un attribut.
+[ERROR] src/main/model/Computer.java:[62,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[62,3] (design) DesignForExtension: La méthode 'getDiscontinued' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[66,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[66,3] (design) DesignForExtension: La méthode 'setDiscontinued' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[66,31] (misc) FinalParameters: Le paramètre discontinued devrait être final.
+[ERROR] src/main/model/Computer.java:[66,41] (coding) HiddenField: 'discontinued' masque un attribut.
+[ERROR] src/main/model/Computer.java:[70,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[70,3] (design) DesignForExtension: La méthode 'getCompanyId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[74,3] (javadoc) JavadocMethod: Commentaire javadoc manquant.
+[ERROR] src/main/model/Computer.java:[74,3] (design) DesignForExtension: La méthode 'setCompanyId' n'est pas conçue pour être dérivée - il faut la déclarer abstraite, finale ou la laisser vide.
+[ERROR] src/main/model/Computer.java:[74,28] (misc) FinalParameters: Le paramètre companyId devrait être final.
+[ERROR] src/main/model/Computer.java:[74,33] (coding) HiddenField: 'companyId' masque un attribut.
 [ERROR] src/main/model/Company.java:[3] (javadoc) JavadocType: Commentaire javadoc manquant.
 [ERROR] src/main/model/Company.java:[4] (regexp) RegexpSingleline: Line has trailing spaces.
 [ERROR] src/main/model/Company.java:[4,1] (whitespace) FileTabCharacter: Fichier contient des caractères de tabulation (ce qui est le premier exemple).
@@ -789,11 +570,11 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 2.058 s
-[INFO] Finished at: 2017-09-14T16:21:52+02:00
-[INFO] Final Memory: 17M/290M
+[INFO] Total time: 2.046 s
+[INFO] Finished at: 2017-09-15T10:32:21+02:00
+[INFO] Final Memory: 16M/233M
 [INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-checkstyle-plugin:2.17:check (default-cli) on project javaTraining: You have 780 Checkstyle violations. -> [Help 1]
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-checkstyle-plugin:2.17:check (default-cli) on project javaTraining: You have 561 Checkstyle violations. -> [Help 1]
 [ERROR] 
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
