@@ -1,3 +1,2 @@
-/** package for JUnit test of service, view and controller. */
+/** package of diverse resources. */
 package main.resources;
-

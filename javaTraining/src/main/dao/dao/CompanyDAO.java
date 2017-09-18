@@ -6,6 +6,14 @@ import main.dao.daoUtil.DAOException;
 import main.model.Company;
 
 public interface CompanyDAO {
-	public ArrayList<Company> findAllCompanies () throws DAOException;
-	public Company findByIdCompany(long id) throws DAOException;
+    /** function to get all the companies in the database.
+     * @throws DAOException a DAO exception (src/main/daoUtil)
+     * @return ArrayList of Company */
+    ArrayList<Company> findAllCompanies() throws DAOException;
+
+    /** function to get the company with the id.
+     * @throws DAOException a DAO exception (src/main/daoUtil)
+     * @param id the id of the company search in the database
+     * @return A Company */
+    Company findByIdCompany(long id) throws DAOException;
 }

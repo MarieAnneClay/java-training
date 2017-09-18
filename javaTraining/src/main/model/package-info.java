@@ -1,3 +1,2 @@
-/** package for JUnit test of service, view and controller. */
+/** package of the model of the java Object from the database. */
 package main.model;
-

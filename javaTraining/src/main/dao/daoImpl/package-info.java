@@ -1,3 +1,2 @@
-/** package for JUnit test of service, view and controller. */
+/** package of implementation of the interfaces of DAO computer and company. */
 package main.dao.daoImpl;
-

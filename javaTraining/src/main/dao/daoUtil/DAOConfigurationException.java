@@ -2,15 +2,22 @@ package main.dao.daoUtil;
 
 public class DAOConfigurationException extends RuntimeException {
 
-    public DAOConfigurationException ( String message ) {
-        super( message );
+    /** RuntimeException for DAO configuration.
+     * @param message error message*/
+    public DAOConfigurationException(String message) {
+        super(message);
     }
 
-    public DAOConfigurationException ( String message, Throwable cause ) {
-        super( message, cause );
+    /** RuntimeException for DAO configuration.
+     * @param message error message
+     * @param cause error cause*/
+    public DAOConfigurationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public DAOConfigurationException ( Throwable cause ) {
-        super( cause );
+    /** RuntimeException for DAO configuration.
+     * @param cause error cause*/
+    public DAOConfigurationException(Throwable cause) {
+        super(cause);
     }
 }
