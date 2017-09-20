@@ -1,25 +1,28 @@
-package dao.daoImpl;
+package persistence.daoImpl;
 
-import static dao.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
-import static dao.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
+import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
+import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import dao.dao.ComputerDAO;
-import dao.daoUtil.ConnectionManager;
-import dao.daoUtil.DAOException;
 import model.Computer;
+import persistence.dao.ComputerDAO;
+import persistence.daoUtil.ConnectionManager;
+import persistence.daoUtil.DAOException;
 
 public class ComputerDAOImpl implements ComputerDAO {
 
     private ConnectionManager connexionManager;
     private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
+    private static final String SQL_SELECT_BY_NAME = "SELECT * FROM computer WHERE name LIKE CONCAT('%', ? , '%')";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
@@ -82,6 +85,32 @@ public class ComputerDAOImpl implements ComputerDAO {
         }
 
         return computer;
+    }
+
+    @Override
+    public ArrayList<Computer> findByNameComputer(String name) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Computer computer = null;
+        ArrayList<Computer> computers = new ArrayList<Computer>();
+
+        try {
+            connexion = (Connection) connexionManager.getConnection();
+            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME, false, name);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                computer = mapComputer(resultSet);
+                computers.add(computer);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+        }
+
+        return computers;
     }
 
     @Override
@@ -165,11 +194,16 @@ public class ComputerDAOImpl implements ComputerDAO {
      * @return return the computer mapped
      */
     public static Computer mapComputer(ResultSet resultSet) throws SQLException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+        formatter = formatter.withLocale(Locale.US);
+
         Computer computer = new Computer();
         computer.setId(resultSet.getLong("id"));
         computer.setName(resultSet.getString("name"));
-        computer.setIntroduced(resultSet.getTimestamp("introduced"));
-        computer.setDiscontinued(resultSet.getTimestamp("discontinued"));
+        computer.setIntroduced(
+                resultSet.getDate("introduced") == null ? null : resultSet.getDate("introduced").toLocalDate());
+        computer.setDiscontinued(
+                resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
         computer.setCompanyId(resultSet.getLong("company_id"));
         return computer;
     }

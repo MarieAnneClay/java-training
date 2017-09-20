@@ -1,13 +1,13 @@
 package model;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Computer {
 
     private long id;
     private String name;
-    private Timestamp introduced;
-    private Timestamp discontinued;
+    private LocalDate introduced;
+    private LocalDate discontinued;
     private long companyId;
 
     /** DEFAULT CONSTRUCTOR. */
@@ -30,7 +30,7 @@ public class Computer {
      * @param companyId
      *            id of the company which possess this computer
      */
-    public Computer(long id, String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+    public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyId) {
         super();
         this.id = id;
         this.name = name;
@@ -52,7 +52,7 @@ public class Computer {
      * @param companyId
      *            id of the company which possess this computer
      */
-    public Computer(String name, Timestamp introduced, Timestamp discontinued, long companyId) {
+    public Computer(String name, LocalDate introduced, LocalDate discontinued, long companyId) {
         super();
         this.name = name;
         this.introduced = introduced;
@@ -77,19 +77,19 @@ public class Computer {
         this.name = name;
     }
 
-    public Timestamp getIntroduced() {
+    public LocalDate getIntroduced() {
         return introduced;
     }
 
-    public void setIntroduced(Timestamp introduced) {
+    public void setIntroduced(LocalDate introduced) {
         this.introduced = introduced;
     }
 
-    public Timestamp getDiscontinued() {
+    public LocalDate getDiscontinued() {
         return discontinued;
     }
 
-    public void setDiscontinued(Timestamp discontinued) {
+    public void setDiscontinued(LocalDate discontinued) {
         this.discontinued = discontinued;
     }
 

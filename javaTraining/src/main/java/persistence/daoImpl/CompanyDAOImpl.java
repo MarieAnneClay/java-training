@@ -1,7 +1,7 @@
-package dao.daoImpl;
+package persistence.daoImpl;
 
-import static dao.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
-import static dao.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
+import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
+import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import dao.dao.CompanyDAO;
-import dao.daoUtil.ConnectionManager;
-import dao.daoUtil.DAOException;
 import model.Company;
+import persistence.dao.CompanyDAO;
+import persistence.daoUtil.ConnectionManager;
+import persistence.daoUtil.DAOException;
 
 public class CompanyDAOImpl implements CompanyDAO {
     private ConnectionManager daoFactory;
@@ -27,7 +27,7 @@ public class CompanyDAOImpl implements CompanyDAO {
      *            the unique singleton connexion to the database
      */
     public CompanyDAOImpl(ConnectionManager connexionManager) {
-        this.daoFactory = daoFactory;
+        this.daoFactory = connexionManager;
     }
 
     @Override

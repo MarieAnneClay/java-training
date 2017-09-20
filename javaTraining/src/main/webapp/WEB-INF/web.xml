@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
+		</jsp-property-group>
+	</jsp-config>
+
+	<servlet>
+	    <servlet-name>DashBoard</servlet-name>
+	    <servlet-class>servlet.DashBoard</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	    <servlet-name>DashBoard</servlet-name>
+	    <url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>addComputer</servlet-name>
+	    <servlet-class>servlet.addComputer</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	    <servlet-name>addComputer</servlet-name>
+	    <url-pattern>/addComputer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>editComputer</servlet-name>
+	    <servlet-class>servlet.editComputer</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	    <servlet-name>editComputer</servlet-name>
+	    <url-pattern>/editComputer</url-pattern>
+	</servlet-mapping>
+
+</web-app>

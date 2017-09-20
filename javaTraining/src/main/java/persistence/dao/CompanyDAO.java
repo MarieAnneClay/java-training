@@ -1,9 +1,9 @@
-package dao.dao;
+package persistence.dao;
 
 import java.util.ArrayList;
 
-import dao.daoUtil.DAOException;
 import model.Company;
+import persistence.daoUtil.DAOException;
 
 public interface CompanyDAO {
     /**

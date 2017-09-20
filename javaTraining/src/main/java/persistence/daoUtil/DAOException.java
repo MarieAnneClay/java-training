@@ -1,14 +1,14 @@
-package dao.daoUtil;
+package persistence.daoUtil;
 
-public class DAOConfigurationException extends RuntimeException {
+public class DAOException extends RuntimeException {
 
     /**
-     * RuntimeException for DAO configuration.
+     * RuntimeException for DAO.
      * 
      * @param message
      *            error message
      */
-    public DAOConfigurationException(String message) {
+    public DAOException(String message) {
         super(message);
     }
 
@@ -20,7 +20,7 @@ public class DAOConfigurationException extends RuntimeException {
      * @param cause
      *            error cause
      */
-    public DAOConfigurationException(String message, Throwable cause) {
+    public DAOException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -30,7 +30,7 @@ public class DAOConfigurationException extends RuntimeException {
      * @param cause
      *            error cause
      */
-    public DAOConfigurationException(Throwable cause) {
+    public DAOException(Throwable cause) {
         super(cause);
     }
 }

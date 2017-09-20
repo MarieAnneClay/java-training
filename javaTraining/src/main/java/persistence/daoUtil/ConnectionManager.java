@@ -1,13 +1,13 @@
-package dao.daoUtil;
+package persistence.daoUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import dao.dao.CompanyDAO;
-import dao.dao.ComputerDAO;
-import dao.daoImpl.CompanyDAOImpl;
-import dao.daoImpl.ComputerDAOImpl;
+import persistence.dao.CompanyDAO;
+import persistence.dao.ComputerDAO;
+import persistence.daoImpl.CompanyDAOImpl;
+import persistence.daoImpl.ComputerDAOImpl;
 
 public class ConnectionManager {
 

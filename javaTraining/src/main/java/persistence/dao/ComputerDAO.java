@@ -1,9 +1,9 @@
-package dao.dao;
+package persistence.dao;
 
 import java.util.ArrayList;
 
-import dao.daoUtil.DAOException;
 import model.Computer;
+import persistence.daoUtil.DAOException;
 
 public interface ComputerDAO {
     /**
@@ -25,6 +25,17 @@ public interface ComputerDAO {
      * @return A Company
      */
     Computer findByIdComputer(long id) throws DAOException;
+
+    /**
+     * function to get the company with the id.
+     * 
+     * @throws DAOException
+     *             a DAO exception (src/main/daoUtil)
+     * @param id
+     *            the id of the company search in the database
+     * @return A Company
+     */
+    ArrayList<Computer> findByNameComputer(String name) throws DAOException;
 
     /**
      * function wich call a function in ComputerDAO to execute a sql requete to

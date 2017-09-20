@@ -2,9 +2,9 @@ package service;
 
 import java.util.ArrayList;
 
-import dao.dao.ComputerDAO;
-import dao.daoUtil.ConnectionManager;
 import model.Computer;
+import persistence.dao.ComputerDAO;
+import persistence.daoUtil.ConnectionManager;
 
 /** Class of service for Computer DAO. */
 public class ServiceComputer {
@@ -35,6 +35,17 @@ public class ServiceComputer {
      */
     public Computer getComputer(long id) {
         return this.computerDAO.findByIdComputer(id);
+    }
+
+    /**
+     * Function to get the computer.
+     * 
+     * @param id
+     *            of the computer searched
+     * @return A list of all the Computer in the database
+     */
+    public ArrayList<Computer> getComputerByName(String name) {
+        return this.computerDAO.findByNameComputer(name);
     }
 
     /**
