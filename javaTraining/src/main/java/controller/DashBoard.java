@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Company;
 import model.Computer;
@@ -23,9 +24,14 @@ public class DashBoard extends HttpServlet {
     private static ServiceComputer serviceComputer = new ServiceComputer();
     private static ServiceCompany serviceCompany = new ServiceCompany();
 
+    private static final String SESSION_COMPUTER = "computers";
+    private static final String SESSION_COMPANY = "companies";
+
     private Page page;
 
     private static final String VIEW = "/WEB-INF/dashboard.jsp";
+    private static final String VIEW_ADD = "/WEB-INF/addComputer.jsp";
+    private static final String VIEW_HOME = "/javaTraining/dashboard";
     private static String search = "";
 
     @Override
@@ -46,17 +52,15 @@ public class DashBoard extends HttpServlet {
             page.setComputerPage(Integer.parseInt(request.getParameter("computerPage")));
         }
 
-        if (request.getParameter("search") != null || request.getAttribute("search") != null) {
-            if (request.getParameter("search") != null) {
-                search = request.getParameter("search");
-            } else {
-                search = (String) request.getAttribute("search");
-            }
+        if (request.getParameter("search") != null) {
+            search = request.getParameter("search");
 
             request.setAttribute("search", search);
+            request.setAttribute("size", serviceComputer.getComputerByName(search).size());
             request.setAttribute("currentComputers",
                     page.getComputerSubest(serviceComputer.getComputerByName(search), serviceComputer));
         } else {
+            request.setAttribute("size", computers.size());
             request.setAttribute("currentComputers", page.getComputerSubest(computers, serviceComputer));
         }
 
@@ -75,17 +79,42 @@ public class DashBoard extends HttpServlet {
         request.setAttribute("begin", page.getBegin());
         request.setAttribute("end", page.getEnd());
 
+        HttpSession session = request.getSession();
+        if (session.getAttribute(SESSION_COMPUTER) != null) {
+            computers = (ArrayList<Computer>) session.getAttribute(SESSION_COMPUTER);
+        }
+
+        if (session.getAttribute(SESSION_COMPANY) != null) {
+            companies = (ArrayList<Company>) session.getAttribute(SESSION_COMPANY);
+        }
+
+        session.setAttribute(SESSION_COMPUTER, computers);
+        session.setAttribute(SESSION_COMPANY, companies);
+
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
 
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("serviceComputer", serviceComputer);
-        request.setAttribute("serviceCompany", serviceCompany);
-        request.setAttribute("computers", computers);
-        request.setAttribute("companies", companies);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/addComputer.jsp").forward(request, response);
+        if (request.getParameter("selection") != null) {
+            String[] select = request.getParameterValues("selection");
+            String[] selects = select[0].split(",");
+            if (selects != null && selects.length != 0) {
+                for (String element : selects) {
+                    computers = serviceComputer.deleteComputer(Integer.parseInt(element), computers);
+                }
+            }
+            response.sendRedirect(VIEW_HOME);
+
+        } else {
+            request.setAttribute("serviceComputer", serviceComputer);
+            request.setAttribute("serviceCompany", serviceCompany);
+            request.setAttribute("computers", computers);
+            request.setAttribute("companies", companies);
+            this.getServletContext().getRequestDispatcher(VIEW_ADD).forward(request, response);
+        }
+
     }
 
 }

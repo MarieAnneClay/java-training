@@ -93,8 +93,18 @@ public class ServiceComputer {
      * @param computer
      *            computer to update to the database
      */
-    public void updateComputer(Computer computer) {
+    public ArrayList<Computer> updateComputer(Computer computer, ArrayList<Computer> computers) {
         this.computerDAO.updateComputer(computer);
+        for (Computer c : computers) {
+            if (c.getId() == computer.getId()) {
+                c.setName(computer.getName());
+                c.setIntroduced(computer.getIntroduced());
+                c.setDiscontinued(computer.getDiscontinued());
+                c.setCompanyId(computer.getCompanyId());
+                break;
+            }
+        }
+        return computers;
     }
 
     /**

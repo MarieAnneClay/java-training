@@ -1,5 +1,8 @@
 package validator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /** Class of validation method for user entries. */
 public class Validator {
     /**
@@ -9,12 +12,23 @@ public class Validator {
      * @param string
      *            the string to be tested
      */
-    public static final int validationName(final String string) {
-        if (string == null || string.trim().length() == 0) {
-            System.out.println("Le nom du nouvel ordinateur ne peut pas être vide");
-            return 0;
+    public static void validationName(final String name) throws Exception {
+        if (name == null || name.trim().length() == 0) {
+            throw new Exception("Le nom du nouveau membre ne peut pas être vide");
         }
-        return 1;
+    }
+
+    public static void validationDate(String birthdate) throws Exception {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
+        if (birthdate != null && birthdate.trim().length() != 0) {
+            try {
+                fmt.parse(birthdate);
+            } catch (ParseException e) {
+                throw new Exception("Le format de la date de naissance n'est pas valide.");
+            }
+        } else {
+            throw new Exception("La date de naissance ne peut pas être vide");
+        }
     }
 
 }

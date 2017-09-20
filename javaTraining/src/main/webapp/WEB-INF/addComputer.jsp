@@ -26,19 +26,19 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="addComputer" method="POST">
+                    <form name="addComputer" action="addComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
+                                <input type="text"class="form-control" id="computerName" name="computerName" placeholder="Computer name" required>
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date">
+                                <input type="date" pattern="\d{4}-\d{2}-\d{2}" class="form-control" id="introduced" name="introduced" placeholder="Introduced date AAAA-MM-DD">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date">
+                                <input type="date" pattern="\d{4}-\d{2}-\d{2}" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date AAAA-MM-DD">
                             </div>
                             <div class="form-group">
 	                            <label for="promotion">Company</label>
@@ -59,10 +59,16 @@
 				   				 Cancel
 					   		</a>
                         </div>
+                        <p style="${empty errors ? "color:green" : "color:red"}">
+	                       	<c:forEach items="${errors }" var="e">
+	                       		<c:out value="${e }"/><br/>
+	                       	</c:forEach>
+						</p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    <script src="./resources/js/addComputer.js"></script>
 </body>
 </html>
