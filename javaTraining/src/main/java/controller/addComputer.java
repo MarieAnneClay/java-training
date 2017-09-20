@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +14,9 @@ import javax.servlet.http.HttpSession;
 import model.Company;
 import model.Computer;
 import service.ServiceComputer;
-import validator.Validator;
+import util.Validator;
 
+@WebServlet("/addComputer")
 public class addComputer extends HttpServlet {
     // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
@@ -50,11 +52,8 @@ public class addComputer extends HttpServlet {
         LocalDate introducedDate = null;
         LocalDate discontinuedDate = null;
         String name = request.getParameter(FIELD_NAME);
-
         String introduced = request.getParameter(FIELD_INTRODUCED);
-
         String discontinued = request.getParameter(FIELD_DISCONTINUED);
-
         String companyId = request.getParameter(FIELD_COMPANY_ID);
 
         ArrayList<String> errors = new ArrayList<String>();
@@ -84,15 +83,15 @@ public class addComputer extends HttpServlet {
 
             computers = serviceComputer.setComputer(new Computer(name, introducedDate, discontinuedDate,
                     (companyId == "" ? 0 : Integer.parseInt(companyId))), computers);
+            session.setAttribute(SESSION_COMPUTER, computers);
+            session.setAttribute(SESSION_COMPANY, companies);
+            response.sendRedirect(VIEW_HOME);
         } else {
             errors.add("Erreur lors de la création :");
+            request.setAttribute("errors", errors);
+            this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
         }
 
-        this.getServletContext().setAttribute("computers", computers);
-        request.setAttribute("errors", errors);
-        session.setAttribute(SESSION_COMPUTER, computers);
-        session.setAttribute(SESSION_COMPANY, companies);
-        response.sendRedirect(VIEW_HOME);
     }
 
 }

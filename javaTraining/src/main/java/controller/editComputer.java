@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,9 @@ import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
+import util.Validator;
 
+@WebServlet("/editComputer")
 public class editComputer extends HttpServlet {
     // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
@@ -57,26 +60,52 @@ public class editComputer extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        LocalDate introducedDate = null;
+        LocalDate discontinuedDate = null;
         String name = request.getParameter(FIELD_NAME);
-        LocalDate introduced = request.getParameter(FIELD_INTRODUCED).equals("") ? null
-                : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
-
-        LocalDate discontinued = request.getParameter(FIELD_DISCONTINUED).equals("") ? null
-                : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+        String introduced = request.getParameter(FIELD_INTRODUCED);
+        String discontinued = request.getParameter(FIELD_DISCONTINUED);
         String companyId = request.getParameter(FIELD_COMPANY_ID);
 
-        Computer computer = serviceComputer.getComputer(id);
-        computer.setName(name);
-        computer.setIntroduced(introduced);
-        computer.setDiscontinued(discontinued);
-        computer.setCompanyId(companyId == "" ? 0 : Integer.parseInt(companyId));
+        ArrayList<String> errors = new ArrayList<String>();
 
-        computers = serviceComputer.updateComputer(computer, computers);
+        try {
+            Validator.validationName(name);
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+        }
 
-        request.setAttribute("computers", computers);
-        session.setAttribute(SESSION_COMPUTER, computers);
-        session.setAttribute(SESSION_COMPANY, companies);
-        response.sendRedirect(VIEW_HOME);
+        try {
+            Validator.validationDate(introduced);
+            introducedDate = request.getParameter(FIELD_INTRODUCED).equals("") ? null
+                    : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        try {
+            Validator.validationDate(discontinued);
+            discontinuedDate = request.getParameter(FIELD_DISCONTINUED).equals("") ? null
+                    : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+
+        if (errors.isEmpty()) {
+            Computer computer = serviceComputer.getComputer(id);
+            computer.setName(name);
+            computer.setIntroduced(introducedDate);
+            computer.setDiscontinued(discontinuedDate);
+            computer.setCompanyId((companyId == "" ? 0 : Integer.parseInt(companyId)));
+            computers = serviceComputer.updateComputer(computer, computers);
+            session.setAttribute(SESSION_COMPUTER, computers);
+            session.setAttribute(SESSION_COMPANY, companies);
+            response.sendRedirect(VIEW_HOME);
+        } else {
+            errors.add("Erreur lors de la création :");
+            request.setAttribute("errors", errors);
+            this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+        }
+
     }
 
 }

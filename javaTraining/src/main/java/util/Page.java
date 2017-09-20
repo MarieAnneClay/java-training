@@ -1,4 +1,4 @@
-package controller;
+package util;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,15 @@ public class Page {
     private int numberOfComputerByPage = 10;
     private int computerPage = 1;
     private int end = 1;
+    private String search = "";
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public int getComputerPage() {
         return computerPage;
@@ -43,7 +52,6 @@ public class Page {
     public int getEnd() {
         int nbPage = numberOfComputerByPage < computerTotalPages ? computerTotalPages / numberOfComputerByPage
                 : numberOfComputerByPage / computerTotalPages;
-        nbPage = nbPage + computerPage + 4;
         this.end = nbPage < computerTotalPages + 1 ? nbPage : computerTotalPages;
         return end;
     }

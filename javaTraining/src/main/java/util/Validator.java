@@ -1,4 +1,4 @@
-package validator;
+package util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,16 +18,14 @@ public class Validator {
         }
     }
 
-    public static void validationDate(String birthdate) throws Exception {
+    public static void validationDate(String date) throws Exception {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
-        if (birthdate != null && birthdate.trim().length() != 0) {
+        if (date != null && date.trim().length() != 0) {
             try {
-                fmt.parse(birthdate);
+                fmt.parse(date);
             } catch (ParseException e) {
-                throw new Exception("Le format de la date de naissance n'est pas valide.");
+                throw new Exception("Le format de la date n'est pas valide.");
             }
-        } else {
-            throw new Exception("La date de naissance ne peut pas être vide");
         }
     }
 

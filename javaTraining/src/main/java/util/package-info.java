@@ -1,2 +1,2 @@
 /** package for validation class. */
-package validator;
+package util;

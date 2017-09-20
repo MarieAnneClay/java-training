@@ -9,35 +9,20 @@
 			<include-prelude>/WEB-INF/taglibs.jsp</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
-
-	<servlet>
-		<servlet-name>DashBoard</servlet-name>
-		<servlet-class>controller.DashBoard</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>DashBoard</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>addComputer</servlet-name>
-		<servlet-class>controller.addComputer</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>addComputer</servlet-name>
-		<url-pattern>/addComputer</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>editComputer</servlet-name>
-		<servlet-class>controller.editComputer</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>editComputer</servlet-name>
-		<url-pattern>/editComputer</url-pattern>
-	</servlet-mapping>
+	
+	<error-page>
+	    <error-code>403</error-code>
+	    <location>/WEB-INF/403.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/WEB-INF/404.jsp</location>
+	</error-page>
+	
+<!-- 	<error-page> -->
+<!-- 	    <error-code>500</error-code> -->
+<!-- 	    <location>/WEB-INF/500.jsp</location> -->
+<!-- 	</error-page> -->
 
 </web-app>

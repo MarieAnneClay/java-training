@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,9 @@ import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
+import util.Page;
 
+@WebServlet("/dashboard")
 public class DashBoard extends HttpServlet {
     // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
@@ -32,7 +35,6 @@ public class DashBoard extends HttpServlet {
     private static final String VIEW = "/WEB-INF/dashboard.jsp";
     private static final String VIEW_ADD = "/WEB-INF/addComputer.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
-    private static String search = "";
 
     @Override
     public void init() throws ServletException {
@@ -48,17 +50,19 @@ public class DashBoard extends HttpServlet {
             page.setNumberOfComputerByPage(Integer.parseInt(request.getParameter("numberOfComputerByPage")));
         }
 
-        if (request.getParameter("computerPage") != null) {
-            page.setComputerPage(Integer.parseInt(request.getParameter("computerPage")));
+        if (request.getParameter("page") != null) {
+            page.setComputerPage(Integer.parseInt(request.getParameter("page")));
         }
 
         if (request.getParameter("search") != null) {
-            search = request.getParameter("search");
+            page.setSearch(request.getParameter("search"));
+        }
 
-            request.setAttribute("search", search);
-            request.setAttribute("size", serviceComputer.getComputerByName(search).size());
+        if (page.getSearch() != "") {
+            request.setAttribute("search", page.getSearch());
+            request.setAttribute("size", serviceComputer.getComputerByName(page.getSearch()).size());
             request.setAttribute("currentComputers",
-                    page.getComputerSubest(serviceComputer.getComputerByName(search), serviceComputer));
+                    page.getComputerSubest(serviceComputer.getComputerByName(page.getSearch()), serviceComputer));
         } else {
             request.setAttribute("size", computers.size());
             request.setAttribute("currentComputers", page.getComputerSubest(computers, serviceComputer));
@@ -74,7 +78,7 @@ public class DashBoard extends HttpServlet {
         request.setAttribute("companies", companies);
 
         request.setAttribute("computerTotalPages", page.getComputerTotalPages());
-        request.setAttribute("computerPage", page.getComputerPage());
+        request.setAttribute("page", page.getComputerPage());
         request.setAttribute("numberOfComputerByPage", page.getNumberOfComputerByPage());
         request.setAttribute("begin", page.getBegin());
         request.setAttribute("end", page.getEnd());
