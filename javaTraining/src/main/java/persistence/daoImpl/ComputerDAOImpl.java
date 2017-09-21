@@ -27,12 +27,8 @@ public class ComputerDAOImpl implements ComputerDAO {
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
 
-    /**
-     * CONSTRUCTOR.
-     * 
-     * @param connexionManager
-     *            the unique singleton connexion to the database
-     */
+    /** CONSTRUCTOR.
+     * @param connexionManager the unique singleton connexion to the database */
     public ComputerDAOImpl(ConnectionManager connexionManager) {
         this.connexionManager = connexionManager;
     }
@@ -121,8 +117,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         try {
             connexion = (Connection) connexionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(),
-                    computer.getIntroduced(), computer.getDiscontinued(),
+            preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                     ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
@@ -149,14 +144,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         try {
             connexion = (Connection) connexionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(),
-                    computer.getIntroduced(), computer.getDiscontinued(),
+            preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                     ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
-                System.out
-                        .println(SQL_UPDATE + computer.getName() + computer.getIntroduced() + computer.getDiscontinued()
-                                + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + computer.getId());
+                System.out.println(
+                        SQL_UPDATE + computer.getName() + computer.getIntroduced() + computer.getDiscontinued() + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + computer.getId());
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -184,15 +177,10 @@ public class ComputerDAOImpl implements ComputerDAO {
         }
     }
 
-    /**
-     * Mapper function for computerDAO.
-     * 
-     * @throws SQLException
-     *             if the resultSet of the query as an exception
-     * @param resultSet
-     *            result of the query select
-     * @return return the computer mapped
-     */
+    /** Mapper function for computerDAO.
+     * @throws SQLException if the resultSet of the query as an exception
+     * @param resultSet result of the query select
+     * @return return the computer mapped */
     public static Computer mapComputer(ResultSet resultSet) throws SQLException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
         formatter = formatter.withLocale(Locale.US);
@@ -200,10 +188,8 @@ public class ComputerDAOImpl implements ComputerDAO {
         Computer computer = new Computer();
         computer.setId(resultSet.getLong("id"));
         computer.setName(resultSet.getString("name"));
-        computer.setIntroduced(
-                resultSet.getDate("introduced") == null ? null : resultSet.getDate("introduced").toLocalDate());
-        computer.setDiscontinued(
-                resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
+        computer.setIntroduced(resultSet.getDate("introduced") == null ? null : resultSet.getDate("introduced").toLocalDate());
+        computer.setDiscontinued(resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
         computer.setCompanyId(resultSet.getLong("company_id"));
         return computer;
     }

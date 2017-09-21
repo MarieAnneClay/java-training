@@ -14,39 +14,26 @@ public class ConnectionManager {
     private String url;
     private String username;
     private String password;
-    private static final ConnectionManager instance = new ConnectionManager();
+    private static final ConnectionManager INSTANCE = new ConnectionManager();
 
-    /**
-     * Point d'accès pour l'instance unique du singleton.
-     * 
-     * @return a unique connexion to the database
-     */
+    /** Point d'accès pour l'instance unique du singleton.
+     * @return a unique connexion to the database */
     public static ConnectionManager getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
-    /**
-     * CONSTRUCTOR.
-     * 
-     * @param url
-     *            url of the database
-     * @param username
-     *            for the connexion of the database
-     * @param password
-     *            to connect to the database
-     */
+    /** CONSTRUCTOR.
+     * @param url url of the database
+     * @param username for the connexion of the database
+     * @param password to connect to the database */
     ConnectionManager(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
 
-    /**
-     * CONSTRUCTOR.
-     * 
-     * @throws DAOConfigurationException
-     *             a DAO exception (src/main/daoUtil)
-     */
+    /** CONSTRUCTOR.
+     * @throws DAOConfigurationException a DAO exception (src/main/daoUtil) */
     private ConnectionManager() throws DAOConfigurationException {
 
         String url = "jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&useSSL=false";
@@ -65,13 +52,9 @@ public class ConnectionManager {
         this.password = password;
     }
 
-    /**
-     * funcion wich connect to the database.
-     * 
-     * @exception SQLException
-     *                if the connection encounter an issue
-     * @return a Connection
-     */
+    /** function which connect to the database.
+     * @exception SQLException if the connection encounter an issue
+     * @return a Connection */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }

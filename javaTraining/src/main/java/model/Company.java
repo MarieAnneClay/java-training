@@ -10,25 +10,16 @@ public class Company {
         super();
     }
 
-    /**
-     * CONSTRUCTOR with id.
-     * 
-     * @param id
-     *            id of the company in the database
-     */
+    /** CONSTRUCTOR with id.
+     * @param id id of the company in the database */
     public Company(long id) {
         super();
         this.id = id;
     }
 
-    /**
-     * CONSTRUCTOR with id and name.
-     * 
-     * @param id
-     *            id of the company in the database
-     * @param name
-     *            name of the company in the database
-     */
+    /** CONSTRUCTOR with id and name.
+     * @param id id of the company in the database
+     * @param name name of the company in the database */
     public Company(long id, String name) {
         super();
         this.id = id;

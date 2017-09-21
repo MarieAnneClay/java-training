@@ -20,12 +20,8 @@ public class CompanyDAOImpl implements CompanyDAO {
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
 
-    /**
-     * CONSTRUCTOR.
-     * 
-     * @param connexionManager
-     *            the unique singleton connexion to the database
-     */
+    /** CONSTRUCTOR.
+     * @param connexionManager the unique singleton connexion to the database */
     public CompanyDAOImpl(ConnectionManager connexionManager) {
         this.daoFactory = connexionManager;
     }
@@ -80,15 +76,10 @@ public class CompanyDAOImpl implements CompanyDAO {
         return company;
     }
 
-    /**
-     * Mapper function for companyDAO.
-     * 
-     * @throws SQLException
-     *             if the resultSet of the query as an exception
-     * @param resultSet
-     *            result of the query select
-     * @return return the company mapped
-     */
+    /** Mapper function for companyDAO.
+     * @throws SQLException if the resultSet of the query as an exception
+     * @param resultSet result of the query select
+     * @return return the company mapped */
     private static Company map(ResultSet resultSet) throws SQLException {
         Company company = new Company();
         company.setId(resultSet.getLong("id"));

@@ -34,10 +34,11 @@
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${search}"/>
-                        <input type="submit" id="searchsubmit" value="Filter by name"
-                        class="btn btn-primary" />
-                    </form>
+						<input type="search" id="searchbox" name="search"
+							class="form-control" placeholder="Search name" value="${search}" />
+						<input type="submit" id="searchsubmit" value="Filter by name"
+							class="btn btn-primary" />
+					</form>
 				</div>
 				<div class="pull-right">
 					<a href="
@@ -103,27 +104,32 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-
-			<ul class="pagination">
-				<li><myLib:pagination totalPageCount='${computerTotalPages}'
-						viewPageCount="${end}" action="" /></li>
-			</ul>
-
+			<c:if test="${computerTotalPages > 1}">
+				<ul class="pagination">
+					<li><myLib:pagination totalPageCount='${computerTotalPages}'
+							viewPageCount="${end}" action="" /></li>
+				</ul>
+			</c:if>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a style="${numberOfComputerByPage == 10 ? "color:grey" : "color:black"}"
+				<a style="${numberOfComputerByPage == 10 ? "
+					color:grey" : "color:black"}"
 					href="
 	   				<c:url value="/dashboard">
 	   					<c:param name="numberOfComputerByPage" value="10"/>	
 	   					<c:param name="page" value="1"/>	   			
 	   				</c:url>"
-					class="btn btn-default">10 </a> <a style="${numberOfComputerByPage == 50 ? "color:grey" : "color:black"}"
+					class="btn btn-default">10 </a> <a
+					style="${numberOfComputerByPage == 50 ? "
+					color:grey" : "color:black"}"
 					href="
 	   				<c:url value="/dashboard">
 	   					<c:param name="numberOfComputerByPage" value="50"/>	
 	   					<c:param name="page" value="1"/>		   
 	   				</c:url>"
-					class="btn btn-default">50 </a> <a style="${numberOfComputerByPage == 100 ? "color:grey" : "color:black"}"
+					class="btn btn-default">50 </a> <a
+					style="${numberOfComputerByPage == 100 ? "
+					color:grey" : "color:black"}"
 					href="
 	   				<c:url value="/dashboard">
 	   					<c:param name="numberOfComputerByPage" value="100"/>

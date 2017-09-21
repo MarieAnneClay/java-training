@@ -32,6 +32,8 @@ public class Page {
         return numberOfComputerByPage;
     }
 
+    /** How much computers are print by page.
+     * @param numberOfComputerByPage int number of computer by page */
     public void setNumberOfComputerByPage(int numberOfComputerByPage) {
         this.computerPage = 1;
         this.numberOfComputerByPage = numberOfComputerByPage;
@@ -49,38 +51,28 @@ public class Page {
         return computerPage > 0 ? computerPage : 1;
     }
 
+    /** Number of page to show in the pagination.
+     * @return int number of page */
     public int getEnd() {
-        int nbPage = numberOfComputerByPage < computerTotalPages ? computerTotalPages / numberOfComputerByPage
-                : numberOfComputerByPage / computerTotalPages;
+        int nbPage = numberOfComputerByPage < computerTotalPages ? computerTotalPages / numberOfComputerByPage : numberOfComputerByPage / computerTotalPages;
         this.end = nbPage < computerTotalPages + 1 ? nbPage : computerTotalPages;
         return end;
     }
 
-    /**
-     * CONSTRUCTOR.
-     * 
-     * @param computers
-     *            ArrayList of the computers
-     * @param companies
-     *            ArrayList of the companies
-     */
+    /** CONSTRUCTOR.
+     * @param computers ArrayList of the computers */
     public Page(ArrayList<Computer> computers) {
         this.computerTotalPages = 1 + computers.size() / numberOfComputerByPage;
         this.end = computerTotalPages;
     }
 
-    /**
-     * LIST COMPUTER.
-     * 
-     * @param computers
-     *            ArrayList of the computers
-     * @param serviceComputer
-     *            Service of the computers
-     */
+    /** LIST COMPUTER.
+     * @param computers ArrayList of the computers
+     * @param serviceComputer Service of the computers
+     * @return ArrayList of the subsided Computer */
     public ArrayList<Computer> getComputerSubest(ArrayList<Computer> computers, ServiceComputer serviceComputer) {
         computerTotalPages = 1 + computers.size() / numberOfComputerByPage;
-        return serviceComputer.getComputerSubest((computerPage - 1) * numberOfComputerByPage, numberOfComputerByPage,
-                computers);
+        return serviceComputer.getComputerSubest((computerPage - 1) * numberOfComputerByPage, numberOfComputerByPage, computers);
     }
 
 }

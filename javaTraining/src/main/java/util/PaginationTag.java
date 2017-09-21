@@ -37,6 +37,9 @@ public class PaginationTag implements Tag {
         this.action = action;
     }
 
+    /** .
+     * @param minPages minimum of page
+     * @exception JspException */
     public void setViewPageCount(int minPages) throws JspException {
         this.viewPageCount = minPages;
     }
@@ -56,16 +59,15 @@ public class PaginationTag implements Tag {
         if (this.totalPageCount <= 1) {
             return Tag.SKIP_PAGE;
         }
+
         ServletRequest request = pageContext.getRequest();
         if (request.getParameter("page") != null) {
             page = request.getParameter("page");
         }
-        // old selected page number
 
         // handle wrong request page
         if (page != null && (Integer.parseInt(page) > totalPageCount || Integer.parseInt(page) <= 0)) {
-            throw new JspException("[Page Number : " + page
-                    + "] wrong requested page, requested page must be greater than 0 and less than or equal to total page count");
+            throw new JspException("[Page Number : " + page + "] wrong requested page, requested page must be greater than 0 and less than or equal to total page count");
         }
         JspWriter out = pageContext.getOut();
         this.endIndx = this.startIndx + this.viewPageCount - 1;
@@ -75,7 +77,7 @@ public class PaginationTag implements Tag {
                 // if Last page navigation selected
                 if (Integer.parseInt(page) == totalPageCount) {
                     startIndx = totalPageCount - viewPageCount + 1;
-                } else {// if Next page navigation selected
+                } else { // if Next page navigation selected
                     startIndx = startIndx + 1;
                 }
                 endIndx = Integer.parseInt(page);
@@ -86,7 +88,7 @@ public class PaginationTag implements Tag {
                 // if Fist page navigation selected
                 if (Integer.parseInt(page) == 1) {
                     endIndx = viewPageCount;
-                } else {// if Previous page navigation selected
+                } else { // if Previous page navigation selected
                     endIndx = endIndx - 1;
                 }
             }
@@ -117,16 +119,15 @@ public class PaginationTag implements Tag {
         return Tag.EVAL_PAGE;
     }
 
-    /**
-     * method used to create pagination link
-     * 
-     * @param action
-     * @param page
-     * @param isCurrentPage
-     * @param desc
-     * @return
-     */
+    /** method used to create pagination link.
+     * @param action href link
+     * @param page number of the page
+     * @param isCurrentPage current page
+     * @param desc description
+     * @return */
     private String getLink(final String action, final int page, final boolean isCurrentPage, final String desc) {
+        pageContext.getRequest();
+
         StringBuilder link = new StringBuilder();
         link.append("<a href='");
         link.append(action);

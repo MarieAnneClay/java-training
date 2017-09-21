@@ -29,6 +29,7 @@ public class DashBoard extends HttpServlet {
 
     private static final String SESSION_COMPUTER = "computers";
     private static final String SESSION_COMPANY = "companies";
+    private static final String SESSION_PAGE = "page";
 
     private Page page;
 
@@ -45,6 +46,18 @@ public class DashBoard extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute(SESSION_COMPUTER) != null) {
+            computers = (ArrayList<Computer>) session.getAttribute(SESSION_COMPUTER);
+        }
+
+        if (session.getAttribute(SESSION_COMPANY) != null) {
+            companies = (ArrayList<Company>) session.getAttribute(SESSION_COMPANY);
+        }
+
+        if (session.getAttribute(SESSION_PAGE) != null) {
+            page = (Page) session.getAttribute(SESSION_PAGE);
+        }
 
         if (request.getParameter("numberOfComputerByPage") != null) {
             page.setNumberOfComputerByPage(Integer.parseInt(request.getParameter("numberOfComputerByPage")));
@@ -56,6 +69,7 @@ public class DashBoard extends HttpServlet {
 
         if (request.getParameter("search") != null) {
             page.setSearch(request.getParameter("search"));
+            page.setComputerPage(1);
         }
 
         if (page.getSearch() != "") {
@@ -72,28 +86,16 @@ public class DashBoard extends HttpServlet {
             this.computers = (ArrayList<Computer>) request.getAttribute("computers");
         }
 
-        request.setAttribute("serviceComputer", serviceComputer);
-        request.setAttribute("serviceCompany", serviceCompany);
         request.setAttribute("computers", computers);
-        request.setAttribute("companies", companies);
+        request.setAttribute("serviceCompany", serviceCompany);
 
         request.setAttribute("computerTotalPages", page.getComputerTotalPages());
-        request.setAttribute("page", page.getComputerPage());
         request.setAttribute("numberOfComputerByPage", page.getNumberOfComputerByPage());
-        request.setAttribute("begin", page.getBegin());
         request.setAttribute("end", page.getEnd());
-
-        HttpSession session = request.getSession();
-        if (session.getAttribute(SESSION_COMPUTER) != null) {
-            computers = (ArrayList<Computer>) session.getAttribute(SESSION_COMPUTER);
-        }
-
-        if (session.getAttribute(SESSION_COMPANY) != null) {
-            companies = (ArrayList<Company>) session.getAttribute(SESSION_COMPANY);
-        }
 
         session.setAttribute(SESSION_COMPUTER, computers);
         session.setAttribute(SESSION_COMPANY, companies);
+        session.setAttribute(SESSION_PAGE, page);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
 
@@ -112,10 +114,6 @@ public class DashBoard extends HttpServlet {
             response.sendRedirect(VIEW_HOME);
 
         } else {
-            request.setAttribute("serviceComputer", serviceComputer);
-            request.setAttribute("serviceCompany", serviceCompany);
-            request.setAttribute("computers", computers);
-            request.setAttribute("companies", companies);
             this.getServletContext().getRequestDispatcher(VIEW_ADD).forward(request, response);
         }
 

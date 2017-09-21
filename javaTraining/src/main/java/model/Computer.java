@@ -15,21 +15,13 @@ public class Computer {
         super();
     }
 
-    /**
-     * CONSTRUCTOR with id.
-     * 
-     * @param id
-     *            id of the company in the database
-     * @param name
-     *            name of the company in the database
-     * @param introduced
-     *            DATETIME of the day the computer has been introduced in the
-     *            company
-     * @param discontinued
-     *            DATETIME of the day the computer has been discontinued
-     * @param companyId
-     *            id of the company which possess this computer
-     */
+    /** CONSTRUCTOR with id.
+     * @param id id of the company in the database
+     * @param name name of the company in the database
+     * @param introduced DATETIME of the day the computer has been introduced in the
+     * company
+     * @param discontinued DATETIME of the day the computer has been discontinued
+     * @param companyId id of the company which possess this computer */
     public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyId) {
         super();
         this.id = id;
@@ -39,19 +31,12 @@ public class Computer {
         this.companyId = companyId;
     }
 
-    /**
-     * CONSTRUCTOR with id.
-     * 
-     * @param name
-     *            name of the company in the database
-     * @param introduced
-     *            DATETIME of the day the computer has been introduced in the
-     *            company
-     * @param discontinued
-     *            DATETIME of the day the computer has been discontinued
-     * @param companyId
-     *            id of the company which possess this computer
-     */
+    /** CONSTRUCTOR with id.
+     * @param name name of the company in the database
+     * @param introduced DATETIME of the day the computer has been introduced in the
+     * company
+     * @param discontinued DATETIME of the day the computer has been discontinued
+     * @param companyId id of the company which possess this computer */
     public Computer(String name, LocalDate introduced, LocalDate discontinued, long companyId) {
         super();
         this.name = name;

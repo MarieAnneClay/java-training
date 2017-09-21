@@ -10,55 +10,37 @@ import persistence.daoUtil.ConnectionManager;
 public class ServiceComputer {
     private ComputerDAO computerDAO;
 
-    /**
-     * Constructor that instance the connection to the database for Computer DAO.
-     */
+    /** Constructor that instance the connection to the database for Computer
+     * DAO. */
     public ServiceComputer() {
         this.computerDAO = ConnectionManager.getInstance().getComputerDao();
     }
 
-    /**
-     * Function to get all the data from the table computer.
-     * 
-     * @return ArrayList of computer list of all the Computer in the database
-     */
+    /** Function to get all the data from the table computer.
+     * @return ArrayList of computer list of all the Computer in the database */
     public ArrayList<Computer> getAllComputers() {
         return computerDAO.findAllComputers();
     }
 
-    /**
-     * Function to get the computer.
-     * 
-     * @param id
-     *            of the computer searched
-     * @return A list of all the Computer in the database
-     */
+    /** Function to get the computer.
+     * @param id of the computer searched
+     * @return A list of all the Computer in the database */
     public Computer getComputer(long id) {
         return this.computerDAO.findByIdComputer(id);
     }
 
-    /**
-     * Function to get the computer.
-     * 
-     * @param id
-     *            of the computer searched
-     * @return A list of all the Computer in the database
-     */
+    /** Function to get the computer.
+     * @param name of the computer searched
+     * @return A list of all the Computer in the database */
     public ArrayList<Computer> getComputerByName(String name) {
         return this.computerDAO.findByNameComputer(name);
     }
 
-    /**
-     * Function to have a certain proportion of the computer list.
-     * 
-     * @param start
-     *            start of the list
-     * @param size
-     *            size of the list
-     * @param computers
-     *            list of all computers
-     * @return ArrayList of the subsided Computer
-     */
+    /** Function to have a certain proportion of the computer list.
+     * @param start start of the list
+     * @param size size of the list
+     * @param computers list of all computers
+     * @return ArrayList of the subsided Computer */
     public ArrayList<Computer> getComputerSubest(int start, int size, ArrayList<Computer> computers) {
         ArrayList<Computer> ret = new ArrayList<Computer>();
         for (int i = start; i < (start + size); i++) {
@@ -70,29 +52,22 @@ public class ServiceComputer {
         return ret;
     }
 
-    /**
-     * Function wich call the createComputer to create a computer in the database
+    /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
-     * 
-     * @param computer
-     *            computer to add to the database
-     * @param computers
-     *            the list of the current computers
-     * @return ArrayList Computer list with the computer added
-     */
+     * @param computer computer to add to the database
+     * @param computers the list of the current computers
+     * @return ArrayList Computer list with the computer added */
     public ArrayList<Computer> setComputer(Computer computer, ArrayList<Computer> computers) {
         this.computerDAO.createComputer(computer);
         computers.add(computer);
         return computers;
     }
 
-    /**
-     * Function wich call the updateComputer to update a computer in the database
+    /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
-     * 
-     * @param computer
-     *            computer to update to the database
-     */
+     * @param computer computer to update to the database
+     * @param computers the list of the current computers
+     * @return ArrayList Computer list with the computer added */
     public ArrayList<Computer> updateComputer(Computer computer, ArrayList<Computer> computers) {
         this.computerDAO.updateComputer(computer);
         for (Computer c : computers) {
@@ -107,16 +82,11 @@ public class ServiceComputer {
         return computers;
     }
 
-    /**
-     * Function wich call the deleteComputer to delete a computer in the database
+    /** Function which call the deleteComputer to delete a computer in the database
      * with a SQL request.
-     * 
-     * @param id
-     *            id of the computer to delete in the database
-     * @param computers
-     *            the list of the current computers
-     * @return ArrayList Computer list with the computer deleted
-     */
+     * @param id id of the computer to delete in the database
+     * @param computers the list of the current computers
+     * @return ArrayList Computer list with the computer deleted */
     public ArrayList<Computer> deleteComputer(long id, ArrayList<Computer> computers) {
         this.computerDAO.deleteComputer(id);
         for (Computer computer : computers) {
