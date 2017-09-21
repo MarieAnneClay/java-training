@@ -32,12 +32,12 @@
 			<version>2.17</version>
 			<type>maven-plugin</type>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 		<dependency>
-		    <groupId>javax.servlet.jsp</groupId>
-		    <artifactId>javax.servlet.jsp-api</artifactId>
-		    <version>2.3.1</version>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
 		</dependency>
 
 		<dependency>
@@ -45,15 +45,15 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.0.1</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -69,21 +69,17 @@
 			<version>2.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.6</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.5.5</version>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<type>jar</type>
-			<version>0.9.9</version>
-		</dependency>
-		
-
 
 	</dependencies>
 
@@ -118,15 +114,31 @@
 				</configuration>
 			</plugin>
 			<plugin>
-               <groupId>org.apache.tomcat.maven</groupId>
-               <artifactId>tomcat7-maven-plugin</artifactId>
-               <configuration>
-                   <url>http://localhost:8080/manager/text</url>
-                   <server>TomcatServer</server>
-                   <username>tomcat</username>
-                   <password>tomcat</password>
-               </configuration>
-           </plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<server>TomcatServer</server>
+					<username>tomcat</username>
+					<password>tomcat</password>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>controller.TestLog</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

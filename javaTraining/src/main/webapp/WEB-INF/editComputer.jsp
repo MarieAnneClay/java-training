@@ -38,6 +38,7 @@
 								<label for="computerName">Computer name</label> <input
 									type="text" class="form-control" id="computerName"
 									name="computerName" placeholder="Computer name"
+									pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
 									value="${computer.getName()}" required>
 							</div>
 							<div class="form-group">

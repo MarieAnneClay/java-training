@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import model.Company;
 import model.Computer;
 import service.ServiceComputer;
@@ -56,10 +58,10 @@ public class AddComputer extends HttpServlet {
         HttpSession session = request.getSession();
         LocalDate introducedDate = null;
         LocalDate discontinuedDate = null;
-        String name = request.getParameter(FIELD_NAME);
-        String introduced = request.getParameter(FIELD_INTRODUCED);
-        String discontinued = request.getParameter(FIELD_DISCONTINUED);
-        String companyId = request.getParameter(FIELD_COMPANY_ID);
+        String name = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_NAME));
+        String introduced = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_INTRODUCED));
+        String discontinued = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_DISCONTINUED));
+        String companyId = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_COMPANY_ID));
 
         ArrayList<String> errors = new ArrayList<String>();
 
@@ -71,23 +73,26 @@ public class AddComputer extends HttpServlet {
 
         try {
             Validator.validationDate(introduced);
-            introducedDate = request.getParameter(FIELD_INTRODUCED).equals("") ? null
-                    : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
+            introducedDate = request.getParameter(FIELD_INTRODUCED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
         } catch (Exception e) {
             errors.add(e.getMessage());
         }
         try {
             Validator.validationDate(discontinued);
-            discontinuedDate = request.getParameter(FIELD_DISCONTINUED).equals("") ? null
-                    : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+            discontinuedDate = request.getParameter(FIELD_DISCONTINUED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+
+        try {
+            Validator.validationIntroducedBeforeDiscontinued(introducedDate, discontinuedDate);
         } catch (Exception e) {
             errors.add(e.getMessage());
         }
 
         if (errors.isEmpty()) {
 
-            computers = serviceComputer.setComputer(new Computer(name, introducedDate, discontinuedDate,
-                    (companyId == "" ? 0 : Integer.parseInt(companyId))), computers);
+            computers = serviceComputer.setComputer(new Computer(name, introducedDate, discontinuedDate, (companyId == "" ? 0 : Integer.parseInt(companyId))), computers);
             session.setAttribute(SESSION_COMPUTER, computers);
             session.setAttribute(SESSION_COMPANY, companies);
             response.sendRedirect(VIEW_HOME);

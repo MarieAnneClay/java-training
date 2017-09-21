@@ -2,6 +2,7 @@ package util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 /** Class of validation method for user entries. */
 public class Validator {
@@ -10,7 +11,10 @@ public class Validator {
      * @throws Exception */
     public static void validationName(final String name) throws Exception {
         if (name == null || name.trim().length() == 0) {
-            throw new Exception("Le nom du nouveau membre ne peut pas être vide");
+            throw new Exception("The name of the computer can't be empty.");
+        }
+        if (name.matches("^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$") == false) {
+            throw new Exception("The name of the computer is invalid. It can contains number, uppercase, space and accent with maximum 60 characters.");
         }
     }
 
@@ -23,7 +27,19 @@ public class Validator {
             try {
                 fmt.parse(date);
             } catch (ParseException e) {
-                throw new Exception("Le format de la date n'est pas valide.");
+                throw new Exception("The format of the date is invalid.");
+            }
+        }
+    }
+
+    /** Function test if the introduced date enter is before the discontinued date.
+     * @param introducedDate LocalDate
+     * @param discontinuedDate LocalDate
+     * @throws Exception */
+    public static void validationIntroducedBeforeDiscontinued(LocalDate introducedDate, LocalDate discontinuedDate) throws Exception {
+        if (introducedDate != null && discontinuedDate != null) {
+            if (introducedDate.isAfter(discontinuedDate)) {
+                throw new Exception("Introduced date later then discontinued date.");
             }
         }
     }

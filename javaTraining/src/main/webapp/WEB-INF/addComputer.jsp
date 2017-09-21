@@ -33,7 +33,7 @@
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
 									type="text" class="form-control" id="computerName"
-									pattern="^[a-zA-Z ]+$"
+									pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
 									name="computerName" placeholder="Computer name" required>
 							</div>
 							<div class="form-group">

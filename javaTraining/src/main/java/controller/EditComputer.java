@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import model.Company;
 import model.Computer;
 import service.ServiceCompany;
@@ -52,8 +54,7 @@ public class EditComputer extends HttpServlet {
         session.setAttribute(SESSION_PAGE, page);
 
         if (request.getParameter("computerId") != null) {
-            this.id = request.getParameter("computerId") == "" ? 0
-                    : Integer.parseInt(request.getParameter("computerId"));
+            this.id = request.getParameter("computerId") == "" ? 0 : Integer.parseInt(request.getParameter("computerId"));
         }
 
         request.setAttribute("companies", companies);
@@ -67,10 +68,10 @@ public class EditComputer extends HttpServlet {
         HttpSession session = request.getSession();
         LocalDate introducedDate = null;
         LocalDate discontinuedDate = null;
-        String name = request.getParameter(FIELD_NAME);
-        String introduced = request.getParameter(FIELD_INTRODUCED);
-        String discontinued = request.getParameter(FIELD_DISCONTINUED);
-        String companyId = request.getParameter(FIELD_COMPANY_ID);
+        String name = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_NAME));
+        String introduced = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_INTRODUCED));
+        String discontinued = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_DISCONTINUED));
+        String companyId = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_COMPANY_ID));
 
         ArrayList<String> errors = new ArrayList<String>();
 
@@ -82,15 +83,19 @@ public class EditComputer extends HttpServlet {
 
         try {
             Validator.validationDate(introduced);
-            introducedDate = request.getParameter(FIELD_INTRODUCED).equals("") ? null
-                    : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
+            introducedDate = request.getParameter(FIELD_INTRODUCED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_INTRODUCED));
         } catch (Exception e) {
             errors.add(e.getMessage());
         }
         try {
             Validator.validationDate(discontinued);
-            discontinuedDate = request.getParameter(FIELD_DISCONTINUED).equals("") ? null
-                    : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+            discontinuedDate = request.getParameter(FIELD_DISCONTINUED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED));
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+
+        try {
+            Validator.validationIntroducedBeforeDiscontinued(introducedDate, discontinuedDate);
         } catch (Exception e) {
             errors.add(e.getMessage());
         }
@@ -106,7 +111,6 @@ public class EditComputer extends HttpServlet {
             session.setAttribute(SESSION_COMPANY, companies);
             response.sendRedirect(VIEW_HOME);
         } else {
-            errors.add("Erreur lors de la création :");
             request.setAttribute("errors", errors);
             this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
         }
