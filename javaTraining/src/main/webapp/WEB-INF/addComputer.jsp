@@ -6,6 +6,7 @@
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
 <!-- Bootstrap -->
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
@@ -79,7 +80,7 @@
 			</div>
 		</div>
 	</section>
-	<script src="./resources/js/addComputer.js"></script>
+	<script src="./resources/js/dashboard.js"></script>
 	<script src="./resources/js/jquery.min.js"></script>
 	<script src="./resources/js/bootstrap.min.js"></script>
 </body>
