@@ -30,8 +30,8 @@
 						${computer.getId()}</div>
 					<h1>Edit Computer</h1>
 
-					<form name="addComputer" action="editComputer" method="POST">
-						<input type="hidden" value="0" id="id" />
+					<form id="addComputer" action="editComputer" method="POST">
+						<input type="hidden" value="${computer.getId()}" id="id" />
 						<!-- TODO: Change this value with the computer id -->
 						<fieldset>
 							<div class="form-group">
@@ -79,6 +79,7 @@
 				   				 Cancel
 					   		</a>
                         </div>
+                        <div id="error" style="color:red"></div>
                         <p style="${empty errors ? "color:green" : "color:red"}">
 	                       	<c:forEach items="${errors }" var="e">
 	                       		<c:out value="${e }"/><br/>

@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
@@ -47,22 +43,17 @@ public class EditComputer extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession();
-        String name = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_NAME));
-        StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_INTRODUCED));
-        StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_DISCONTINUED));
-        String companyId = StringEscapeUtils.unescapeHtml(request.getParameter(FIELD_COMPANY_ID));
+        String name = request.getParameter(FIELD_NAME);
+        String introduced = request.getParameter(FIELD_INTRODUCED);
+        String discontinued = request.getParameter(FIELD_DISCONTINUED);
+        String companyId = request.getParameter(FIELD_COMPANY_ID);
 
-        Computer computer = serviceComputer.getComputer(id);
-        computer.setName(name);
-        computer.setIntroduced(request.getParameter(FIELD_INTRODUCED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_INTRODUCED)));
-        computer.setDiscontinued(request.getParameter(FIELD_DISCONTINUED).equals("") ? null : LocalDate.parse(request.getParameter(FIELD_DISCONTINUED)));
-        computer.setCompanyId((companyId == "" ? 0 : Integer.parseInt(companyId)));
         try {
-            serviceComputer.updateComputer(computer);
+            serviceComputer.updateComputer(id, name, introduced, discontinued, companyId);
             response.sendRedirect(VIEW_HOME);
         } catch (Exception e) {
             request.setAttribute("errors", e.getMessage());
+            request.setAttribute("computer", serviceComputer.getComputer(id));
             this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
         }
 

@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.Computer;
@@ -56,58 +57,66 @@ public class ServiceComputer {
     /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
      * @param computer computer to add to the database */
-    public void setComputer(Computer computer) throws Exception {
+    public void setComputer(String name, String introduced, String discontinued, String companyId) throws Exception {
         try {
-            Validator.validationName(computer.getName());
+            Validator.validationName(name);
         } catch (Exception e) {
             throw e;
         }
 
         try {
-            Validator.validationDate(computer.getIntroduced().toString());
+            Validator.validationDate(introduced);
         } catch (Exception e) {
             throw e;
         }
         try {
-            Validator.validationDate(computer.getDiscontinued().toString());
+            Validator.validationDate(discontinued);
         } catch (Exception e) {
             throw e;
         }
-
+        LocalDate introducedDate = introduced.equals("") ? null : LocalDate.parse(introduced);
+        LocalDate discontinuedDate = discontinued.equals("") ? null : LocalDate.parse(discontinued);
         try {
-            Validator.validationIntroducedBeforeDiscontinued(computer.getIntroduced(), computer.getDiscontinued());
+            Validator.validationIntroducedBeforeDiscontinued(introducedDate, discontinuedDate);
         } catch (Exception e) {
             throw e;
         }
-        this.computerDAOImpl.createComputer(computer);
+        this.computerDAOImpl.createComputer(new Computer(name, introducedDate, discontinuedDate, companyId == "" ? 0 : Integer.parseInt(companyId)));
     }
 
     /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
      * @param computer computer to update to the database */
-    public void updateComputer(Computer computer) throws Exception {
+    public void updateComputer(long id, String name, String introduced, String discontinued, String companyId) throws Exception {
         try {
-            Validator.validationName(computer.getName());
+            Validator.validationName(name);
         } catch (Exception e) {
             throw e;
         }
 
         try {
-            Validator.validationDate(computer.getIntroduced().toString());
+            Validator.validationDate(introduced);
         } catch (Exception e) {
             throw e;
         }
         try {
-            Validator.validationDate(computer.getDiscontinued().toString());
+            Validator.validationDate(discontinued);
         } catch (Exception e) {
             throw e;
         }
+        LocalDate introducedDate = introduced.equals("") ? null : LocalDate.parse(introduced);
+        LocalDate discontinuedDate = discontinued.equals("") ? null : LocalDate.parse(discontinued);
+        try {
+            Validator.validationIntroducedBeforeDiscontinued(introducedDate, discontinuedDate);
+        } catch (Exception e) {
+            throw e;
+        }
+        Computer computer = this.getComputer(id);
+        computer.setName(name);
+        computer.setIntroduced(introducedDate);
+        computer.setDiscontinued(discontinuedDate);
+        computer.setCompanyId((companyId == "" ? 0 : Integer.parseInt(companyId)));
 
-        try {
-            Validator.validationIntroducedBeforeDiscontinued(computer.getIntroduced(), computer.getDiscontinued());
-        } catch (Exception e) {
-            throw e;
-        }
         this.computerDAOImpl.updateComputer(computer);
     }
 

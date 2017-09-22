@@ -5,9 +5,7 @@ import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -182,9 +180,6 @@ public class ComputerDAOImpl implements ComputerDAO {
      * @param resultSet result of the query select
      * @return return the computer mapped */
     public static Computer mapComputer(ResultSet resultSet) throws SQLException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
-        formatter = formatter.withLocale(Locale.US);
-
         Computer computer = new Computer();
         computer.setId(resultSet.getLong("id"));
         computer.setName(resultSet.getString("name"));
