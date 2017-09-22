@@ -72,6 +72,10 @@ public class PaginationTag implements Tag {
             search = request.getParameter("search");
         }
 
+        if (request.getParameter("search") == "") {
+            numberOfComputerByPage = 10;
+        }
+
         if (request.getParameter("numberOfComputerByPage") != null) {
             numberOfComputerByPage = Integer.parseInt(request.getParameter("numberOfComputerByPage"));
         }
@@ -134,16 +138,20 @@ public class PaginationTag implements Tag {
                     out.write(getLink(this.action, this.computerTotalPages, search, false, ">>"));
                 }
                 StringBuilder link2 = new StringBuilder();
-                link2.append("</li></ul><div class=\"btn-group btn-group-sm pull-right\" role=\"group\">");
+                link2.append("</li></ul>");
                 out.write(link2.toString());
-                out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 10 ? true : false, "10"));
-                out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 50 ? true : false, "50"));
-                out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 100 ? true : false, "100"));
-                StringBuilder link3 = new StringBuilder();
-                link3.append("</div>");
-                out.write(link2.toString());
-                out.flush();
             }
+            StringBuilder link3 = new StringBuilder();
+            link3.append("<div class=\"btn-group btn-group-sm pull-right\" role=\"group\">");
+            out.write(link3.toString());
+            out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 10 ? true : false, "10"));
+            out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 50 ? true : false, "50"));
+            out.write(getLinkNbByPage(this.action, Integer.parseInt(page), search, numberOfComputerByPage == 100 ? true : false, "100"));
+            StringBuilder link4 = new StringBuilder();
+            link4.append("</div>");
+            out.write(link4.toString());
+            out.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
             throw new JspException(e);
@@ -194,7 +202,7 @@ public class PaginationTag implements Tag {
         link.append("?page=");
         link.append(1);
         link.append("&computerTotalPages=");
-        link.append(computerTotalPages);
+        link.append(((computerTotalPages - 1) * numberOfComputerByPage / Integer.parseInt(desc)) + 1);
         link.append("&nbPageShowInPagination=");
         link.append(nbPageShowInPagination);
         link.append("&search=");
