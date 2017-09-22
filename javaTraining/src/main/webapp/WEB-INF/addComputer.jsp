@@ -28,13 +28,13 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form name="addComputer" action="addComputer" method="POST">
+					<form name="addComputer" action="#" method="POST">
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
 									type="text" class="form-control" id="computerName"
-									pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
-									name="computerName" placeholder="Computer name" required>
+									pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$" name="computerName"
+									placeholder="Computer name" required>
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
@@ -61,8 +61,8 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Add" class="btn btn-primary">
-							or <a
+							<a class="btn btn-primary" id="addComputer" href="#"
+								onclick="$.fn.submitValidate();">Add</a> or <a
 								href="
 				   				<c:url value="/dashboard">
 				   				</c:url>"
@@ -80,5 +80,7 @@
 		</div>
 	</section>
 	<script src="./resources/js/addComputer.js"></script>
+	<script src="./resources/js/jquery.min.js"></script>
+	<script src="./resources/js/bootstrap.min.js"></script>
 </body>
 </html>

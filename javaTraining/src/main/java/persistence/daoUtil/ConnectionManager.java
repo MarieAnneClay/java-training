@@ -4,11 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import persistence.dao.CompanyDAO;
-import persistence.dao.ComputerDAO;
-import persistence.daoImpl.CompanyDAOImpl;
-import persistence.daoImpl.ComputerDAOImpl;
-
 public class ConnectionManager {
 
     private String url;
@@ -57,13 +52,5 @@ public class ConnectionManager {
      * @return a Connection */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
-    }
-
-    public ComputerDAO getComputerDao() {
-        return new ComputerDAOImpl(this);
-    }
-
-    public CompanyDAO getCompanyDao() {
-        return new CompanyDAOImpl(this);
     }
 }

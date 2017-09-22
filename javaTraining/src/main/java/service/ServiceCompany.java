@@ -3,26 +3,26 @@ package service;
 import java.util.ArrayList;
 
 import model.Company;
-import persistence.dao.CompanyDAO;
+import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoUtil.ConnectionManager;
 
 public class ServiceCompany {
-    private CompanyDAO companyDAO;
+    private CompanyDAOImpl companyDAOImpl;
 
     /** CONSTRUCTOR. */
     public ServiceCompany() {
-        this.companyDAO = ConnectionManager.getInstance().getCompanyDao();
+        this.companyDAOImpl = new CompanyDAOImpl(ConnectionManager.getInstance());
     }
 
     public ArrayList<Company> getAllCompanies() {
-        return companyDAO.findAllCompanies();
+        return companyDAOImpl.findAllCompanies();
     }
 
     /** Function search company by id in the database.
      * @param id id of the searched company
      * @return company searched */
     public Company getCompany(long id) {
-        return this.companyDAO.findByIdCompany(id);
+        return this.companyDAOImpl.findByIdCompany(id);
     }
 
     /** Function to have a certain proportion of the company list.

@@ -17,13 +17,13 @@
 			<type>java.lang.String</type>
 		</attribute>
 		<attribute>
-			<name>totalPageCount</name>
+			<name>computerTotalPages</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>int</type>
 		</attribute>
 		<attribute>
-			<name>viewPageCount</name>
+			<name>nbPageShowInPagination</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>int</type>

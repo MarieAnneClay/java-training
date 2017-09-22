@@ -80,7 +80,7 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach items="${currentComputers}" var="computer">
+					<c:forEach items="${computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
@@ -104,39 +104,8 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-			<c:if test="${computerTotalPages > 1}">
-				<ul class="pagination">
-					<li><myLib:pagination totalPageCount='${computerTotalPages}'
-							viewPageCount="${end}" action="" /></li>
-				</ul>
-			</c:if>
-
-			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a style="${numberOfComputerByPage == 10 ? "
-					color:grey" : "color:black"}"
-					href="
-	   				<c:url value="/dashboard">
-	   					<c:param name="numberOfComputerByPage" value="10"/>	
-	   					<c:param name="page" value="1"/>	   			
-	   				</c:url>"
-					class="btn btn-default">10 </a> <a
-					style="${numberOfComputerByPage == 50 ? "
-					color:grey" : "color:black"}"
-					href="
-	   				<c:url value="/dashboard">
-	   					<c:param name="numberOfComputerByPage" value="50"/>	
-	   					<c:param name="page" value="1"/>		   
-	   				</c:url>"
-					class="btn btn-default">50 </a> <a
-					style="${numberOfComputerByPage == 100 ? "
-					color:grey" : "color:black"}"
-					href="
-	   				<c:url value="/dashboard">
-	   					<c:param name="numberOfComputerByPage" value="100"/>
-	   					<c:param name="page" value="1"/>	
-	   				</c:url>"
-					class="btn btn-default">100 </a>
-			</div>
+				<myLib:pagination computerTotalPages='${computerTotalPages}'
+							nbPageShowInPagination="${nbPageShowInPagination}" action="" />
 		</div>
 
 	</footer>

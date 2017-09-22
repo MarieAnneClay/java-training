@@ -3,37 +3,38 @@ package service;
 import java.util.ArrayList;
 
 import model.Computer;
-import persistence.dao.ComputerDAO;
+import persistence.daoImpl.ComputerDAOImpl;
 import persistence.daoUtil.ConnectionManager;
+import util.Validator;
 
 /** Class of service for Computer DAO. */
 public class ServiceComputer {
-    private ComputerDAO computerDAO;
+    private ComputerDAOImpl computerDAOImpl;
 
     /** Constructor that instance the connection to the database for Computer
      * DAO. */
     public ServiceComputer() {
-        this.computerDAO = ConnectionManager.getInstance().getComputerDao();
+        this.computerDAOImpl = new ComputerDAOImpl(ConnectionManager.getInstance());
     }
 
     /** Function to get all the data from the table computer.
      * @return ArrayList of computer list of all the Computer in the database */
     public ArrayList<Computer> getAllComputers() {
-        return computerDAO.findAllComputers();
+        return computerDAOImpl.findAllComputers();
     }
 
     /** Function to get the computer.
      * @param id of the computer searched
      * @return A list of all the Computer in the database */
     public Computer getComputer(long id) {
-        return this.computerDAO.findByIdComputer(id);
+        return this.computerDAOImpl.findByIdComputer(id);
     }
 
     /** Function to get the computer.
      * @param name of the computer searched
      * @return A list of all the Computer in the database */
     public ArrayList<Computer> getComputerByName(String name) {
-        return this.computerDAO.findByNameComputer(name);
+        return this.computerDAOImpl.findByNameComputer(name);
     }
 
     /** Function to have a certain proportion of the computer list.
@@ -54,48 +55,67 @@ public class ServiceComputer {
 
     /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
-     * @param computer computer to add to the database
-     * @param computers the list of the current computers
-     * @return ArrayList Computer list with the computer added */
-    public ArrayList<Computer> setComputer(Computer computer, ArrayList<Computer> computers) {
-        this.computerDAO.createComputer(computer);
-        computers.add(computer);
-        return computers;
+     * @param computer computer to add to the database */
+    public void setComputer(Computer computer) throws Exception {
+        try {
+            Validator.validationName(computer.getName());
+        } catch (Exception e) {
+            throw e;
+        }
+
+        try {
+            Validator.validationDate(computer.getIntroduced().toString());
+        } catch (Exception e) {
+            throw e;
+        }
+        try {
+            Validator.validationDate(computer.getDiscontinued().toString());
+        } catch (Exception e) {
+            throw e;
+        }
+
+        try {
+            Validator.validationIntroducedBeforeDiscontinued(computer.getIntroduced(), computer.getDiscontinued());
+        } catch (Exception e) {
+            throw e;
+        }
+        this.computerDAOImpl.createComputer(computer);
     }
 
     /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
-     * @param computer computer to update to the database
-     * @param computers the list of the current computers
-     * @return ArrayList Computer list with the computer added */
-    public ArrayList<Computer> updateComputer(Computer computer, ArrayList<Computer> computers) {
-        this.computerDAO.updateComputer(computer);
-        for (Computer c : computers) {
-            if (c.getId() == computer.getId()) {
-                c.setName(computer.getName());
-                c.setIntroduced(computer.getIntroduced());
-                c.setDiscontinued(computer.getDiscontinued());
-                c.setCompanyId(computer.getCompanyId());
-                break;
-            }
+     * @param computer computer to update to the database */
+    public void updateComputer(Computer computer) throws Exception {
+        try {
+            Validator.validationName(computer.getName());
+        } catch (Exception e) {
+            throw e;
         }
-        return computers;
+
+        try {
+            Validator.validationDate(computer.getIntroduced().toString());
+        } catch (Exception e) {
+            throw e;
+        }
+        try {
+            Validator.validationDate(computer.getDiscontinued().toString());
+        } catch (Exception e) {
+            throw e;
+        }
+
+        try {
+            Validator.validationIntroducedBeforeDiscontinued(computer.getIntroduced(), computer.getDiscontinued());
+        } catch (Exception e) {
+            throw e;
+        }
+        this.computerDAOImpl.updateComputer(computer);
     }
 
     /** Function which call the deleteComputer to delete a computer in the database
      * with a SQL request.
-     * @param id id of the computer to delete in the database
-     * @param computers the list of the current computers
-     * @return ArrayList Computer list with the computer deleted */
-    public ArrayList<Computer> deleteComputer(long id, ArrayList<Computer> computers) {
-        this.computerDAO.deleteComputer(id);
-        for (Computer computer : computers) {
-            if (computer.getId() == id) {
-                computers.remove(computer);
-                break;
-            }
-        }
-        return computers;
+     * @param id id of the computer to delete in the database */
+    public void deleteComputer(long id) {
+        this.computerDAOImpl.deleteComputer(id);
     }
 
 }
