@@ -7,63 +7,78 @@
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- Log -->
-		<slf4j-api-version>1.7.21</slf4j-api-version>
-		<logback-classic-version>1.1.7</logback-classic-version>
+		<!-- Checkstyle -->
+		<checkstyle-version>2.17</checkstyle-version>
+
 		<!-- MySQL -->
-		<mysql-connector-version>5.1.39</mysql-connector-version>
+		<mysql-version>5.1.44</mysql-version>
+		
+		<!-- Servlet -->
+		<jsp-version>2.3.1</jsp-version>
+		<jstl-version>1.2</jstl-version>
+		<servlet-version>3.0.1</servlet-version>
+
+		<!-- Test -->
+		<mockito-version>1.10.19</mockito-version>
+		<junit-version>4.11</junit-version>
+
+
 	</properties>
 	<dependencies>
-		<!-- test -->
+
+		<!-- Checkstyle -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+			<version>${checkstyle-version}</version>
+			<type>maven-plugin</type>
+		</dependency>
+
+		<!-- MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-version}</version>
+		</dependency>
+
+
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>${jsp-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+		<!-- Test -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+			<version>${mockito-version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- checkstyle -->
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-checkstyle-plugin</artifactId>
-			<version>2.17</version>
-			<type>maven-plugin</type>
-		</dependency>
-
-		<!-- servlet -->
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-
-
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.44</version>
-		</dependency>
 
 
 		<dependency>
@@ -85,11 +100,19 @@
 			<version>2.5.1</version>
 		</dependency>
 
+		<!-- <dependency> -->
+		<!-- <groupId>ch.qos.logback</groupId> -->
+		<!-- <artifactId>logback-classic</artifactId> -->
+		<!-- <version>1.0.13</version> -->
+		<!-- </dependency> -->
+
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j-api-version}</version>
+			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
+			<artifactId>selenium-java-client-driver</artifactId>
+			<version>1.0.1</version>
+			<scope>test</scope>
 		</dependency>
+
 
 	</dependencies>
 
@@ -133,6 +156,42 @@
 					<password>tomcat</password>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<configuration>
+					<forcedBrowserMode>*iexplore</forcedBrowserMode>
+					<background>true</background>
+				</configuration>
+			</plugin>
+
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-surefire-plugin</artifactId> -->
+<!-- 				<version>2.5</version> -->
+<!-- 				<configuration> -->
+<!-- 					<excludes> -->
+<!-- 						<exclude>**/selenium/*.java</exclude> Les tests selenium sont exclus de la phase de test -->
+<!-- 					</excludes> -->
+<!-- 				</configuration> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>start-selenium-server</id> -->
+<!-- 						<phase>pre-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>start-server</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>stop-selenium-server</id> -->
+<!-- 						<phase>post-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>stop-server</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 
 		</plugins>
 	</build>

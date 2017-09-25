@@ -21,28 +21,31 @@ public class EditComputer extends HttpServlet {
 
     private static final String VIEW = "/WEB-INF/editComputer.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
-    private static final String FIELD_NAME = "computerName";
 
+    private static final String FIELD_ID = "id";
+    private static final String FIELD_NAME = "computerName";
     private static final String FIELD_INTRODUCED = "introduced";
     private static final String FIELD_DISCONTINUED = "discontinued";
     private static final String FIELD_COMPANY_ID = "companyId";
-    private static long id = 0;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if (request.getParameter("computerId") != null) {
-            this.id = request.getParameter("computerId") == "" ? 0 : Integer.parseInt(request.getParameter("computerId"));
+            long id = 0;
+            id = request.getParameter("computerId") == "" ? 0 : Integer.parseInt(request.getParameter("computerId"));
+            request.setAttribute("id", id);
+            request.setAttribute("computer", serviceComputer.getComputer(id));
         }
 
         request.setAttribute("companies", serviceCompany.getAllCompanies());
-        request.setAttribute("computer", serviceComputer.getComputer(id));
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long id = Integer.parseInt(request.getParameter(FIELD_ID));
         String name = request.getParameter(FIELD_NAME);
         String introduced = request.getParameter(FIELD_INTRODUCED);
         String discontinued = request.getParameter(FIELD_DISCONTINUED);
@@ -54,6 +57,8 @@ public class EditComputer extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("errors", e.getMessage());
             request.setAttribute("computer", serviceComputer.getComputer(id));
+            request.setAttribute("companies", serviceCompany.getAllCompanies());
+            request.setAttribute("id", id);
             this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
         }
 

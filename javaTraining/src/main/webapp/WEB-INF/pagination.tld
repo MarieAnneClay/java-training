@@ -17,7 +17,7 @@
 			<type>java.lang.String</type>
 		</attribute>
 		<attribute>
-			<name>computerTotalPages</name>
+			<name>numberOfComputer</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>int</type>

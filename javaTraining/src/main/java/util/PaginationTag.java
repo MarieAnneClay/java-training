@@ -20,6 +20,7 @@ public class PaginationTag implements Tag {
     private int startIndx = 1;
     private int endIndx = computerTotalPages;
     private int numberOfComputerByPage = 10;
+    private int numberOfComputer = 1;
 
     @Override
     public void setPageContext(PageContext pageContext) {
@@ -30,8 +31,9 @@ public class PaginationTag implements Tag {
     public void setParent(Tag parentTag) {
     }
 
-    public void setcomputerTotalPages(int pageCount) {
-        this.computerTotalPages = pageCount;
+    public void setnumberOfComputer(int size) {
+        this.numberOfComputer = size;
+        this.computerTotalPages = 1 + size / numberOfComputerByPage;
     }
 
     public void setAction(String action) {
@@ -48,7 +50,7 @@ public class PaginationTag implements Tag {
     @Override
     public int doStartTag() throws JspException {
         // throw exception when minimum page count less than 1
-        if (nbPageShowInPagination < 1) {
+        if (nbPageShowInPagination < 0) {
             throw new JspException("minimum page count should be greater than zero");
         }
         return Tag.SKIP_BODY;
@@ -80,8 +82,9 @@ public class PaginationTag implements Tag {
             numberOfComputerByPage = Integer.parseInt(request.getParameter("numberOfComputerByPage"));
         }
 
-        if (request.getParameter("computerTotalPages") != null) {
-            computerTotalPages = Integer.parseInt(request.getParameter("computerTotalPages"));
+        if (request.getParameter("size") != null) {
+            numberOfComputer = Integer.parseInt(request.getParameter("size"));
+            computerTotalPages = 1 + numberOfComputer / numberOfComputerByPage;
         }
 
         int nbPage = numberOfComputerByPage < computerTotalPages ? computerTotalPages / numberOfComputerByPage : numberOfComputerByPage / computerTotalPages;
@@ -173,10 +176,8 @@ public class PaginationTag implements Tag {
         link.append(action);
         link.append("?page=");
         link.append(page);
-        link.append("&computerTotalPages=");
-        link.append(computerTotalPages);
-        link.append("&nbPageShowInPagination=");
-        link.append(nbPageShowInPagination);
+        link.append("&size=");
+        link.append(numberOfComputer);
         link.append("&search=");
         link.append(search);
         link.append("&numberOfComputerByPage=");
@@ -201,10 +202,8 @@ public class PaginationTag implements Tag {
         link.append(action);
         link.append("?page=");
         link.append(1);
-        link.append("&computerTotalPages=");
-        link.append(((computerTotalPages - 1) * numberOfComputerByPage / Integer.parseInt(desc)) + 1);
-        link.append("&nbPageShowInPagination=");
-        link.append(nbPageShowInPagination);
+        link.append("&size=");
+        link.append(numberOfComputer);
         link.append("&search=");
         link.append(search);
         link.append("&numberOfComputerByPage=");

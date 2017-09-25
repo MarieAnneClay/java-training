@@ -21,7 +21,7 @@ public interface ComputerDAO {
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param name the name of the company search in the database
      * @return A Company */
-    ArrayList<Computer> findByNameComputer(String name) throws DAOException;
+    ArrayList<Computer> findComputerByNameAndCompany(String name) throws DAOException;
 
     /** function wich call a function in ComputerDAO to execute a sql requete to
      * create a computer in the database.

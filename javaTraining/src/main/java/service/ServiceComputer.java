@@ -35,7 +35,7 @@ public class ServiceComputer {
      * @param name of the computer searched
      * @return A list of all the Computer in the database */
     public ArrayList<Computer> getComputerByName(String name) {
-        return this.computerDAOImpl.findByNameComputer(name);
+        return this.computerDAOImpl.findComputerByNameAndCompany(name);
     }
 
     /** Function to have a certain proportion of the computer list.

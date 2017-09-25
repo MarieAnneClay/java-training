@@ -27,11 +27,11 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<div class="label label-default pull-right">id:
-						${computer.getId()}</div>
+						${id}</div>
 					<h1>Edit Computer</h1>
 
 					<form id="addComputer" action="editComputer" method="POST">
-						<input type="hidden" value="${computer.getId()}" id="id" />
+						<input type="hidden" value="${id}" name="id" id="id" />
 						<!-- TODO: Change this value with the computer id -->
 						<fieldset>
 							<div class="form-group">

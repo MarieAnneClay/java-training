@@ -20,7 +20,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     private ConnectionManager connexionManager;
     private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
-    private static final String SQL_SELECT_BY_NAME = "SELECT * FROM computer WHERE name LIKE CONCAT('%', ? , '%')";
+    private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE CONCAT('%', ? , '%') OR cy.name LIKE CONCAT('%', ? , '%')";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
@@ -82,7 +82,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public ArrayList<Computer> findByNameComputer(String name) throws DAOException {
+    public ArrayList<Computer> findComputerByNameAndCompany(String name) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -91,7 +91,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         try {
             connexion = (Connection) connexionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME, false, name);
+            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME_AND_COMPANY, false, name, name);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

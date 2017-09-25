@@ -1,5 +1,6 @@
 package persistence.daoImpl;
 
+import static persistence.daoUtil.DAOUtilitaire.fermetureSilencieuse;
 import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
 import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
@@ -16,14 +17,16 @@ import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
 
 public class CompanyDAOImpl implements CompanyDAO {
-    private ConnectionManager daoFactory;
+    private ConnectionManager connexionManager;
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
+    private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
 
     /** CONSTRUCTOR.
      * @param connexionManager the unique singleton connexion to the database */
     public CompanyDAOImpl(ConnectionManager connexionManager) {
-        this.daoFactory = connexionManager;
+        this.connexionManager = connexionManager;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ArrayList<Company> companies = new ArrayList<Company>();
 
         try {
-            connexion = (Connection) daoFactory.getConnection();
+            connexion = (Connection) connexionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
             resultSet = preparedStatement.executeQuery();
@@ -60,7 +63,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         Company company = null;
 
         try {
-            connexion = (Connection) daoFactory.getConnection();
+            connexion = (Connection) connexionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
             resultSet = preparedStatement.executeQuery();
@@ -85,5 +88,46 @@ public class CompanyDAOImpl implements CompanyDAO {
         company.setId(resultSet.getLong("id"));
         company.setName(resultSet.getString("name"));
         return company;
+    }
+
+    @Override
+    public void deleteCompany(long id) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatementUpdate = null;
+        PreparedStatement preparedStatementDelete = null;
+
+        try {
+            connexion = (Connection) connexionManager.getConnection();
+            connexion.setAutoCommit(false);
+
+            preparedStatementUpdate = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);
+            preparedStatementDelete = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);
+
+            preparedStatementUpdate.executeUpdate();
+            preparedStatementDelete.executeQuery();
+
+            connexion.commit();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            if (connexion != null) {
+            try {
+                connexion.rollback();
+            } catch (SQLException excep) {
+                throw new DAOException(excep);
+            }
+            }
+
+        } finally {
+            if (preparedStatementUpdate != null) {
+                fermeturesSilencieuses(preparedStatementUpdate, connexion);
+            }
+            if (preparedStatementDelete != null) {
+                fermeturesSilencieuses(preparedStatementDelete, connexion);
+            }
+            if (connexion != null) {
+                fermetureSilencieuse(connexion);
+            }
+        }
     }
 }

@@ -104,7 +104,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-				<myLib:pagination computerTotalPages='${computerTotalPages}'
+				<myLib:pagination numberOfComputer='${size}'
 							nbPageShowInPagination="${nbPageShowInPagination}" action="" />
 		</div>
 
