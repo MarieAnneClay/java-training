@@ -31,7 +31,7 @@ public class HikariCPEx {
 
             while (rs.next()) {
 
-                System.out.format("%d %s %d %n", rs.getInt(1), rs.getString(2), rs.getInt(3));
+                System.out.format("%d %s %s %s %d %n", rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(3), rs.getInt(3));
             }
 
         } catch (SQLException ex) {

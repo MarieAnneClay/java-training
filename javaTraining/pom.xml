@@ -12,7 +12,7 @@
 
 		<!-- MySQL -->
 		<mysql-version>5.1.44</mysql-version>
-		
+
 		<!-- Servlet -->
 		<jsp-version>2.3.1</jsp-version>
 		<jstl-version>1.2</jstl-version>
@@ -21,6 +21,10 @@
 		<!-- Test -->
 		<mockito-version>1.10.19</mockito-version>
 		<junit-version>4.11</junit-version>
+
+		<jetty.port>9090</jetty.port>
+
+
 
 
 	</properties>
@@ -93,18 +97,19 @@
 			<version>3.6</version>
 		</dependency>
 
-		<!-- Log -->
+
+		<!-- Connection pool -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 			<version>2.5.1</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>ch.qos.logback</groupId> -->
-		<!-- <artifactId>logback-classic</artifactId> -->
-		<!-- <version>1.0.13</version> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
@@ -113,8 +118,8 @@
 			<scope>test</scope>
 		</dependency>
 
-
 	</dependencies>
+
 
 	<build>
 		<directory>${project.basedir}/target</directory>
@@ -149,6 +154,7 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
@@ -156,42 +162,158 @@
 					<password>tomcat</password>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.7.2</version>
+				<configuration>
+					<reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
+					<includes>
+						<include>com/xebia/selenium/**/*.java</include> <!-- ... inclure les tests Selenium -->
+					</includes>
+					<systemPropertyVariables>
+						<jetty.port>${jetty.port}</jetty.port>
+						<jetty.context>${project.artifactId}</jetty.context>
+					</systemPropertyVariables>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>selenium-maven-plugin</artifactId>
 				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start-server</goal>
+						</goals>
+						<configuration>
+							<background>true</background>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop-server</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
 				<configuration>
-					<forcedBrowserMode>*iexplore</forcedBrowserMode>
-					<background>true</background>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>foo</stopKey>
+					<stopPort>9999</stopPort>
+					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>${jetty.port}</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
 				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-surefire-plugin</artifactId> -->
-<!-- 				<version>2.5</version> -->
-<!-- 				<configuration> -->
-<!-- 					<excludes> -->
-<!-- 						<exclude>**/selenium/*.java</exclude> Les tests selenium sont exclus de la phase de test -->
-<!-- 					</excludes> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>start-selenium-server</id> -->
-<!-- 						<phase>pre-integration-test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>start-server</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 					<execution> -->
-<!-- 						<id>stop-selenium-server</id> -->
-<!-- 						<phase>post-integration-test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>stop-server</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.4</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql-version}</version>
+					</dependency>
+				</dependencies>
+
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false</url>
+					<username>admincdb</username>
+					<password>qwerty1234</password>
+					<delimiter>;</delimiter>
+					<delimiterType>normal</delimiterType>
+					<keepFormat>true</keepFormat>
+					<skip>${maven.test.skip}</skip>
+					<autocommit>true</autocommit>
+				</configuration>
+				<executions>
+					<execution>
+						<id>insert-data</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>${basedir}/src/main/resources</basedir>
+								<includes>
+									<include>insert-data.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-data</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>${basedir}/src/main/resources</basedir>
+								<includes>
+									<include>drop-data.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 
 		</plugins>
 	</build>
