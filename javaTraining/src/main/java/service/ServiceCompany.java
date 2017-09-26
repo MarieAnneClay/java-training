@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
-import persistence.daoUtil.ConnectionManager;
 
 public class ServiceCompany {
     private CompanyDAOImpl companyDAOImpl;
 
     /** CONSTRUCTOR. */
     public ServiceCompany() {
-        this.companyDAOImpl = new CompanyDAOImpl(ConnectionManager.getInstance());
+        this.companyDAOImpl = new CompanyDAOImpl();
     }
 
     public ArrayList<Company> getAllCompanies() {

@@ -7,27 +7,27 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import persistence.daoUtil.ConnectionManager;
 
 public class HikariCPEx {
+    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
 
     public static void main(String[] args) {
         Logger lgr = Logger.getLogger(HikariCPEx.class.getName());
+        //
+        // String configFile = "src/main/resources/db.properties";
+        //
+        // HikariConfig cfg = new HikariConfig(configFile);
+        // HikariDataSource ds = new HikariDataSource(cfg);
 
-        String configFile = "src/main/resources/db.properties";
-
-        HikariConfig cfg = new HikariConfig(configFile);
-        HikariDataSource ds = new HikariDataSource(cfg);
-
-        Connection con = null;
+        Connection connexion = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         try {
 
-            con = ds.getConnection();
-            pst = con.prepareStatement("SELECT * FROM computer");
+            connexion = connectionManager.getConnection();
+            pst = connexion.prepareStatement("SELECT * FROM computer");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -51,11 +51,9 @@ public class HikariCPEx {
                     pst.close();
                 }
 
-                if (con != null) {
-                    con.close();
+                if (connexion != null) {
+                    connexion.close();
                 }
-
-                ds.close();
 
             } catch (SQLException ex) {
 

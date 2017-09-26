@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import model.Computer;
 import persistence.daoImpl.ComputerDAOImpl;
-import persistence.daoUtil.ConnectionManager;
 import util.Validator;
 
 /** Class of service for Computer DAO. */
@@ -15,7 +14,7 @@ public class ServiceComputer {
     /** Constructor that instance the connection to the database for Computer
      * DAO. */
     public ServiceComputer() {
-        this.computerDAOImpl = new ComputerDAOImpl(ConnectionManager.getInstance());
+        this.computerDAOImpl = new ComputerDAOImpl();
     }
 
     /** Function to get all the data from the table computer.

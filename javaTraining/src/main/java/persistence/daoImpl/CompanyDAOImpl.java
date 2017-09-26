@@ -17,18 +17,12 @@ import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
 
 public class CompanyDAOImpl implements CompanyDAO {
-    private ConnectionManager connexionManager;
+    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
     private static final String SQL_INSERT = "INSERT INTO company (name) VALUES (?)";
     private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
-
-    /** CONSTRUCTOR.
-     * @param connexionManager the unique singleton connexion to the database */
-    public CompanyDAOImpl(ConnectionManager connexionManager) {
-        this.connexionManager = connexionManager;
-    }
 
     @Override
     public ArrayList<Company> findAllCompanies() {
@@ -39,7 +33,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ArrayList<Company> companies = new ArrayList<Company>();
 
         try {
-            connexion = (Connection) connexionManager.getConnection();
+            connexion = (Connection) connectionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
             resultSet = preparedStatement.executeQuery();
@@ -64,7 +58,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         Company company = null;
 
         try {
-            connexion = (Connection) connexionManager.getConnection();
+            connexion = (Connection) connectionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
             resultSet = preparedStatement.executeQuery();
@@ -98,7 +92,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ResultSet valeursAutoGenerees = null;
 
         try {
-            connexion = (Connection) connexionManager.getConnection();
+            connexion = (Connection) connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
@@ -124,7 +118,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         PreparedStatement preparedStatementDelete = null;
 
         try {
-            connexion = (Connection) connexionManager.getConnection();
+            connexion = (Connection) connectionManager.getConnection();
             connexion.setAutoCommit(false);
 
             preparedStatementUpdate = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);

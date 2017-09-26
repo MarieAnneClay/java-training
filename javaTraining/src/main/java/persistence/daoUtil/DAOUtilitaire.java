@@ -7,9 +7,14 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
+/** Cette classe pourrait être remplacer par try with resources. try (Statement
+ * stmt = con.createStatement()) { -> stmt automatiquement fermé si exception
+ * ResultSet rs = stmt.executeQuery(query); ... } } catch (SQLException e) {
+ * e.getMessage(); } */
 public class DAOUtilitaire {
 
-    /** Initialize the prepared request.
+    /** Initialize the prepared request. PreparedStatement better than createQuery
+     * because protect from SQL injection
      * @throws SQLException show the SQL error of the request
      * @param connexion connexion to the database
      * @param sql the SQL request
