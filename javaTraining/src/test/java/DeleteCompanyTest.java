@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import junit.framework.TestCase;
 import model.Company;
+import model.Computer;
 import persistence.daoImpl.CompanyDAOImpl;
 import service.ServiceCompany;
 
@@ -53,30 +54,38 @@ public class DeleteCompanyTest extends TestCase {
 
     }
 
-    // @Test
-    // public void testDeleteCompanyWithComputers() {
-    // Company company = new Company(1L);
-    // Company company2 = new Company(1L);
-    // Computer computer = new Computer(1L);
-    // computer.setCompanyId(company.getId());
-    //
-    // Mockito.when(companyDAOImpl.findByIdCompany(1L)).thenReturn(company2);
-    // serviceCompany.deleteCompany(company.getId());
-    //
-    // Mockito.verify(companyDAOImpl,
-    // Mockito.times(1)).deleteCompany(company2.getId());
-    // assertEquals(computer.getCompanyId(), null);
-    // }
-    //
-    // @Test(expected = Exception.class)
-    // public void testDeleteCompanyWithRollback() {
-    // Company company = new Company(1L);
-    // //
-    // Mockito.doThrow(Exception.class).when(serviceCompany).deleteCompany(company.getId());
-    // // Mockito.when(serviceCompany.deleteCompany(company.getId())).thenThrow(new
-    // // Exception());
-    // serviceCompany.deleteCompany(company.getId());
-    // assertEquals(company.getId(), 1L);
-    // }
+    @Test
+    public void testDeleteCompanyWithComputers() {
+        Company company = new Company(1L);
+        Company company2 = new Company(1L);
+        Computer computer = new Computer(1L);
+        computer.setCompanyId(company.getId());
+
+        Mockito.when(companyDAOImpl.findByIdCompany(1L)).thenReturn(company2);
+        serviceCompany.deleteCompany(company.getId());
+
+        Mockito.verify(companyDAOImpl, Mockito.times(1)).deleteCompany(company2.getId());
+        assertEquals(computer.getCompanyId(), null);
+    }
+
+    @Test(expected = Exception.class)
+    public void testDeleteCompanyWithRollback() {
+        Company company = new Company(1L);
+        Mockito.when(company.getId()).thenReturn(1L);
+
+        Mockito.doNothing().doThrow(new IllegalStateException()).when(serviceCompany).deleteCompany(company.getId());
+
+        this.companyDAOImpl.deleteCompany(company.getId());
+
+        // verify the method was called...
+        Mockito.verify(serviceCompany).deleteCompany(company.getId());
+        // Company company = new Company(1L);
+        // //
+        // Mockito.doThrow(Exception.class).when(serviceCompany).deleteCompany(company.getId());
+        // // Mockito.when(serviceCompany.deleteCompany(company.getId())).thenThrow(new
+        // // Exception());
+        // serviceCompany.deleteCompany(company.getId());
+        // assertEquals(company.getId(), 1L);
+    }
 
 }
