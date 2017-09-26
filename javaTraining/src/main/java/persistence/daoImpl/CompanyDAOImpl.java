@@ -20,6 +20,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     private ConnectionManager connexionManager;
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
+    private static final String SQL_INSERT = "INSERT INTO company (name) VALUES (?)";
     private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
 
@@ -91,6 +92,32 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
+    public void createCompany(Company company) throws IllegalArgumentException, DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        try {
+            connexion = (Connection) connexionManager.getConnection();
+            preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
+            int statut = preparedStatement.executeUpdate();
+            if (statut == 0) {
+                System.out.println("==0");
+            }
+            valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+            if (valeursAutoGenerees.next()) {
+                company.setId(valeursAutoGenerees.getLong(1));
+            } else {
+                System.out.println("ELSE  INSERT COMPANY");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
+        }
+    }
+
+    @Override
     public void deleteCompany(long id) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatementUpdate = null;
@@ -104,18 +131,18 @@ public class CompanyDAOImpl implements CompanyDAO {
             preparedStatementDelete = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);
 
             preparedStatementUpdate.executeUpdate();
-            preparedStatementDelete.executeQuery();
+            preparedStatementDelete.executeUpdate();
 
             connexion.commit();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             if (connexion != null) {
-            try {
-                connexion.rollback();
-            } catch (SQLException excep) {
-                throw new DAOException(excep);
-            }
+                try {
+                    connexion.rollback();
+                } catch (SQLException excep) {
+                    throw new DAOException(excep);
+                }
             }
 
         } finally {

@@ -41,4 +41,15 @@ public class ServiceCompany {
         return ret;
     }
 
+    /** Function which call the createComputer to create a computer in the database
+     * with a SQL request.
+     * @param computer computer to add to the database */
+    public void setCompany(String name) throws Exception {
+        this.companyDAOImpl.createCompany(new Company(name));
+    }
+
+    public void deleteCompany(long id) {
+        companyDAOImpl.deleteCompany(id);
+    }
+
 }

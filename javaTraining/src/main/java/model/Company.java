@@ -12,6 +12,13 @@ public class Company {
 
     /** CONSTRUCTOR with id.
      * @param id id of the company in the database */
+    public Company(String name) {
+        super();
+        this.name = name;
+    }
+
+    /** CONSTRUCTOR with id and name.
+     * @param id id of the company in the database */
     public Company(long id) {
         super();
         this.id = id;

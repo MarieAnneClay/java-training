@@ -22,6 +22,18 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
+    public Computer(long id) {
+        super();
+        this.id = id;
+    }
+
+    /** CONSTRUCTOR with id.
+     * @param id id of the company in the database
+     * @param name name of the company in the database
+     * @param introduced DATETIME of the day the computer has been introduced in the
+     * company
+     * @param discontinued DATETIME of the day the computer has been discontinued
+     * @param companyId id of the company which possess this computer */
     public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyId) {
         super();
         this.id = id;

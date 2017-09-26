@@ -13,6 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class HikariCPEx {
 
     public static void main(String[] args) {
+        Logger lgr = Logger.getLogger(HikariCPEx.class.getName());
 
         String configFile = "src/main/resources/db.properties";
 
@@ -36,7 +37,6 @@ public class HikariCPEx {
 
         } catch (SQLException ex) {
 
-            Logger lgr = Logger.getLogger(HikariCPEx.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
 
         } finally {
@@ -59,7 +59,6 @@ public class HikariCPEx {
 
             } catch (SQLException ex) {
 
-                Logger lgr = Logger.getLogger(HikariCPEx.class.getName());
                 lgr.log(Level.WARNING, ex.getMessage(), ex);
             }
         }
