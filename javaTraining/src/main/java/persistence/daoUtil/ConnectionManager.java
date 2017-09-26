@@ -8,7 +8,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class ConnectionManager {
 
-    HikariDataSource ds;
+    private static HikariDataSource ds;
     private static final ConnectionManager INSTANCE = new ConnectionManager();
 
     /** Point d'accès pour l'instance unique du singleton.
@@ -28,10 +28,11 @@ public class ConnectionManager {
         cfg.setJdbcUrl("jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&useSSL=false");
         cfg.setUsername("admincdb");
         cfg.setPassword("qwerty1234");
+        cfg.setDriverClassName("com.mysql.jdbc.Driver");
 
-        cfg.addDataSourceProperty("cachePrepStmts", true);
-        cfg.addDataSourceProperty("prepStmtCacheSize", 250);
-        cfg.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        cfg.addDataSourceProperty("cachePrepStmts", "true");
+        cfg.addDataSourceProperty("prepStmtCacheSize", "250");
+        cfg.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         // cfg.addDataSourceProperty("useServerPrepStmts",
         // conf.getBoolean("useServerPrepStmts"));
         ds = new HikariDataSource(cfg);

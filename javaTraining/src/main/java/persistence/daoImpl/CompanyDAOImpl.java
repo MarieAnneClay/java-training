@@ -4,12 +4,11 @@ import static persistence.daoUtil.DAOUtilitaire.fermetureSilencieuse;
 import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
 import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 
 import model.Company;
 import persistence.dao.CompanyDAO;
@@ -33,7 +32,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ArrayList<Company> companies = new ArrayList<Company>();
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
             resultSet = preparedStatement.executeQuery();
@@ -58,7 +57,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         Company company = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
 
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
             resultSet = preparedStatement.executeQuery();
@@ -92,7 +91,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ResultSet valeursAutoGenerees = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
@@ -118,7 +117,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         PreparedStatement preparedStatementDelete = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             connexion.setAutoCommit(false);
 
             preparedStatementUpdate = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);

@@ -3,14 +3,13 @@ package persistence.daoImpl;
 import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
 import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 
 import model.Computer;
 import persistence.dao.ComputerDAO;
@@ -37,7 +36,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         ArrayList<Computer> computers = new ArrayList<Computer>();
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
             resultSet = preparedStatement.executeQuery();
 
@@ -63,7 +62,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         Computer computer = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -89,7 +88,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         ArrayList<Computer> computers = new ArrayList<Computer>();
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME_AND_COMPANY, false, name, name);
             resultSet = preparedStatement.executeQuery();
 
@@ -114,7 +113,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         ResultSet valeursAutoGenerees = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                     ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));
             int statut = preparedStatement.executeUpdate();
@@ -142,7 +141,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         ResultSet valeursAutoGenerees = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                     ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());
             int statut = preparedStatement.executeUpdate();
@@ -164,7 +163,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         PreparedStatement preparedStatement = null;
 
         try {
-            connexion = (Connection) connectionManager.getConnection();
+            connexion = connectionManager.getConnection();
             preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
