@@ -6,7 +6,7 @@ import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
 
 public class ServiceCompany {
-    private CompanyDAOImpl companyDAOImpl;
+    private CompanyDAOImpl companyDAOImpl = CompanyDAOImpl.getInstance();
     private static final ServiceCompany INSTANCE = new ServiceCompany();
 
     public static ServiceCompany getInstance() {

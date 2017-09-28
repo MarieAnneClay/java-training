@@ -11,7 +11,7 @@ import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
 public class ServiceComputer {
-    private ComputerDAOImpl computerDAOImpl;
+    private ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
     private static final ServiceComputer INSTANCE = new ServiceComputer();
 
     public static ServiceComputer getInstance() {

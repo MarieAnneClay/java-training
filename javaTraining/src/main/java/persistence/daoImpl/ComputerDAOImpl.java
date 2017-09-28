@@ -17,6 +17,7 @@ import persistence.daoUtil.DAOException;
 
 public class ComputerDAOImpl implements ComputerDAO {
 
+    private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
@@ -25,6 +26,10 @@ public class ComputerDAOImpl implements ComputerDAO {
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
+
+    public static ComputerDAOImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public ArrayList<Computer> findAllComputers() throws DAOException {

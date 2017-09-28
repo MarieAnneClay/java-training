@@ -19,6 +19,7 @@ import persistence.daoUtil.DAOException;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
+    private static final CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
@@ -26,6 +27,10 @@ public class CompanyDAOImpl implements CompanyDAO {
     private static final String SQL_INSERT = "INSERT INTO company (name) VALUES (?)";
     private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
+
+    public static CompanyDAOImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public ArrayList<Company> findAllCompanies() {
