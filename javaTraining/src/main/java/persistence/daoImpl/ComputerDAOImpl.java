@@ -37,7 +37,6 @@ public class ComputerDAOImpl implements ComputerDAO {
     public ArrayList<Computer> findAllComputers() throws DAOException {
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
-        LOGGER.log(Level.INFO, "coucou");
 
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
