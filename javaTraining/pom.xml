@@ -10,6 +10,13 @@
 		<!-- Checkstyle -->
 		<checkstyle-version>2.17</checkstyle-version>
 
+		<!-- Commons -->
+		<commons-digester-version>2.1</commons-digester-version>
+		<commons-lang-version>3.6</commons-lang-version>
+
+		<!-- Connection pool -->
+		<hickariCP-version>2.5.1</hickariCP-version>
+
 		<!-- MySQL -->
 		<mysql-version>5.1.44</mysql-version>
 
@@ -21,11 +28,10 @@
 		<!-- Test -->
 		<mockito-version>1.10.19</mockito-version>
 		<junit-version>4.11</junit-version>
+		<seleniumhq-version>1.0.1</seleniumhq-version>
 
+		<!-- Port Jetty -->
 		<jetty.port>9090</jetty.port>
-
-
-
 
 	</properties>
 	<dependencies>
@@ -35,7 +41,38 @@
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-checkstyle-plugin</artifactId>
 			<version>${checkstyle-version}</version>
+			<scope>compile</scope>
 			<type>maven-plugin</type>
+		</dependency>
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>${commons-digester-version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang-version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- Connection pool -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hickariCP-version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- MySQL -->
@@ -43,6 +80,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 
@@ -51,12 +89,14 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<version>${jsp-version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl-version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -83,38 +123,10 @@
 			<scope>test</scope>
 		</dependency>
 
-
-
-		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>2.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
-		</dependency>
-
-
-		<!-- Connection pool -->
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>2.5.1</version>
-			<exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-		</dependency>
-
 		<dependency>
 			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 			<artifactId>selenium-java-client-driver</artifactId>
-			<version>1.0.1</version>
+			<version>${seleniumhq-version}</version>
 			<scope>test</scope>
 		</dependency>
 

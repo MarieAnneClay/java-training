@@ -7,6 +7,11 @@ import persistence.daoImpl.CompanyDAOImpl;
 
 public class ServiceCompany {
     private CompanyDAOImpl companyDAOImpl;
+    private static final ServiceCompany INSTANCE = new ServiceCompany();
+
+    public static ServiceCompany getInstance() {
+        return INSTANCE;
+    }
 
     /** CONSTRUCTOR. */
     public ServiceCompany() {

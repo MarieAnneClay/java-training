@@ -57,6 +57,43 @@ public class Computer {
         this.companyId = companyId;
     }
 
+    public static class ComputerBuilder {
+        public Computer computer;
+
+        public ComputerBuilder() {
+            this.computer = new Computer();
+        }
+
+        public ComputerBuilder setId(Long id) {
+            this.computer.setId(id);
+            return this;
+        }
+
+        public ComputerBuilder setName(String name) {
+            this.computer.setName(name);
+            return this;
+        }
+
+        public ComputerBuilder setIntroduced(LocalDate introduced) {
+            this.computer.setIntroduced(introduced);
+            return this;
+        }
+
+        public ComputerBuilder setDiscontinued(LocalDate discontinued) {
+            this.computer.setDiscontinued(discontinued);
+            return this;
+        }
+
+        public ComputerBuilder setCompanyId(Long companyId) {
+            this.computer.setCompanyId(companyId);
+            return this;
+        }
+
+        public Computer build() {
+            return this.computer;
+        }
+    }
+
     /* GETTERS & SETTERS */
     public long getId() {
         return id;

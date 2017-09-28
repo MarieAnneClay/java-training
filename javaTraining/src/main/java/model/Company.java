@@ -33,6 +33,28 @@ public class Company {
         this.name = name;
     }
 
+    public static class CompanyBuilder {
+        Company company;
+
+        public CompanyBuilder() {
+            this.company = new Company();
+        }
+
+        public CompanyBuilder setId(long id) {
+            this.company.setId(id);
+            return this;
+        }
+
+        public CompanyBuilder setName(String name) {
+            this.company.setName(name);
+            return this;
+        }
+
+        public Company build() {
+            return this.company;
+        }
+    }
+
     /* GETTERS & SETTERS */
     public long getId() {
         return id;

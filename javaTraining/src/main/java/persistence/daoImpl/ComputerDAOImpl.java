@@ -1,6 +1,5 @@
 package persistence.daoImpl;
 
-import static persistence.daoUtil.DAOUtilitaire.fermeturesSilencieuses;
 import static persistence.daoUtil.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.Connection;
@@ -22,23 +21,19 @@ public class ComputerDAOImpl implements ComputerDAO {
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
-    private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE CONCAT('%', ? , '%') OR cy.name LIKE CONCAT('%', ? , '%')";
+    private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE CONCAT('%', ? , '%') OR cy.name LIKE CONCAT('%', ? , '%') ORDER BY cr.name, cr.introduced, cr.discontinued, cr.company_id";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
 
     @Override
     public ArrayList<Computer> findAllComputers() throws DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
@@ -47,8 +42,6 @@ public class ComputerDAOImpl implements ComputerDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
         }
 
         return computers;
@@ -56,15 +49,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public Computer findByIdComputer(long id) throws DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Computer computer = null;
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
@@ -72,8 +61,6 @@ public class ComputerDAOImpl implements ComputerDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
         }
 
         return computer;
@@ -81,16 +68,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public ArrayList<Computer> findComputerByNameAndCompany(String name) throws DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME_AND_COMPANY, false, name, name);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME_AND_COMPANY, false, name, name);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
@@ -99,8 +82,6 @@ public class ComputerDAOImpl implements ComputerDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
         }
 
         return computers;
@@ -108,72 +89,44 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet valeursAutoGenerees = null;
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
-                    ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));
-            int statut = preparedStatement.executeUpdate();
-            if (statut == 0) {
-                System.out.println("==0");
-            }
-            valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
+                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));
+                ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();) {
             if (valeursAutoGenerees.next()) {
                 computer.setId(valeursAutoGenerees.getLong(1));
             } else {
-                System.out.println("ELSE  INSERT COMPUTER");
+                LOGGER.log(Level.SEVERE, "ELSE  INSERT COMPUTER");
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
         }
     }
 
     @Override
-    public void updateComputer(Computer computer) throws IllegalArgumentException, DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet valeursAutoGenerees = null;
+    public void updateComputer(Computer computer) throws DAOException {
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
-                    ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());
-            int statut = preparedStatement.executeUpdate();
-            if (statut == 0) {
-                System.out.println(
-                        SQL_UPDATE + computer.getName() + computer.getIntroduced() + computer.getDiscontinued() + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + computer.getId());
-            }
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
+                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());) {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
         }
     }
 
     @Override
     public void deleteComputer(long id) throws DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);
+        try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
-                System.out.println("Échec de la suppression de la commande, aucune ligne supprimée de la table.");
+                LOGGER.log(Level.SEVERE, "Échec de la suppression de la commande, aucune ligne supprimée de la table.");
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(preparedStatement, connexion);
         }
     }
 

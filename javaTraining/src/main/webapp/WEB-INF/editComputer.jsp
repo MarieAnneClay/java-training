@@ -1,69 +1,45 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="./resources/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="./resources/css/font-awesome.css" rel="stylesheet"
-	media="screen">
-<link href="./resources/css/main.css" rel="stylesheet" media="screen">
-</head>
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a href="
-   				<c:url value="/dashboard">
-   				</c:url>"
-				class="navbar-brand"> Application - Computer Database </a>
-		</div>
-	</header>
-	<section id="main">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">id:
-						${id}</div>
-					<h1>Edit Computer</h1>
+<%@ include file="staticPage/header.jsp"%>
+<section id="main">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2 box">
+				<div class="label label-default pull-right">id: ${id}</div>
+				<h1>Edit Computer</h1>
 
-					<form id="addComputer" action="editComputer" method="POST">
-						<input type="hidden" value="${id}" name="id" id="id" />
-						<!-- TODO: Change this value with the computer id -->
-						<fieldset>
-							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									name="computerName" placeholder="Computer name"
-									pattern="^[0-9a-zA-ZÃ Ã¢Ã©Ã¨Ã«ÃªÃ¯Ã®Ã´Ã¹Ã¼Ã§ -]{1,60}$"
-									value="${computer.getName()}" required>
-							</div>
-							<div class="form-group">
-								<label for="introduced">Introduced date</label> <input
-									type="date"
-									pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
-									class="form-control" id="introduced" name="introduced"
-									placeholder="Introduced date AAAA-MM-DD"
-									value="${computer.getIntroduced()}">
-							</div>
-							<div class="form-group">
-								<label for="discontinued">Discontinued date</label> <input
-									type="date"
-									pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
-									class="form-control" id="discontinued" name="discontinued"
-									placeholder="Discontinued date AAAA-MM-DD"
-									value="${computer.getDiscontinued()}">
-							</div>
-							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="input-lg form-control" id="companyId" name="companyId">
-									<option value="0"></option>
-									<c:forEach items="${companies}" var="company">
-										<option value="${company.getId()}"
-											<c:if test="${company.getId() == computer.getCompanyId()}"> selected </c:if> >
+				<form id="addComputer" action="editComputer" method="POST">
+					<input type="hidden" value="${id}" name="id" id="id" />
+					<!-- TODO: Change this value with the computer id -->
+					<fieldset>
+						<div class="form-group">
+							<label for="computerName">Computer name</label> <input
+								type="text" class="form-control" id="computerName"
+								name="computerName" placeholder="Computer name"
+								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
+								value="${computer.getName()}" required>
+						</div>
+						<div class="form-group">
+							<label for="introduced">Introduced date</label> <input
+								type="date"
+								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
+								class="form-control" id="introduced" name="introduced"
+								placeholder="Introduced date AAAA-MM-DD"
+								value="${computer.getIntroduced()}">
+						</div>
+						<div class="form-group">
+							<label for="discontinued">Discontinued date</label> <input
+								type="date"
+								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
+								class="form-control" id="discontinued" name="discontinued"
+								placeholder="Discontinued date AAAA-MM-DD"
+								value="${computer.getDiscontinued()}">
+						</div>
+						<div class="form-group">
+							<label for="companyId">Company</label> <select
+								class="input-lg form-control" id="companyId" name="companyId">
+								<option value="0"></option>
+								<c:forEach items="${companies}" var="company">
+									<option value="${company.getId()}"
+										<c:if test="${company.getId() == computer.getCompanyId()}"> selected </c:if> >
 			                                                	${company.getName()}
 			                                                	</option>
                                                 </c:forEach>
@@ -90,6 +66,11 @@
             </div>
         </div>
     </section>
-    <script src="./resources/js/addComputer.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/addComputer.js"></script>
+
 </body>
 </html>

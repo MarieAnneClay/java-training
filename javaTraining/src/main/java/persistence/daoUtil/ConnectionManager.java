@@ -20,21 +20,18 @@ public class ConnectionManager {
     /** CONSTRUCTOR.
      * @throws DAOConfigurationException a DAO exception (src/main/daoUtil) */
     private ConnectionManager() throws DAOConfigurationException {
-        // HikariConfig cfg = new HikariConfig(configFile);
-        HikariConfig cfg = new HikariConfig();
-        // cfg.setPoolName(conf.getString("poolName"));
-        cfg.setMaximumPoolSize(10);
-        cfg.setMinimumIdle(2);
-        cfg.setJdbcUrl("jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&useSSL=false");
-        cfg.setUsername("admincdb");
-        cfg.setPassword("qwerty1234");
-        cfg.setDriverClassName("com.mysql.jdbc.Driver");
-
-        cfg.addDataSourceProperty("cachePrepStmts", "true");
-        cfg.addDataSourceProperty("prepStmtCacheSize", "250");
-        cfg.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        // cfg.addDataSourceProperty("useServerPrepStmts",
-        // conf.getBoolean("useServerPrepStmts"));
+        HikariConfig cfg = new HikariConfig("/db.properties");
+        // HikariConfig cfg = new HikariConfig();
+        // cfg.setMaximumPoolSize(10);
+        // cfg.setMinimumIdle(2);
+        // cfg.setJdbcUrl("jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&useSSL=false");
+        // cfg.setUsername("admincdb");
+        // cfg.setPassword("qwerty1234");
+        // cfg.setDriverClassName("com.mysql.jdbc.Driver");
+        //
+        // cfg.addDataSourceProperty("cachePrepStmts", "true");
+        // cfg.addDataSourceProperty("prepStmtCacheSize", "250");
+        // cfg.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         ds = new HikariDataSource(cfg);
     }
 

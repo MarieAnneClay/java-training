@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,16 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DTO.CompanyMapper;
+import DTO.ComputerDTO;
+import DTO.ComputerMapper;
+import model.Company;
 import service.ServiceCompany;
 import service.ServiceComputer;
+import util.ValidatorException;
 
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
     // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
 
-    private static ServiceComputer serviceComputer = new ServiceComputer();
-    private static ServiceCompany serviceCompany = new ServiceCompany();
+    private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
+    private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
 
     private static final String VIEW = "/WEB-INF/editComputer.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
@@ -35,28 +41,29 @@ public class EditComputer extends HttpServlet {
             long id = 0;
             id = request.getParameter("computerId") == "" ? 0 : Integer.parseInt(request.getParameter("computerId"));
             request.setAttribute("id", id);
-            request.setAttribute("computer", serviceComputer.getComputer(id));
+            request.setAttribute("computer", ComputerMapper.convertComputerToDTO(serviceComputer.getComputer(id)));
         }
 
-        request.setAttribute("companies", serviceCompany.getAllCompanies());
+        ArrayList<Company> companies = serviceCompany.getAllCompanies();
+        request.setAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long id = Integer.parseInt(request.getParameter(FIELD_ID));
+        String id = request.getParameter(FIELD_ID);
         String name = request.getParameter(FIELD_NAME);
         String introduced = request.getParameter(FIELD_INTRODUCED);
         String discontinued = request.getParameter(FIELD_DISCONTINUED);
         String companyId = request.getParameter(FIELD_COMPANY_ID);
 
         try {
-            serviceComputer.updateComputer(id, name, introduced, discontinued, companyId);
+            serviceComputer.updateComputer(new ComputerDTO(id, name, introduced, discontinued, companyId));
             response.sendRedirect(VIEW_HOME);
-        } catch (Exception e) {
+        } catch (ValidatorException e) {
             request.setAttribute("errors", e.getMessage());
-            request.setAttribute("computer", serviceComputer.getComputer(id));
+            request.setAttribute("computer", serviceComputer.getComputer(Long.parseLong(id)));
             request.setAttribute("companies", serviceCompany.getAllCompanies());
             request.setAttribute("id", id);
             this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);

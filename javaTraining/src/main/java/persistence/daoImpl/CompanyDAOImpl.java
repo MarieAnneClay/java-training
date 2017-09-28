@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.Company;
 import persistence.dao.CompanyDAO;
@@ -16,6 +18,8 @@ import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
 
 public class CompanyDAOImpl implements CompanyDAO {
+
+    private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
@@ -25,51 +29,41 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public ArrayList<Company> findAllCompanies() {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Company company = null;
         ArrayList<Company> companies = new ArrayList<Company>();
 
-        try {
-            connexion = connectionManager.getConnection();
-
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
                 company = map(resultSet);
                 companies.add(company);
             }
         } catch (SQLException e) {
-            System.out.println("SQL EXCEPTION SELECT COMPANY");
-        } finally {
-            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new DAOException(e);
         }
+
         return companies;
     }
 
     @Override
     public Company findByIdCompany(long id) throws DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         Company company = null;
 
-        try {
-            connexion = connectionManager.getConnection();
-
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
                 company = map(resultSet);
             }
         } catch (SQLException e) {
-            System.out.println("SQL EXCEPTION SELECT COMPANY");
-        } finally {
-            fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new DAOException(e);
         }
+
         return company;
     }
 
@@ -86,27 +80,20 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public void createCompany(Company company) throws IllegalArgumentException, DAOException {
-        Connection connexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet valeursAutoGenerees = null;
 
-        try {
-            connexion = connectionManager.getConnection();
-            preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
-            int statut = preparedStatement.executeUpdate();
-            if (statut == 0) {
-                System.out.println("==0");
-            }
-            valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
+                ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();) {
+
             if (valeursAutoGenerees.next()) {
                 company.setId(valeursAutoGenerees.getLong(1));
             } else {
+                LOGGER.log(Level.SEVERE, "ELSE  INSERT COMPANY");
                 System.out.println("ELSE  INSERT COMPANY");
             }
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
-        } finally {
-            fermeturesSilencieuses(valeursAutoGenerees, preparedStatement, connexion);
         }
     }
 
@@ -134,6 +121,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 try {
                     connexion.rollback();
                 } catch (SQLException excep) {
+                    LOGGER.log(Level.SEVERE, excep.getMessage(), excep);
                     throw new DAOException(excep);
                 }
             }
