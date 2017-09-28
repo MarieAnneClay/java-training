@@ -14,6 +14,7 @@ import model.Computer;
 import persistence.dao.ComputerDAO;
 import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
+import persistence.daoUtil.TransactionManager;
 
 public class ComputerDAOImpl implements ComputerDAO {
 
@@ -26,6 +27,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
+    private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
 
     public static ComputerDAOImpl getInstance() {
         return INSTANCE;
@@ -35,6 +37,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     public ArrayList<Computer> findAllComputers() throws DAOException {
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
+        LOGGER.log(Level.INFO, "coucou");
 
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
@@ -97,13 +100,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
-                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));
-                ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();) {
-            if (valeursAutoGenerees.next()) {
-                computer.setId(valeursAutoGenerees.getLong(1));
-            } else {
-                LOGGER.log(Level.SEVERE, "ELSE  INSERT COMPUTER");
-            }
+                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
@@ -116,6 +114,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                         ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
@@ -125,10 +124,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public void deleteComputer(long id) throws DAOException {
         try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
-            int statut = preparedStatement.executeUpdate();
-            if (statut == 0) {
-                LOGGER.log(Level.SEVERE, "Échec de la suppression de la commande, aucune ligne supprimée de la table.");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);
@@ -147,5 +143,15 @@ public class ComputerDAOImpl implements ComputerDAO {
         computer.setDiscontinued(resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
         computer.setCompanyId(resultSet.getLong("company_id"));
         return computer;
+    }
+
+    @Override
+    public void updateCompanyId(long id) throws DAOException {
+        try (Connection connexion = TransactionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new DAOException(e);
+        }
     }
 }

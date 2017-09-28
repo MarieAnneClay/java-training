@@ -41,4 +41,6 @@ public interface ComputerDAO {
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the computer to delete in the database */
     void deleteComputer(long id) throws DAOException;
+
+    void updateCompanyId(long id) throws DAOException;
 }

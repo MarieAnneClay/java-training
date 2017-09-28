@@ -2,14 +2,9 @@ package persistence.daoUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/** Cette classe pourrait être remplacer par try with resources. try (Statement
- * stmt = con.createStatement()) { -> stmt automatiquement fermé si exception
- * ResultSet rs = stmt.executeQuery(query); ... } } catch (SQLException e) {
- * e.getMessage(); } */
 public class DAOUtilitaire {
 
     /** Initialize the prepared request. PreparedStatement better than createQuery
@@ -26,59 +21,5 @@ public class DAOUtilitaire {
             preparedStatement.setObject(i + 1, objets[i]);
         }
         return preparedStatement;
-    }
-
-    /** Silenced close of the resultset.
-     * @param resultSet ResultSet to close */
-    public static void fermetureSilencieuse(ResultSet resultSet) {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                System.out.println("Échec de la fermeture du ResultSet : " + e.getMessage());
-            }
-        }
-    }
-
-    /** Silenced close of the statement.
-     * @param statement Statement to close */
-    public static void fermetureSilencieuse(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                System.out.println("Échec de la fermeture du Statement : " + e.getMessage());
-            }
-        }
-    }
-
-    /** Silenced close of the connexion.
-     * @param connexion Connection to close */
-    public static void fermetureSilencieuse(Connection connexion) {
-        if (connexion != null) {
-            try {
-                connexion.close();
-            } catch (SQLException e) {
-                System.out.println("Échec de la fermeture de la connexion : " + e.getMessage());
-            }
-        }
-    }
-
-    /** Silenced close of the connexion and statement.
-     * @param statement Statement to close
-     * @param connexion Connection to close */
-    public static void fermeturesSilencieuses(Statement statement, Connection connexion) {
-        fermetureSilencieuse(statement);
-        fermetureSilencieuse(connexion);
-    }
-
-    /** Silenced close of the resultSet, connexion and statement.
-     * @param resultSet ResultSet to close
-     * @param statement Statement to close
-     * @param connexion Connection to close */
-    public static void fermeturesSilencieuses(ResultSet resultSet, Statement statement, Connection connexion) {
-        fermetureSilencieuse(resultSet);
-        fermetureSilencieuse(statement);
-        fermetureSilencieuse(connexion);
     }
 }
