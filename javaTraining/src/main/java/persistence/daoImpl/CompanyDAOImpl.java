@@ -102,7 +102,8 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public void deleteCompany(long id) throws DAOException {
-        try (Connection connexion = TransactionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
+        Connection connexion = TransactionManager.getConnection();
+        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

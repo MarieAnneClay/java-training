@@ -147,7 +147,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void updateCompanyId(long id) throws DAOException {
-        try (Connection connexion = TransactionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);) {
+        Connection connexion = TransactionManager.getConnection();
+        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
