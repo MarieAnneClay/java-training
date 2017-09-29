@@ -1,5 +1,11 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="page"%>
 <%@ include file="staticPage/header.jsp"%>
+
+<!-- Bean -->
+<jsp:useBean id="paramsFromRequest" scope="page"
+	class="util.BeanURLParams" />
+${paramsFromRequest.getParameterFromRequest(pageContext.request)}
+
 <section id="main">
 	<div class="container">
 		<h1 id="dashboardTitle">
@@ -45,10 +51,24 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>Computer name</th>
-					<th>Introduced date</th>
-					<th>Discontinued date</th>
-					<th>Company</th>
+					<th><a ${paramsFromRequest.overrideParam("sort", "cr.name")}
+						${paramsFromRequest.overrideParam("order", orderName)}
+						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Computer
+							name</a></th>
+					<th><a
+						${paramsFromRequest.overrideParam("sort", "introduced")}
+						${paramsFromRequest.overrideParam("order", orderIntroduced)}
+						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Introduced
+							date</a></th>
+					<th><a
+						${paramsFromRequest.overrideParam("sort", "discontinued")}
+						${paramsFromRequest.overrideParam("order", orderDiscontinued)}
+						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Discontinued
+							date</a></th>
+					<th><a
+						${paramsFromRequest.overrideParam("sort", "cy.name")}
+						${paramsFromRequest.overrideParam("order", orderCompany)}
+						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Company</a></th>
 
 				</tr>
 			</thead>
@@ -78,7 +98,8 @@
 
 <footer class="navbar-fixed-bottom">
 	<div class="container text-center">
-		<page:pagination currentPage="${currentPage}" size="${size}" numberOfComputerByPage="${numberOfComputerByPage}" />
+		<page:pagination currentPage="${currentPage}" size="${size}"
+			numberOfComputerByPage="${numberOfComputerByPage}" />
 	</div>
 
 </footer>

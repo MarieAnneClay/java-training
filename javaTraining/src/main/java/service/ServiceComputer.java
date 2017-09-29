@@ -24,12 +24,6 @@ public class ServiceComputer {
         this.computerDAOImpl = new ComputerDAOImpl();
     }
 
-    /** Function to get all the data from the table computer.
-     * @return ArrayList of computer list of all the Computer in the database */
-    public ArrayList<Computer> getAllComputers() {
-        return computerDAOImpl.findAllComputers();
-    }
-
     /** Function to get the computer.
      * @param id of the computer searched
      * @return A list of all the Computer in the database */
@@ -40,24 +34,12 @@ public class ServiceComputer {
     /** Function to get the computer.
      * @param name of the computer searched
      * @return A list of all the Computer in the database */
-    public ArrayList<Computer> getComputerByName(String name) {
-        return this.computerDAOImpl.findComputerByNameAndCompany(name);
+    public ArrayList<Computer> getComputerByName(String name, int numberOfComputerByPage, int currentPage, String sort, String order) {
+        return this.computerDAOImpl.findComputerByNameAndCompany(name, numberOfComputerByPage, currentPage, sort, order);
     }
 
-    /** Function to have a certain proportion of the computer list.
-     * @param start start of the list
-     * @param size size of the list
-     * @param computers list of all computers
-     * @return ArrayList of the subsided Computer */
-    public ArrayList<Computer> getComputerSubest(int start, int size, ArrayList<Computer> computers) {
-        ArrayList<Computer> ret = new ArrayList<Computer>();
-        for (int i = start; i < (start + size); i++) {
-            if (i >= computers.size()) {
-                break;
-            }
-            ret.add(computers.get(i));
-        }
-        return ret;
+    public int getCount(String name) {
+        return this.computerDAOImpl.getCount(name);
     }
 
     /** Function which call the createComputer to create a computer in the database

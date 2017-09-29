@@ -15,17 +15,19 @@ import persistence.daoUtil.TransactionManager;
 
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
-    private CompanyDAOImpl companyDAOImpl = CompanyDAOImpl.getInstance();
-    private ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
-    private static final ServiceCompany INSTANCE = new ServiceCompany();
+    private TransactionManager transactionManager;
+    private static CompanyDAOImpl companyDAOImpl = CompanyDAOImpl.getInstance();
+    private static ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
+    private static ServiceCompany INSTANCE = new ServiceCompany();
 
     public static ServiceCompany getInstance() {
         return INSTANCE;
     }
 
-    /** CONSTRUCTOR. */
+    /** CONSTRUCTOR.
+     * @throws SQLException */
     public ServiceCompany() {
-        this.companyDAOImpl = new CompanyDAOImpl();
+        companyDAOImpl = new CompanyDAOImpl();
     }
 
     public ArrayList<Company> getAllCompanies() {
@@ -36,7 +38,7 @@ public class ServiceCompany {
      * @param id id of the searched company
      * @return company searched */
     public Company getCompany(long id) {
-        return this.companyDAOImpl.findByIdCompany(id);
+        return companyDAOImpl.findByIdCompany(id);
     }
 
     /** Function to have a certain proportion of the company list.
@@ -59,24 +61,24 @@ public class ServiceCompany {
      * with a SQL request.
      * @param computer computer to add to the database */
     public void setCompany(String name) throws Exception {
-        this.companyDAOImpl.createCompany(new Company(name));
+        companyDAOImpl.createCompany(new Company(name));
     }
 
     public void deleteCompany(long id) throws SQLException {
         Connection connexion = ConnectionManager.getInstance().getConnection();
-        TransactionManager.setConnection(connexion);
+        transactionManager.setConnection(connexion);
 
         try {
-            TransactionManager.getConnection().setAutoCommit(false);
+            transactionManager.setAutoCommit(false);
             computerDAOImpl.updateCompanyId(id);
             companyDAOImpl.deleteCompany(id);
-            TransactionManager.getConnection().commit();
+            transactionManager.commit();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            if (TransactionManager.getConnection() != null) {
+            if (transactionManager.getConnection() != null) {
                 try {
-                    TransactionManager.getConnection().rollback();
+                    transactionManager.rollback();
                 } catch (SQLException excep) {
                     LOGGER.log(Level.SEVERE, excep.getMessage(), excep);
                     throw new DAOException(excep);
@@ -84,7 +86,7 @@ public class ServiceCompany {
             }
 
         } finally {
-            TransactionManager.remove();
+            transactionManager.remove();
         }
 
     }

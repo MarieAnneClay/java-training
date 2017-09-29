@@ -18,8 +18,9 @@ import persistence.daoUtil.TransactionManager;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
-    private static final CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
+    private static final CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
+    private TransactionManager transactionManager;
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
@@ -36,7 +37,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ArrayList<Company> companies = new ArrayList<Company>();
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
@@ -56,7 +57,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         Company company = null;
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, id);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
@@ -85,7 +86,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     public void createCompany(Company company) throws IllegalArgumentException, DAOException {
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, company.getName());
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, company.getName());
                 ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();) {
 
             if (valeursAutoGenerees.next()) {
@@ -102,8 +103,8 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public void deleteCompany(long id) throws DAOException {
-        Connection connexion = TransactionManager.getConnection();
-        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
+        Connection connexion = transactionManager.getConnection();
+        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, id);) {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

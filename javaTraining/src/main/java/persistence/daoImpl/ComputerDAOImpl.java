@@ -18,12 +18,13 @@ import persistence.daoUtil.TransactionManager;
 
 public class ComputerDAOImpl implements ComputerDAO {
 
-    private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
+    private TransactionManager transactionManager;
+    private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final String SQL_SELECT_ALL = "SELECT * FROM computer";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
-    private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE CONCAT('%', ? , '%') OR cy.name LIKE CONCAT('%', ? , '%') ORDER BY cr.name, cr.introduced, cr.discontinued, cr.company_id";
+    private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer cr " + "LEFT JOIN company cy ON cr.company_id = cy.id " + "WHERE cr.name LIKE CONCAT('%', ? , '%') "
+            + "OR cy.name LIKE CONCAT('%', ? , '%') ";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
@@ -34,32 +35,11 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public ArrayList<Computer> findAllComputers() throws DAOException {
-        Computer computer = null;
-        ArrayList<Computer> computers = new ArrayList<Computer>();
-
-        try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_ALL, false);
-                ResultSet resultSet = preparedStatement.executeQuery();) {
-
-            while (resultSet.next()) {
-                computer = mapComputer(resultSet);
-                computers.add(computer);
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
-
-        return computers;
-    }
-
-    @Override
     public Computer findByIdComputer(long id) throws DAOException {
         Computer computer = null;
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, false, id);
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, id);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
 
             while (resultSet.next()) {
@@ -74,14 +54,18 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public ArrayList<Computer> findComputerByNameAndCompany(String name) throws DAOException {
+    public ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) throws DAOException {
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
+        int beginIndex = currentPage * numberOfComputerByPage;
+        int endIndex = numberOfComputerByPage;
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_NAME_AND_COMPANY, false, name, name);
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion,
+                        "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id " + " WHERE cr.name LIKE '%" + name + "%' " + "OR cy.name LIKE '%" + name + "%' " + "ORDER BY " + sort
+                                + " " + order + "" + " LIMIT " + beginIndex + "," + endIndex + "");
                 ResultSet resultSet = preparedStatement.executeQuery();) {
-
+            LOGGER.log(Level.SEVERE, preparedStatement.toString());
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
                 computers.add(computer);
@@ -95,10 +79,25 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
+    public int getCount(String name) {
+        int count = 0;
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_COUNT, name, name);
+                ResultSet resultSet = preparedStatement.executeQuery();) {
+            resultSet.next();
+            count = ((Number) resultSet.getObject(1)).intValue();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new DAOException(e);
+        }
+        return count;
+    }
+
+    @Override
     public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                         ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -111,7 +110,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     public void updateComputer(Computer computer) throws DAOException {
 
         try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
                         ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -122,7 +121,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void deleteComputer(long id) throws DAOException {
-        try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, true, id);) {
+        try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, id);) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
@@ -146,8 +145,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void updateCompanyId(long id) throws DAOException {
-        Connection connexion = TransactionManager.getConnection();
-        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, true, null, id);) {
+        Connection connexion = transactionManager.getConnection();
+        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, null, id);) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
