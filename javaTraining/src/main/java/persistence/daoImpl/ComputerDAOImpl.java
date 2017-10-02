@@ -65,7 +65,6 @@ public class ComputerDAOImpl implements ComputerDAO {
                         "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id " + " WHERE cr.name LIKE '%" + name + "%' " + "OR cy.name LIKE '%" + name + "%' " + "ORDER BY " + sort
                                 + " " + order + "" + " LIMIT " + beginIndex + "," + endIndex + "");
                 ResultSet resultSet = preparedStatement.executeQuery();) {
-            LOGGER.log(Level.SEVERE, preparedStatement.toString());
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
                 computers.add(computer);

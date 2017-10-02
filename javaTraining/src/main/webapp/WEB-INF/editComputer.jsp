@@ -1,4 +1,8 @@
 <%@ include file="staticPage/header.jsp"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <section id="main">
 	<div class="container">
 		<div class="row">
@@ -14,7 +18,7 @@
 							<label for="computerName">Computer name</label> <input
 								type="text" class="form-control" id="computerName"
 								name="computerName" placeholder="Computer name"
-								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
+								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -_]{1,60}$"
 								value="${computer.getName()}" required>
 						</div>
 						<div class="form-group">
@@ -34,16 +38,18 @@
 								value="${computer.getDiscontinued()}">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
-								class="input-lg form-control" id="companyId" name="companyId">
+							<label for="companyId">Company</label> 
+								<select class="input-lg form-control" id="companyId" name="companyId">
 								<option value="0"></option>
-								<c:forEach items="${companies}" var="company">
-									<option value="${company.getId()}"
-										<c:if test="${company.getId() == computer.getCompanyId()}"> selected </c:if> >
-			                                                	${company.getName()}
-			                                                	</option>
-                                                </c:forEach>
-									</select>
+									<c:forEach items="${companies}" var="company">
+										<option value="${company.getId()}"
+											<c:if test="${company.getId() == computer.getCompanyId()}"> 
+												selected 
+											</c:if> >
+				                            ${company.getName()}
+										</option>
+	                                </c:forEach>
+								</select>
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">

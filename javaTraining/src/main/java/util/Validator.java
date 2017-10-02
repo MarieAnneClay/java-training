@@ -13,7 +13,7 @@ public class Validator {
         if (name == null || name.trim().length() == 0) {
             throw new ValidatorException("The name of the computer can't be empty.");
         }
-        if (name.matches("^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$") == false) {
+        if (!name.matches("^[0-9a-zA-Zàâéèëêïîôùüç -_]{1,60}$")) {
             throw new ValidatorException("The name of the computer is invalid. It can contains number, uppercase, space and accent with maximum 60 characters.");
         }
     }

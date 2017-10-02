@@ -4,6 +4,17 @@ body {
     padding-bottom: 70px;
 }
 
+th a {
+    display: block;
+}
+th a:link {
+    text-decoration:none;
+}
+
+td a {
+    display: block;
+}
+
 footer {
     position:fixed;
     bottom:0;

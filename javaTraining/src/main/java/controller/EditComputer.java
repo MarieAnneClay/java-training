@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DTO.CompanyMapper;
-import DTO.ComputerDTO;
-import DTO.ComputerMapper;
+import dto.CompanyMapper;
+import dto.ComputerDTO;
+import dto.ComputerMapper;
 import model.Company;
 import service.ServiceCompany;
 import service.ServiceComputer;

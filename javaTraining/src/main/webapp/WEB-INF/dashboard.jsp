@@ -76,14 +76,10 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 			<tbody id="results">
 				<c:forEach items="${computers}" var="computer">
 					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
+						<td class="editMode"><input id="results" type="checkbox" name="cb"
 							class="cb" value="${computer.id}"></td>
-						<td><a
-							href="
-		   				<c:url value="/editComputer">
-		   					<c:param name="computerId" value="${computer.id}"/>
-		   				</c:url>"
-							id="editComputer"> <span aria-hidden="true">${computer.name}</span>
+						<td><a id="results"
+							href="editComputer?computerId=${computer.id}"> <span aria-hidden="true">${computer.name}</span>
 						</a></td>
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>

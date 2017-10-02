@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DTO.CompanyMapper;
-import DTO.ComputerDTO;
+import dto.CompanyMapper;
+import dto.ComputerDTO;
 import model.Company;
 import service.ServiceCompany;
 import service.ServiceComputer;
@@ -18,7 +18,6 @@ import util.ValidatorException;
 
 @WebServlet("/addComputer")
 public class AddComputer extends HttpServlet {
-    // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
 
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();

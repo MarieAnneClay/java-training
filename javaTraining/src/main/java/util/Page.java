@@ -7,29 +7,27 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import DTO.ComputerDTO;
-import DTO.ComputerMapper;
+import dto.ComputerDTO;
+import dto.ComputerMapper;
 import service.ServiceCompany;
 import service.ServiceComputer;
 
 public class Page {
-    Map<String, String> map = new HashMap<String, String>();
+    private static Map<String, String> initialMap = new HashMap<String, String>();
+    static {
+        initialMap.put("search", "");
+        initialMap.put("numberOfComputerByPage", "10");
+        initialMap.put("currentPage", "0");
+        initialMap.put("sort", "cr.name");
+        initialMap.put("order", "ASC");
+        initialMap.put("orderName", "DESC");
+        initialMap.put("orderIntroduced", "DESC");
+        initialMap.put("orderDiscontinued", "DESC");
+        initialMap.put("orderCompany", "DESC");
+    }
+    Map<String, String> map = new HashMap<String, String>(initialMap);
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
     private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
-
-    public Page() {
-        super();
-        map.put("search", "");
-        map.put("numberOfComputerByPage", "10");
-        map.put("currentPage", "0");
-        map.put("sort", "cr.name");
-        map.put("order", "ASC");
-        map.put("orderName", "DESC");
-        map.put("orderIntroduced", "DESC");
-        map.put("orderDiscontinued", "DESC");
-        map.put("orderCompany", "DESC");
-
-    }
 
     public HttpServletRequest getRequest(HttpServletRequest request) {
         for (Entry<String, String> entry : map.entrySet()) {

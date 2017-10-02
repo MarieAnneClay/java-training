@@ -17,12 +17,12 @@ public class DashBoard extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
-    private Page page = new Page();
     private static final String VIEW = "/WEB-INF/dashboard.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Page page = new Page();
         request = page.getRequest(request);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
@@ -37,7 +37,7 @@ public class DashBoard extends HttpServlet {
             response.sendRedirect(VIEW_HOME);
 
         } else {
-            throw new ServletException("Illegal exception");
+            throw new ServletException("Invalid exception");
         }
 
     }

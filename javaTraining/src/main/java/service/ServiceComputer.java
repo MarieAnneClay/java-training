@@ -2,8 +2,8 @@ package service;
 
 import java.util.ArrayList;
 
-import DTO.ComputerDTO;
-import DTO.ComputerMapper;
+import dto.ComputerDTO;
+import dto.ComputerMapper;
 import model.Computer;
 import persistence.daoImpl.ComputerDAOImpl;
 import util.Validator;

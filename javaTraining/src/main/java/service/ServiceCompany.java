@@ -15,7 +15,6 @@ import persistence.daoUtil.TransactionManager;
 
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
-    private TransactionManager transactionManager;
     private static CompanyDAOImpl companyDAOImpl = CompanyDAOImpl.getInstance();
     private static ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
     private static ServiceCompany INSTANCE = new ServiceCompany();
@@ -66,19 +65,19 @@ public class ServiceCompany {
 
     public void deleteCompany(long id) throws SQLException {
         Connection connexion = ConnectionManager.getInstance().getConnection();
-        transactionManager.setConnection(connexion);
+        TransactionManager.setConnection(connexion);
 
         try {
-            transactionManager.setAutoCommit(false);
+            TransactionManager.setAutoCommit(false);
             computerDAOImpl.updateCompanyId(id);
             companyDAOImpl.deleteCompany(id);
-            transactionManager.commit();
+            TransactionManager.commit();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            if (transactionManager.getConnection() != null) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            if (TransactionManager.getConnection() != null) {
                 try {
-                    transactionManager.rollback();
+                    TransactionManager.rollback();
                 } catch (SQLException excep) {
                     LOGGER.log(Level.SEVERE, excep.getMessage(), excep);
                     throw new DAOException(excep);
@@ -86,7 +85,7 @@ public class ServiceCompany {
             }
 
         } finally {
-            transactionManager.remove();
+            TransactionManager.remove();
         }
 
     }
