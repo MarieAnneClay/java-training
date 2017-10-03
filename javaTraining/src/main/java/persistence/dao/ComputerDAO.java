@@ -16,7 +16,9 @@ public interface ComputerDAO {
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param name the name of the company search in the database
      * @return A Company */
-    ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) throws DAOException;
+    ArrayList<Computer> findComputerByNameAndCompany(String name, int nb) throws DAOException;
+
+    public ArrayList<Computer> findComputer() throws DAOException;
 
     int getCount(String name);
 
@@ -37,7 +39,7 @@ public interface ComputerDAO {
      * delete a computer in the database.
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the computer to delete in the database */
-    void deleteComputer(long id) throws DAOException;
+    void deleteComputer(String ids) throws DAOException;
 
     void updateCompanyId(long id) throws DAOException;
 }

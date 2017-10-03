@@ -31,12 +31,12 @@
 							<label for="companyId">Company</label> <select
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option value="0"></option>
-								<c:forEach items="${companies}" var="company">
-									<option value="${company.getId()}"
-										<c:if test="${company.getId() == companyId}"> selected </c:if> >
-			                                                	${company.getName()}
-			                                                	</option>
-                                                </c:forEach>
+								<option value="${company.getId()}" selected> ${computer.getCompanyName()}</option>
+									<c:forEach items="${companies}" var="company">
+										<option value="${company.getId()}">
+				                            ${company.getName()}
+										</option>
+	                                </c:forEach>
 									</select>
                             </div>
 						</fieldset>

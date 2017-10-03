@@ -9,6 +9,7 @@ public class Computer {
     private LocalDate introduced;
     private LocalDate discontinued;
     private long companyId;
+    private String companyName;
 
     /** DEFAULT CONSTRUCTOR. */
     public Computer() {
@@ -25,6 +26,23 @@ public class Computer {
     public Computer(long id) {
         super();
         this.id = id;
+    }
+
+    /** CONSTRUCTOR with id.
+     * @param id id of the company in the database
+     * @param name name of the company in the database
+     * @param introduced DATETIME of the day the computer has been introduced in the
+     * company
+     * @param discontinued DATETIME of the day the computer has been discontinued
+     * @param companyId id of the company which possess this computer */
+    public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyId, String companyName) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.introduced = introduced;
+        this.discontinued = discontinued;
+        this.companyId = companyId;
+        this.companyName = companyName;
     }
 
     /** CONSTRUCTOR with id.
@@ -55,43 +73,6 @@ public class Computer {
         this.introduced = introduced;
         this.discontinued = discontinued;
         this.companyId = companyId;
-    }
-
-    public static class ComputerBuilder {
-        public Computer computer;
-
-        public ComputerBuilder() {
-            this.computer = new Computer();
-        }
-
-        public ComputerBuilder setId(Long id) {
-            this.computer.setId(id);
-            return this;
-        }
-
-        public ComputerBuilder setName(String name) {
-            this.computer.setName(name);
-            return this;
-        }
-
-        public ComputerBuilder setIntroduced(LocalDate introduced) {
-            this.computer.setIntroduced(introduced);
-            return this;
-        }
-
-        public ComputerBuilder setDiscontinued(LocalDate discontinued) {
-            this.computer.setDiscontinued(discontinued);
-            return this;
-        }
-
-        public ComputerBuilder setCompanyId(Long companyId) {
-            this.computer.setCompanyId(companyId);
-            return this;
-        }
-
-        public Computer build() {
-            return this.computer;
-        }
     }
 
     /* GETTERS & SETTERS */
@@ -133,6 +114,14 @@ public class Computer {
 
     public void setCompanyId(long companyId) {
         this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
 }

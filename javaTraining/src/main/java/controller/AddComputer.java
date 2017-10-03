@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,9 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.CompanyMapper;
-import dto.ComputerDTO;
 import model.Company;
+import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 import util.ValidatorException;
@@ -22,6 +22,7 @@ public class AddComputer extends HttpServlet {
 
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
     private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
+    private static final ArrayList<Company> companies = serviceCompany.getAllCompanies();
 
     private static final String VIEW = "/WEB-INF/addComputer.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
@@ -33,8 +34,7 @@ public class AddComputer extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Company> companies = serviceCompany.getAllCompanies();
-        request.setAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        request.setAttribute("companies", companies);
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
     }
 
@@ -46,7 +46,8 @@ public class AddComputer extends HttpServlet {
         String companyId = request.getParameter(FIELD_COMPANY_ID);
 
         try {
-            serviceComputer.setComputer(new ComputerDTO(name, introduced, discontinued, companyId));
+            serviceComputer.setComputer(new Computer(name, introduced.equals("") ? null : LocalDate.parse(introduced), discontinued.equals("") ? null : LocalDate.parse(discontinued),
+                    companyId == "" ? 0 : Long.parseLong(companyId)));
             response.sendRedirect(VIEW_HOME);
         } catch (ValidatorException e) {
             request.setAttribute("errors", e.getMessage());

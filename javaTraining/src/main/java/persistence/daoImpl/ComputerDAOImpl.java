@@ -23,11 +23,9 @@ public class ComputerDAOImpl implements ComputerDAO {
     private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
-    private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer cr " + "LEFT JOIN company cy ON cr.company_id = cy.id " + "WHERE cr.name LIKE CONCAT('%', ? , '%') "
-            + "OR cy.name LIKE CONCAT('%', ? , '%') ";
+    private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer WHERE name LIKE CONCAT('%', ? , '%') " + "OR companyName LIKE CONCAT('%', ? , '%') ";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
     private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
 
     public static ComputerDAOImpl getInstance() {
@@ -54,16 +52,33 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) throws DAOException {
+    public ArrayList<Computer> findComputer() throws DAOException {
         Computer computer = null;
         ArrayList<Computer> computers = new ArrayList<Computer>();
-        int beginIndex = currentPage * numberOfComputerByPage;
-        int endIndex = numberOfComputerByPage;
+
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, "SELECT * FROM computer ");
+                ResultSet resultSet = preparedStatement.executeQuery();) {
+            while (resultSet.next()) {
+                computer = mapComputer(resultSet);
+                computers.add(computer);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw new DAOException(e);
+        }
+
+        return computers;
+    }
+
+    @Override
+    public ArrayList<Computer> findComputerByNameAndCompany(String name, int nb) throws DAOException {
+        Computer computer = null;
+        ArrayList<Computer> computers = new ArrayList<Computer>();
 
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion,
-                        "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id " + " WHERE cr.name LIKE '%" + name + "%' " + "OR cy.name LIKE '%" + name + "%' " + "ORDER BY " + sort
-                                + " " + order + "" + " LIMIT " + beginIndex + "," + endIndex + "");
+                        "SELECT * FROM computer WHERE name LIKE '%" + name + "%' " + "OR companyName LIKE '%" + name + "%' LIMIT 0," + nb);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
@@ -119,8 +134,9 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public void deleteComputer(long id) throws DAOException {
-        try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, id);) {
+    public void deleteComputer(String ids) throws DAOException {
+        try (Connection connexion = connectionManager.getConnection();
+                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, "DELETE FROM computer WHERE id IN (" + ids + ")");) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
@@ -139,6 +155,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         computer.setIntroduced(resultSet.getDate("introduced") == null ? null : resultSet.getDate("introduced").toLocalDate());
         computer.setDiscontinued(resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
         computer.setCompanyId(resultSet.getLong("company_id"));
+        computer.setCompanyName(resultSet.getString("companyName"));
         return computer;
     }
 

@@ -14,18 +14,14 @@ import model.Company;
 import persistence.dao.CompanyDAO;
 import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
-import persistence.daoUtil.TransactionManager;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private static final CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
-    private TransactionManager transactionManager;
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
-    private static final String SQL_INSERT = "INSERT INTO company (name) VALUES (?)";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
 
     public static CompanyDAOImpl getInstance() {
         return INSTANCE;
@@ -82,34 +78,4 @@ public class CompanyDAOImpl implements CompanyDAO {
         return company;
     }
 
-    @Override
-    public void createCompany(Company company) throws IllegalArgumentException, DAOException {
-
-        try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, company.getName());
-                ResultSet valeursAutoGenerees = preparedStatement.getGeneratedKeys();) {
-
-            if (valeursAutoGenerees.next()) {
-                company.setId(valeursAutoGenerees.getLong(1));
-            } else {
-                LOGGER.log(Level.SEVERE, "ELSE  INSERT COMPANY");
-                System.out.println("ELSE  INSERT COMPANY");
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
-    }
-
-    @Override
-    public void deleteCompany(long id) throws DAOException {
-        Connection connexion = transactionManager.getConnection();
-        try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, id);) {
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
-    }
 }

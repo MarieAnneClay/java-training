@@ -2,8 +2,6 @@ package service;
 
 import java.util.ArrayList;
 
-import dto.ComputerDTO;
-import dto.ComputerMapper;
 import model.Computer;
 import persistence.daoImpl.ComputerDAOImpl;
 import util.Validator;
@@ -34,8 +32,12 @@ public class ServiceComputer {
     /** Function to get the computer.
      * @param name of the computer searched
      * @return A list of all the Computer in the database */
-    public ArrayList<Computer> getComputerByName(String name, int numberOfComputerByPage, int currentPage, String sort, String order) {
-        return this.computerDAOImpl.findComputerByNameAndCompany(name, numberOfComputerByPage, currentPage, sort, order);
+    public ArrayList<Computer> getComputerByName(String name, int nb) {
+        return this.computerDAOImpl.findComputerByNameAndCompany(name, nb);
+    }
+
+    public ArrayList<Computer> getComputer() {
+        return this.computerDAOImpl.findComputer();
     }
 
     public int getCount(String name) {
@@ -45,8 +47,7 @@ public class ServiceComputer {
     /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
      * @param computer computer to add to the database */
-    public void setComputer(ComputerDTO computerDTO) throws ValidatorException {
-        Computer computer = ComputerMapper.convertDTOToComputer(computerDTO);
+    public void setComputer(Computer computer) throws ValidatorException {
         Validator.validationComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued());
         this.computerDAOImpl.createComputer(computer);
     }
@@ -54,26 +55,23 @@ public class ServiceComputer {
     /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
      * @param computer computer to update to the database */
-    public void updateComputer(ComputerDTO computerDTO) throws ValidatorException {
-        Computer computerMapper = ComputerMapper.convertDTOToComputer(computerDTO);
-        Validator.validationComputer(computerMapper.getName(), computerMapper.getIntroduced(), computerMapper.getDiscontinued());
+    public void updateComputer(Computer computer) throws ValidatorException {
+        Validator.validationComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued());
 
-        Computer computer = this.getComputer(computerMapper.getId());
-        computer.setName(computerMapper.getName());
-        computer.setIntroduced(computerMapper.getIntroduced());
-        computer.setDiscontinued(computerMapper.getDiscontinued());
-        computer.setCompanyId(computerMapper.getCompanyId());
+        Computer comp = this.getComputer(computer.getId());
+        comp.setName(computer.getName());
+        comp.setIntroduced(computer.getIntroduced());
+        comp.setDiscontinued(computer.getDiscontinued());
+        comp.setCompanyId(computer.getCompanyId());
 
-        this.computerDAOImpl.updateComputer(computer);
+        this.computerDAOImpl.updateComputer(comp);
     }
 
     /** Function which call the deleteComputer to delete a computer in the database
      * with a SQL request.
      * @param id id of the computer to delete in the database */
     public void deleteComputer(String ids) {
-        for (String id : ids.split(",")) {
-            this.computerDAOImpl.deleteComputer(Integer.parseInt(id));
-        }
+        this.computerDAOImpl.deleteComputer(ids);
     }
 
 }

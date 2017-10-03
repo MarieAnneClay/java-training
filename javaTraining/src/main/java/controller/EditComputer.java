@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,10 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.CompanyMapper;
-import dto.ComputerDTO;
-import dto.ComputerMapper;
 import model.Company;
+import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 import util.ValidatorException;
@@ -24,6 +23,7 @@ public class EditComputer extends HttpServlet {
 
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
     private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
+    private static final ArrayList<Company> companies = serviceCompany.getAllCompanies();
 
     private static final String VIEW = "/WEB-INF/editComputer.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
@@ -41,11 +41,10 @@ public class EditComputer extends HttpServlet {
             long id = 0;
             id = request.getParameter("computerId") == "" ? 0 : Integer.parseInt(request.getParameter("computerId"));
             request.setAttribute("id", id);
-            request.setAttribute("computer", ComputerMapper.convertComputerToDTO(serviceComputer.getComputer(id)));
+            request.setAttribute("computer", serviceComputer.getComputer(id));
         }
 
-        ArrayList<Company> companies = serviceCompany.getAllCompanies();
-        request.setAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        request.setAttribute("companies", companies);
 
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
     }
@@ -59,12 +58,13 @@ public class EditComputer extends HttpServlet {
         String companyId = request.getParameter(FIELD_COMPANY_ID);
 
         try {
-            serviceComputer.updateComputer(new ComputerDTO(id, name, introduced, discontinued, companyId));
+            serviceComputer.updateComputer(new Computer(id == "" ? 0 : Long.parseLong(id), name, introduced.equals("") ? null : LocalDate.parse(introduced),
+                    discontinued.equals("") ? null : LocalDate.parse(discontinued), companyId == "" ? 0 : Long.parseLong(companyId)));
             response.sendRedirect(VIEW_HOME);
         } catch (ValidatorException e) {
             request.setAttribute("errors", e.getMessage());
             request.setAttribute("computer", serviceComputer.getComputer(Long.parseLong(id)));
-            request.setAttribute("companies", serviceCompany.getAllCompanies());
+            request.setAttribute("companies", companies);
             request.setAttribute("id", id);
             this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
         }
