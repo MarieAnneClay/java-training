@@ -134,27 +134,182 @@
 
 
 	<build>
-		<directory>${project.basedir}/target</directory>
-		<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		<testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
-		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-
-		<resources>
-			<resource>
-				<directory>${project.basedir}/src/main/webapp</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.21.0</version>
+				<extensions>true</extensions>
+
+				<configuration>
+					<images>
+						<image>
+							<alias>service</alias>
+							<name>mcvlay/docker-demo:${project.version}</name>
+
+							<build>
+								<from>java:8</from>
+
+
+								<assembly>
+									<inline>
+										<dependencySets>
+											<dependencySet>
+												<includes>
+													<include>${project.build.finalName}.war</include>
+												</includes>
+												<outputDirectory>.</outputDirectory>
+												<outputFileNameMapping>${project.build.directory}</outputFileNameMapping>
+											</dependencySet>
+										</dependencySets>
+									</inline>
+								</assembly>
+
+
+								<cmd>
+									<shell>java -jar /maven/service.jar</shell>
+								</cmd>
+							</build>
+
+							<run>
+								<ports>
+									<port>tomcat.port:8080</port>
+								</ports>
+								<wait>
+									<http>
+										<url>http://localhost:${tomcat.port}/manager/text</url>
+										<server>TomcatServer</server>
+										<username>tomcat</username>
+										<password>tomcat</password>
+									</http>
+									<time>10000</time>
+								</wait>
+								<links>
+									<link>database:db</link>
+								</links>
+							</run>
+						</image>
+
+						<image>
+							<alias>database</alias>
+							<name>postgres:9</name>
+							<build>
+								<wait>
+									<log>database system is ready to accept connections</log>
+									<time>20000</time>
+								</wait>
+							</build>
+							<run>
+								<wait>
+									<log>database system is ready to accept connections</log>
+									<time>20000</time>
+								</wait>
+							</run>
+						</image>
+					</images>
+				</configuration>
+
+
+
+<!-- 				Connect start/stop to pre- and post-integration-test phase, respectively -->
+<!-- 					if you want to start your docker containers during integration tests -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>start</id> -->
+<!-- 						<phase>pre-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							"build" should be used to create the images with the artifact -->
+<!-- 							<goal>build</goal> -->
+
+<!-- 							<goal>start</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<image>maclay/${project.artifactId}</image> -->
+<!-- 							<newName>docker.io/maclay/${project.artifactId}:${project.version}</newName> -->
+<!-- 							<serverId>docker-hub</serverId> -->
+<!-- 							<pushImage>true</pushImage> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>stop</id> -->
+<!-- 						<phase>post-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>stop</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+
+
+			<!-- <plugin> -->
+			<!-- <groupId>com.spotify</groupId> -->
+			<!-- <artifactId>docker-maven-plugin</artifactId> -->
+			<!-- <version>0.4.10</version> -->
+			<!-- <configuration> -->
+			<!-- <imageName>hotblac/${project.artifactId}</imageName> -->
+			<!-- <baseImage>java:openjdk-8-jdk-amd64</baseImage> -->
+			<!-- <entryPoint>["java","-jar","/${project.build.finalName}.jar"]</entryPoint> -->
+			<!-- <resources> -->
+			<!-- copy the service's jar file from target into the root directory <!-- 
+				of the image -->
+			-->
+			<!-- <resource> -->
+			<!-- <targetPath>/</targetPath> -->
+			<!-- <directory>${project.build.directory}</directory> -->
+			<!-- <include>${project.build.finalName}.war</include> -->
+			<!-- </resource> -->
+			<!-- </resources> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>tag-image-version</id> -->
+			<!-- <phase>deploy</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>tag</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <image>maclay/${project.artifactId}</image> -->
+			<!-- <newName>docker.io/maclay/${project.artifactId}:${project.version}</newName> -->
+			<!-- <serverId>docker-hub</serverId> -->
+			<!-- <pushImage>true</pushImage> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>tag-image-latest</id> -->
+			<!-- <phase>deploy</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>tag</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <image>maclay/${project.artifactId}</image> -->
+			<!-- <newName>docker.io/maclay/${project.artifactId}:latest</newName> -->
+			<!-- <serverId>docker-hub</serverId> -->
+			<!-- <pushImage>true</pushImage> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
+			<!-- <directory>${project.basedir}/target</directory> -->
+			<!-- <outputDirectory>${project.build.directory}/classes</outputDirectory> -->
+			<!-- <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory> -->
+			<!-- <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory> -->
+			<!-- <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory> -->
+
+			<!-- <resources> -->
+			<!-- <resource> -->
+			<!-- <directory>${project.basedir}/src/main/webapp</directory> -->
+			<!-- <excludes> -->
+			<!-- <exclude>**/*.java</exclude> -->
+			<!-- </excludes> -->
+			<!-- </resource> -->
+			<!-- <resource> -->
+			<!-- <directory>src</directory> -->
+			<!-- <excludes> -->
+			<!-- <exclude>**/*.java</exclude> -->
+			<!-- </excludes> -->
+			<!-- </resource> -->
+			<!-- </resources> -->
+			<!-- <plugins> -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
@@ -175,156 +330,157 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.7.2</version>
-				<configuration>
-					<reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
-					<includes>
-						<include>com/xebia/selenium/**/*.java</include> <!-- ... inclure les tests Selenium -->
-					</includes>
-					<systemPropertyVariables>
-						<jetty.port>${jetty.port}</jetty.port>
-						<jetty.context>${project.artifactId}</jetty.context>
-					</systemPropertyVariables>
-				</configuration>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>selenium-maven-plugin</artifactId>
-				<version>1.0.1</version>
-				<executions>
-					<execution>
-						<id>start</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start-server</goal>
-						</goals>
-						<configuration>
-							<background>true</background>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop-server</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
-					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
-					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>${jetty.port}</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-failsafe-plugin</artifactId> -->
+			<!-- <version>2.7.2</version> -->
+			<!-- <configuration> -->
+			<!-- <reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory> -->
+			<!-- <includes> -->
+			<!-- <include>com/xebia/selenium/**/*.java</include> ... inclure les tests 
+				Selenium -->
+			<!-- </includes> -->
+			<!-- <systemPropertyVariables> -->
+			<!-- <jetty.port>${jetty.port}</jetty.port> -->
+			<!-- <jetty.context>${project.artifactId}</jetty.context> -->
+			<!-- </systemPropertyVariables> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>integration-test</id> -->
+			<!-- <goals> -->
+			<!-- <goal>integration-test</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>verify</id> -->
+			<!-- <goals> -->
+			<!-- <goal>verify</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>selenium-maven-plugin</artifactId> -->
+			<!-- <version>1.0.1</version> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>start</id> -->
+			<!-- <phase>pre-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>start-server</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <background>true</background> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>stop</id> -->
+			<!-- <phase>post-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>stop-server</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.mortbay.jetty</groupId> -->
+			<!-- <artifactId>maven-jetty-plugin</artifactId> -->
+			<!-- <version>6.1.10</version> -->
+			<!-- <configuration> -->
+			<!-- <scanIntervalSeconds>10</scanIntervalSeconds> -->
+			<!-- <stopKey>foo</stopKey> -->
+			<!-- <stopPort>9999</stopPort> -->
+			<!-- <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory> -->
+			<!-- <connectors> -->
+			<!-- <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector"> -->
+			<!-- <port>${jetty.port}</port> -->
+			<!-- <maxIdleTime>60000</maxIdleTime> -->
+			<!-- </connector> -->
+			<!-- </connectors> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>start-jetty</id> -->
+			<!-- <phase>pre-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>run</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <scanIntervalSeconds>0</scanIntervalSeconds> -->
+			<!-- <daemon>true</daemon> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>stop-jetty</id> -->
+			<!-- <phase>post-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>stop</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.4</version>
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>sql-maven-plugin</artifactId> -->
+			<!-- <version>1.4</version> -->
 
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>${mysql-version}</version>
-					</dependency>
-				</dependencies>
+			<!-- <dependencies> -->
+			<!-- <dependency> -->
+			<!-- <groupId>mysql</groupId> -->
+			<!-- <artifactId>mysql-connector-java</artifactId> -->
+			<!-- <version>${mysql-version}</version> -->
+			<!-- </dependency> -->
+			<!-- </dependencies> -->
 
-				<configuration>
-					<driver>com.mysql.jdbc.Driver</driver>
-					<url>jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false</url>
-					<username>admincdb</username>
-					<password>qwerty1234</password>
-					<delimiter>;</delimiter>
-					<delimiterType>normal</delimiterType>
-					<keepFormat>true</keepFormat>
-					<skip>${maven.test.skip}</skip>
-					<autocommit>true</autocommit>
-				</configuration>
-				<executions>
-					<execution>
-						<id>insert-data</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>${basedir}/src/main/resources</basedir>
-								<includes>
-									<include>insert-data.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-data</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>${basedir}/src/main/resources</basedir>
-								<includes>
-									<include>drop-data.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <configuration> -->
+			<!-- <driver>com.mysql.jdbc.Driver</driver> -->
+			<!-- <url>jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false</url> -->
+			<!-- <username>admincdb</username> -->
+			<!-- <password>qwerty1234</password> -->
+			<!-- <delimiter>;</delimiter> -->
+			<!-- <delimiterType>normal</delimiterType> -->
+			<!-- <keepFormat>true</keepFormat> -->
+			<!-- <skip>${maven.test.skip}</skip> -->
+			<!-- <autocommit>true</autocommit> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>insert-data</id> -->
+			<!-- <phase>pre-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>execute</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <orderFile>ascending</orderFile> -->
+			<!-- <fileset> -->
+			<!-- <basedir>${basedir}/src/main/resources</basedir> -->
+			<!-- <includes> -->
+			<!-- <include>insert-data.sql</include> -->
+			<!-- </includes> -->
+			<!-- </fileset> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>drop-data</id> -->
+			<!-- <phase>post-integration-test</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>execute</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <orderFile>ascending</orderFile> -->
+			<!-- <fileset> -->
+			<!-- <basedir>${basedir}/src/main/resources</basedir> -->
+			<!-- <includes> -->
+			<!-- <include>drop-data.sql</include> -->
+			<!-- </includes> -->
+			<!-- </fileset> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 
 
 		</plugins>
