@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM dockerfile/ubuntu
+FROM maclay/ubuntu
 
 # Install MySQL.
 RUN \
@@ -20,11 +20,15 @@ RUN \
   bash /tmp/config && \
   rm -f /tmp/config
 
+# Se connecter à un serveur MySql à partir de n'importe quel host  
+ADD bind_0.cnf /etc/mysql/conf.d/bind_0.cnf
+
+ADD init.sh /init.sh
+RUN chmod 755 /*.sh
+ENTRYPOINT ["/init.sh"]
+
 # Define mountable directories.
 VOLUME ["/etc/mysql", "/var/lib/mysql"]
-
-# Define working directory.
-WORKDIR /data
 
 # Define default command.
 CMD ["mysqld_safe"]
