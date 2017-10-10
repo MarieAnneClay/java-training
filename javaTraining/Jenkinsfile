@@ -18,6 +18,25 @@ pipeline {
         mysqlPort = '3306'
         
 	}
+	
+	/*
+	triggers {
+        cron '@daily'
+    }
+    stage('testing') {
+            steps {
+                // use a different repo to get the test suite:
+                git 'https://github.com/jenkinsci/acceptance-test-harness'
+
+                // we unstash our stuff from before (because this may be a different node)
+                unstash 'stuff'
+
+                sh 'run-test-suite.sh'    
+
+            }
+
+        }
+	*/
     
     // when a developper commit and push to the branch master, github trigger jenkins
     triggers{
@@ -41,6 +60,7 @@ pipeline {
     			}     
 	        }
             steps {
+            	// properties([pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('H/15 * * * *')])])
                 mvn 'clean install'
             }
             
