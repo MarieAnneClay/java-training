@@ -117,6 +117,6 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
         ${paramsFromRequest.overrideParam(paramNameCurrentPage, 0)}
         <a
 			href="${pageContext.request.contextPath}/${url}${linkGenerated}${paramsFromRequest.buildUrl()}"
-			class="btn btn-default <c:if test="${numberOfComputerByPage == currentDisplay}">active</c:if>">${currentSize}</a>
+			class="btn btn-default <c:if test="${numberOfComputerByPage == currentSize}">active</c:if>">${currentSize}</a>
 	</c:forEach>
 </div>
