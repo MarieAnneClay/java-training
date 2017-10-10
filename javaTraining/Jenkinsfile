@@ -1,67 +1,99 @@
 pipeline {
     agent any
     
+    environment {
+        gitUrl = 'https://github.com/MarieAnneClay/java-training.git'
+        gitBranch = 'master'
+        dockerHubUrl = 'https://hub.docker.com/r/maclay/'
+        mavenName = 'javaTraining'
+        mavenRepo = '/home/ebiz/git/java-training/javaTraining/'.
+        mavenUser = 'maclay'
+        mavenImage = 'maven'
+        mysqlTestImage = 'mysqltest'
+        tomcatImage = 'tomcat'
+        tomcatPort = '8080'
+        mysqlProdImage = 'mysqlprod'
+        mysqlPassword = 'ebiz'
+        mysqlPort = '3306'
+        
+	}
+    
     // when a developper commit and push to the branch master, github trigger jenkins
     triggers{
-    	git url: 'https://github.com/MarieAnneClay/java-training.git', branch 'master'
+    	git url: "${gitUrl}", branch "${gitBranch}"
     }
     
     stages {
     	// Build and test on mysqlTest 
         stage('Build') {
 	        agent{	        	
-		        docker.withRegistry('https://hub.docker.com/r/maclay/') {	
+		        docker.withRegistry("${dockerHubUrl}") {	
 			        // docker jdk+maven
-			        docker.image('maven')/*.inside {
-			            sh 'make test'
-			        }*/
+			        docker.image("${mavenImage}").inside {
+						sh 'docker run -it --rm --name ${mavenName} -v "$PWD":${mavenRepo} -w ${mavenRepo} ${mavenUser}/${mavenImage} mvn clean install'
+			        }
 			        
 			         // docker mysqlTest
-			         docker.image('mysqltest')
+			         docker.image("${mysqlTestImage}").inside {
+			            sh 'docker run -d --name ${mysqlTestImage} -e MYSQL_PASSWORD=${mysqlPassword} -p ${mysqlPort}:${mysqlPort} ${mavenUser}/${mysqlTestImage}'
+			        }
     			}     
 	        }
             steps {
                 mvn 'clean install'
             }
             
+            // if test ok publier les images on docker hub
             succes {
-        	docker.withRegistry('https://hub.docker.com/r/maclay/', 'credentials-id') {
-
-		        def customImage = docker.build("my-image:${env.BUILD_ID}")
-		
-		        /* Push the container to the custom Registry */
-		        customImage.push()
+        	docker.withRegistry("${dockerHubUrl}", 'credentials-id') {
+				/* Push the container to the custom Registry */
+		        docker.build("${mavenImage}").push()
+		        docker.build("${tomcatImage}").push()
+		        docker.build("${mysqlProdImage}").push()
 		    }
         
         }
         
-        // when a developper commit and push to the branch master, github trigger jenkins
+        // launch production when the push is detect on docker hub
 	    triggers{
-	    	docker url: 'https://hub.docker.com/r/maclay/'
+	    	docker url: "${dockerHubUrl}"
 	    }
         
-        // If test ok deploy with tomcat and mysqlProd
+        // deploy with tomcat and mysqlProd
         stage('Deploy') {
         	agent{	        
-		        docker.withRegistry('https://hub.docker.com/r/maclay/') {	
+		        docker.withRegistry("${dockerHubUrl}") {	
 			        // docker tomcat
-			        docker.image('tomcat')
+			        docker.image("${tomcatImage}").inside {
+						sh 'docker run -d -p ${tomcatPort}:${tomcatPort} ${mavenUser}/${tomcatImage}'
+			        }
 		        
 			         // docker mysqlProd  
-			         docker.image('mysqlprod')
+			         docker.image('mysqlprod').inside {
+						sh 'docker run -d --name ${mysqlProdImage} -e MYSQL_PASSWORD=${mysqlPassword} -p ${mysqlPort}:${mysqlPort} ${mavenUser}/${mysqlProdImage}'
+			        }
     			}     
 	        }
 	        
             steps {
-                mvn 'redeploy'
+                mvn 'clean deploy'
             }
         }
     }
     
     post {
         always {
-        	//stop containers ?
-
+        	sh "docker stop ${mavenName}" 
+        	sh "docker rm ${mavenName}"
+        	
+        	sh "docker stop ${mysqlTestImage}" 
+        	sh "docker rm ${mysqlTestImage}"
+        	
+        	sh "docker stop ${tomcatImage}" 
+        	sh "docker rm ${tomcatImage}"
+        	
+        	sh "docker stop ${mysqlProdImage}" 
+        	sh "docker rm ${mysqlProdImage}"
         }
         
         failure {
