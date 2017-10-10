@@ -1,21 +1,71 @@
 pipeline {
     agent any
-
+    
+    // when a developper commit and push to the branch master, github trigger jenkins
+    triggers{
+    	git url: 'https://github.com/MarieAnneClay/java-training.git', branch 'master'
+    }
+    
     stages {
+    	// Build and test on mysqlTest 
         stage('Build') {
+	        agent{	        	
+		        docker.withRegistry('https://hub.docker.com/r/maclay/') {	
+			        // docker jdk+maven
+			        docker.image('maven')/*.inside {
+			            sh 'make test'
+			        }*/
+			        
+			         // docker mysqlTest
+			         docker.image('mysqltest')
+    			}     
+	        }
             steps {
-                echo 'Building..'
+                mvn 'clean install'
             }
+            
+            succes {
+        	docker.withRegistry('https://hub.docker.com/r/maclay/', 'credentials-id') {
+
+		        def customImage = docker.build("my-image:${env.BUILD_ID}")
+		
+		        /* Push the container to the custom Registry */
+		        customImage.push()
+		    }
+        
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
+        
+        // when a developper commit and push to the branch master, github trigger jenkins
+	    triggers{
+	    	docker url: 'https://hub.docker.com/r/maclay/'
+	    }
+        
+        // If test ok deploy with tomcat and mysqlProd
         stage('Deploy') {
+        	agent{	        
+		        docker.withRegistry('https://hub.docker.com/r/maclay/') {	
+			        // docker tomcat
+			        docker.image('tomcat')
+		        
+			         // docker mysqlProd  
+			         docker.image('mysqlprod')
+    			}     
+	        }
+	        
             steps {
-                echo 'Deploying....'
+                mvn 'redeploy'
             }
+        }
+    }
+    
+    post {
+        always {
+        	//stop containers ?
+
+        }
+        
+        failure {
+            mail to: maclay@e-biz.fr, subject: 'The Pipeline failed :('
         }
     }
 }
