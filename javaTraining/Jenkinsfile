@@ -1,6 +1,7 @@
 pipeline {
     agent any
     
+    // variables
     environment {
         gitUrl = 'https://github.com/MarieAnneClay/java-training.git'
         gitBranch = 'master'
