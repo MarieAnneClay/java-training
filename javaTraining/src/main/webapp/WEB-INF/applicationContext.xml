@@ -9,6 +9,18 @@
 
 	<!-- <context:property-placeholder location="classpath:/database.properties" 
 		/> -->
+	<!-- <context:component-scan base-package="com.foo" /> -->
+
+
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" -->
+	<!-- value="jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false" 
+		/> -->
+	<!-- <property name="username" value="admincdb" /> -->
+	<!-- <property name="password" value="qwerty1234" /> -->
+	<!-- </bean> -->
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="poolName" value="computerDatabase" />
@@ -19,7 +31,7 @@
 		<!-- <property name="idleTimeout" value="${hibernate.hikari.idleTimeout}" 
 			/> -->
 
-		<property name="jdbcUrl"
+		<property name="url"
 			value="jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false" />
 		<property name="username" value="admincdb" />
 		<property name="password" value="qwerty1234" />
@@ -35,8 +47,25 @@
 	<!-- class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
 	<!-- <property name="dataSource" ref="dataSource"/> -->
 	<!-- </bean> -->
-	
-<!-- 	<import resource="servletContext.xml" /> -->
+
+	<!-- <bean id="productManager" class="springapp.service.SimpleProductManager"> -->
+	<!-- <property name="productDao" ref="productDao"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="productDao" class="springapp.repository.JdbcProductDao"> -->
+	<!-- <property name="dataSource" ref="dataSource"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="dashboard" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+	<!-- <property name="ViewClass" value="org.springframework.web.servlet.view.JstlView"></property> -->
+	<!-- <property name="prefix"> -->
+	<!-- <value>/WEB-INF/dashboard</value> -->
+	<!-- </property> -->
+	<!-- <property name="suffix"> -->
+	<!-- <value>.jsp</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<import resource="servletContext.xml" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
