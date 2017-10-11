@@ -25,13 +25,8 @@
 		<jstl-version>1.2</jstl-version>
 		<servlet-version>3.0.1</servlet-version>
 
-		<!-- Test -->
-		<mockito-version>1.10.19</mockito-version>
-		<junit-version>4.11</junit-version>
-		<seleniumhq-version>1.0.1</seleniumhq-version>
-
-		<!-- Port Jetty -->
-		<jetty.port>9090</jetty.port>
+		<!-- SPRING -->
+		<spring-version>5.0.0.RELEASE</spring-version>
 
 	</properties>
 	<dependencies>
@@ -106,30 +101,19 @@
 			<scope>provided</scope>
 		</dependency>
 
-
-
-		<!-- Test -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito-version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-			<artifactId>selenium-java-client-driver</artifactId>
-			<version>${seleniumhq-version}</version>
-			<scope>test</scope>
-		</dependency>
-
+		<!-- SPRING -->
+<!-- Spring framework -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring</artifactId>
+		<version>2.5.6</version>
+		<exclusions>
+    	   <exclusion>
+    		  <groupId>commons-logging</groupId>
+    		  <artifactId>commons-logging</artifactId>
+    	   </exclusion>
+    	</exclusions>	
+	</dependency>
 	</dependencies>
 
 
@@ -174,119 +158,6 @@
 					<password>tomcat</password>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
-					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
-					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>${jetty.port}</port>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-					</connectors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.4</version>
-
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>${mysql-version}</version>
-					</dependency>
-				</dependencies>
-
-				<configuration>
-					<driver>com.mysql.jdbc.Driver</driver>
-					<url>jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false</url>
-					<username>admincdb</username>
-					<password>qwerty1234</password>
-					<delimiter>;</delimiter>
-					<delimiterType>normal</delimiterType>
-					<keepFormat>true</keepFormat>
-					<skip>${maven.test.skip}</skip>
-					<autocommit>true</autocommit>
-				</configuration>
-				<executions>
-					<execution>
-						<id>insert-data</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>${basedir}/src/main/resources</basedir>
-								<includes>
-									<include>insert-data.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-data</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>${basedir}/src/main/resources</basedir>
-								<includes>
-									<include>drop-data.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
-					<suppressionsLocation>suppressions.xml</suppressionsLocation>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 </project>
