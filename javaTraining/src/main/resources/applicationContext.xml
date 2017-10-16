@@ -21,33 +21,35 @@
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
-	</bean>	
-	
+	</bean>
+
 	<!-- Connection Manager -->
-	<bean id="connectionManager"
-		class="persistence.daoUtil.ConnectionManager">
+	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager">
 		<property name="dataSource" value="dataSource" />
-	</bean>	
+	</bean>
 	
+	<!-- JDBCTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
 	<!-- DAO -->
-	<bean id="companyDAOImpl"
-		class="persistence.daoImpl.CompanyDAOImpl">
+	<bean id="companyDAOImpl" class="persistence.daoImpl.CompanyDAOImpl">
 		<property name="connectionManager" value="connectionManager" />
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>  
 	</bean>
-	
-	<bean id="computerDAOImpl"
-		class="persistence.daoimpl.ComputerDAOImpl">
+
+	<bean id="computerDAOImpl" class="persistence.daoimpl.ComputerDAOImpl">
 		<property name="connectionManager" value="connectionManager" />
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>  
 	</bean>
-	
+
 	<!-- Service -->
-	<bean id="serviceCompany"
-		class="service.ServiceCompany">
+	<bean id="serviceCompany" class="service.ServiceCompany">
 		<property name="companyDAOImpl" value="companyDAOImpl" />
 	</bean>
-	
-	<bean id="serviceComputer"
-		class="service.ServiceComputer">
+
+	<bean id="serviceComputer" class="service.ServiceComputer">
 		<property name="computerDAOImpl" value="computerDAOImpl" />
 		<property name="connectionManager" value="connectionManager" />
 	</bean>

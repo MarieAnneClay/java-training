@@ -2,8 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,14 +19,6 @@ public class DashBoard extends HttpServlet {
     private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
     private static final String VIEW = "/WEB-INF/dashboard.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
-    ServletContext sc;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        // sc = (ServletContext)
-        // WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
-    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

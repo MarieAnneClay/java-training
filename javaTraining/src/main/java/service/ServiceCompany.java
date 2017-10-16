@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoImpl.ComputerDAOImpl;
@@ -19,14 +16,25 @@ import persistence.daoUtil.TransactionManager;
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
     private TransactionManager transactionManager;
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private static CompanyDAOImpl companyDAOImpl = (CompanyDAOImpl) context.getBean("companyDAOImpl");
-    private static ComputerDAOImpl computerDAOImpl = (ComputerDAOImpl) context.getBean("computerDAOImpl");
-    private static final ConnectionManager connectionManager = (ConnectionManager) context.getBean("ConnectionManager");
+    private CompanyDAOImpl companyDAOImpl;
+    private ComputerDAOImpl computerDAOImpl;
+    private ConnectionManager connectionManager;
     private static ServiceCompany INSTANCE = new ServiceCompany();
 
     public static ServiceCompany getInstance() {
         return INSTANCE;
+    }
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
+        this.companyDAOImpl = companyDAOImpl;
+    }
+
+    public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
+        this.computerDAOImpl = computerDAOImpl;
     }
 
     /** CONSTRUCTOR.

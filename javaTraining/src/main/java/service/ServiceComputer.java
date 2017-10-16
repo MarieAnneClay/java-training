@@ -2,24 +2,32 @@ package service;
 
 import java.util.ArrayList;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import DTO.ComputerDTO;
 import DTO.ComputerMapper;
 import model.Computer;
+import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoImpl.ComputerDAOImpl;
+import persistence.daoUtil.ConnectionManager;
 import util.Validator;
 import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
 public class ServiceComputer {
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private static ComputerDAOImpl computerDAOImpl = (ComputerDAOImpl) context.getBean("computerDAOImpl");
+    private ComputerDAOImpl computerDAOImpl;
     private static final ServiceComputer INSTANCE = new ServiceComputer();
 
     public static ServiceComputer getInstance() {
         return INSTANCE;
+    }
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+    }
+
+    public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
+    }
+
+    public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
+        this.computerDAOImpl = computerDAOImpl;
     }
 
     /** Function to get the computer.

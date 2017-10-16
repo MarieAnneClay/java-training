@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import model.Computer;
 import persistence.dao.ComputerDAO;
 import persistence.daoUtil.ConnectionManager;
@@ -20,18 +22,23 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private TransactionManager transactionManager;
-    private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
-    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
+    private ConnectionManager connectionManager;
+    private JdbcTemplate jdbcTemplate;
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
     private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer cr " + "LEFT JOIN company cy ON cr.company_id = cy.id " + "WHERE cr.name LIKE CONCAT('%', ? , '%') "
             + "OR cy.name LIKE CONCAT('%', ? , '%') ";
-    private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM computer WHERE id = ?";
     private static final String SQL_UPDATE_COMPANY_ID = "UPDATE computer SET company_id = ? WHERE company_id = ?";
 
-    public static ComputerDAOImpl getInstance() {
-        return INSTANCE;
+    public ConnectionManager getConnection() {
+        return connectionManager;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
     @Override
@@ -95,38 +102,23 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
+        String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES ('" + computer.getName() + "', '" + computer.getIntroduced() + "', '" + computer.getDiscontinued()
+                + "', '" + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + "')";
+        jdbcTemplate.update(query);
 
-        try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_INSERT, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
-                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()));) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
     }
 
     @Override
     public void updateComputer(Computer computer) throws DAOException {
-
-        try (Connection connexion = connectionManager.getConnection();
-                PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(),
-                        ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()), computer.getId());) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
+        String query = "UPDATE computer SET name = '" + computer.getName() + "', introduced = '" + computer.getIntroduced() + "', discontinued = '" + computer.getDiscontinued() + "', company_id = '"
+                + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + "' WHERE id = '" + computer.getId() + "'";
+        jdbcTemplate.update(query);
     }
 
     @Override
     public void deleteComputer(long id) throws DAOException {
-        try (Connection connexion = connectionManager.getConnection(); PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_DELETE_BY_ID, id);) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new DAOException(e);
-        }
+        String query = "DELETE FROM computer WHERE id ='" + id + "' ";
+        jdbcTemplate.update(query);
     }
 
     /** Mapper function for computerDAO.
