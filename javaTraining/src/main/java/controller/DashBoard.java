@@ -16,9 +16,13 @@ public class DashBoard extends HttpServlet {
     // Obligatoire pour la définition d'un servlet
     private static final long serialVersionUID = 1L;
 
-    private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
+    private ServiceComputer serviceComputer;
     private static final String VIEW = "/WEB-INF/dashboard.jsp";
     private static final String VIEW_HOME = "/javaTraining/dashboard";
+
+    public ServiceComputer setServiceComputer(ServiceComputer serviceComputer) {
+        return this.serviceComputer = serviceComputer;
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

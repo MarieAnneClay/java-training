@@ -27,7 +27,7 @@
 	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager">
 		<property name="dataSource" value="dataSource" />
 	</bean>
-	
+
 	<!-- JDBCTemplate -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
@@ -36,12 +36,12 @@
 	<!-- DAO -->
 	<bean id="companyDAOImpl" class="persistence.daoImpl.CompanyDAOImpl">
 		<property name="connectionManager" value="connectionManager" />
-		<property name="jdbcTemplate" ref="jdbcTemplate"></property>  
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
 	<bean id="computerDAOImpl" class="persistence.daoimpl.ComputerDAOImpl">
 		<property name="connectionManager" value="connectionManager" />
-		<property name="jdbcTemplate" ref="jdbcTemplate"></property>  
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
 	<!-- Service -->
@@ -54,5 +54,30 @@
 		<property name="connectionManager" value="connectionManager" />
 	</bean>
 
+	<!-- Servlet -->
+	<beans
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		<!-- Controleur type d'urlMapping : org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping -->
+		<bean id="dashboardController" class="controller.DashBoard">
+			<property name="serviceComputer" ref="serviceComputer" />
+		</bean>
+		<bean id="urlMapping"
+			class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		</bean>
+		<bean name="/dashboard"
+			class="controller.DashBoard">
+			<property name="serviceComputer" ref="serviceComputer" />
+		</bean>
+		<!-- View Resolver : Toutes les vues sont des JSP -->
+		<bean id="viewResolver"
+			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix">
+				<value>/WEB-INF/</value>
+			</property>
+			<property name="suffix">
+				<value>.jsp</value>
+			</property>
+		</bean>
+	</beans>
 
 </beans>
