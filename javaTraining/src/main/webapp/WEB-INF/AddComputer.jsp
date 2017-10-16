@@ -4,31 +4,35 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1><spring:message code="label.add" /></h1>
-				<form id="addComputer" action="#" method="POST">
+				<form:form modelAttribute="computerForm" id="addComputer" action="#" method="POST">
 					<fieldset>
 						<div class="form-group">
-							<label for="computerName"><spring:message code="label.name" /></label> <input
+							<label for="computerName"><spring:message code="label.name" /></label> <form:input
+							path="name"
 								type="text" class="form-control" id="computerName"
 								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$" name="computerName"
-								placeholder="Computer name" required value="${name}">
+								placeholder="Computer name" required value="${name}"></form:input>
 						</div>
 						<div class="form-group">
-							<label for="introduced"><spring:message code="label.introduced" /></label> <input
+							<label for="introduced"><spring:message code="label.introduced" /></label> <form:input
+							path="introduced"
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="introduced" name="introduced"
-								placeholder="Introduced date AAAA-MM-DD" value="${introduced}">
+								placeholder="Introduced date AAAA-MM-DD" value="${introduced}"></form:input>
 						</div>
 						<div class="form-group">
-							<label for="discontinued"><spring:message code="label.discontinued" /></label> <input
+							<label for="discontinued"><spring:message code="label.discontinued" /></label> <form:input
+							path="discontinued"
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="discontinued" name="discontinued"
 								placeholder="Discontinued date AAAA-MM-DD"
-								value="${discontinued}">
+								value="${discontinued}"></form:input>
 						</div>
 						<div class="form-group">
-							<label for="companyId"><spring:message code="label.company" /></label> <select
+							<label for="companyId"><spring:message code="label.company" /></label> <form:select
+							path="companyId"
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option value="0"></option>
 								<c:forEach items="${companies}" var="company">
@@ -37,7 +41,7 @@
 			                                                	${company.getName()}
 			                                                	</option>
                                                 </c:forEach>
-									</select>
+									</form:select>
                             </div>
 						</fieldset>
 						<div class="actions pull-right">
@@ -55,11 +59,12 @@
 								<br />
 							</c:forEach>
 						</p>
-					</form>
+					</form:form>
 				</div>
 			</div>
 		</div>
 	</section>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.i18n.properties.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>

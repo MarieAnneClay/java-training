@@ -12,7 +12,7 @@ submitValidate = function() {
 
 	if (name != ""){
 		if(patternName.test(name) == false){
-			$("#error").append('Name must be alphanumeric');
+			$("#error").append($("#errorName"));
 			isNotError = false;
 		}
 
@@ -44,49 +44,49 @@ submitValidate = function() {
 
 };
 
-jQuery(document).ready(function() {
-	   jQuery("#addComputer").validate({
-	      rules: {
-	         "computerName":{
-	            "required": true,
-	            "minlength": 1,
-	            "maxlength": 60,
-	            "regex": /^[0-9a-zA-Zàâéèëêïîôùüç -]$/
-	         },
-	         "introduced": {
-	        	 "regex": /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/
-	         },
-	         "discontinued": {
-	        	 "regex": /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/
-	         }
-	  })
-	  jQuery.validator.addMethod(
-			  "regex",
-			   function(value, element, regexp) {
-			       if (regexp.constructor != RegExp)
-			          regexp = new RegExp(regexp);
-			       else if (regexp.global)
-			          regexp.lastIndex = 0;
-			          return this.optional(element) || regexp.test(value);
-			   },"erreur expression reguliere"
-			);
-	   jQuery.extend(jQuery.validator.messages, {
-		    required: "votre message",
-		    remote: "votre message",
-		    email: "votre message",
-		    url: "votre message",
-		    date: "votre message",
-		    dateISO: "votre message",
-		    number: "votre message",
-		    digits: "votre message",
-		    creditcard: "votre message",
-		    equalTo: "votre message",
-		    accept: "votre message",
-		    maxlength: jQuery.validator.format("votre message {0} caractéres."),
-		    minlength: jQuery.validator.format("votre message {0} caractéres."),
-		    rangelength: jQuery.validator.format("votre message  entre {0} et {1} caractéres."),
-		    range: jQuery.validator.format("votre message  entre {0} et {1}."),
-		    max: jQuery.validator.format("votre message  inférieur ou égal à {0}."),
-		    min: jQuery.validator.format("votre message  supérieur ou égal à {0}.")
-		  });
-	});
+//jQuery(document).ready(function() {
+//	   jQuery("#addComputer").validate({
+//	      rules: {
+//	         "computerName":{
+//	            "required": true,
+//	            "minlength": 1,
+//	            "maxlength": 60,
+//	            "regex": /^[0-9a-zA-Zàâéèëêïîôùüç -]$/
+//	         },
+//	         "introduced": {
+//	        	 "regex": /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/
+//	         },
+//	         "discontinued": {
+//	        	 "regex": /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/
+//	         }
+//	  }),
+//	  jQuery.validator.addMethod(
+//			  "regex",
+//			   function(value, element, regexp) {
+//			       if (regexp.constructor != RegExp)
+//			          regexp = new RegExp(regexp);
+//			       else if (regexp.global)
+//			          regexp.lastIndex = 0;
+//			          return this.optional(element) || regexp.test(value);
+//			   },"erreur expression reguliere"
+//			),
+//	   jQuery.extend(jQuery.validator.messages, {
+//		    required: "votre message",
+//		    remote: "votre message",
+//		    email: "votre message",
+//		    url: "votre message",
+//		    date: "votre message",
+//		    dateISO: "votre message",
+//		    number: "votre message",
+//		    digits: "votre message",
+//		    creditcard: "votre message",
+//		    equalTo: "votre message",
+//		    accept: "votre message",
+//		    maxlength: jQuery.validator.format("votre message {0} caractéres."),
+//		    minlength: jQuery.validator.format("votre message {0} caractéres."),
+//		    rangelength: jQuery.validator.format("votre message  entre {0} et {1} caractéres."),
+//		    range: jQuery.validator.format("votre message  entre {0} et {1}."),
+//		    max: jQuery.validator.format("votre message  inférieur ou égal à {0}."),
+//		    min: jQuery.validator.format("votre message  supérieur ou égal à {0}.")
+//		  });
+//	});

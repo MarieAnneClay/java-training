@@ -103,7 +103,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 	</div>
 
 </footer>
-
+<script src="${pageContext.request.contextPath}/resources/js/jquery.i18n.properties.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script

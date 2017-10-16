@@ -47,7 +47,7 @@ public class AddComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(Model model, @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult result) throws ServletException {
+    public String doPost(Model model, @ModelAttribute("computerForm") ComputerDTO computerDTO, BindingResult result) throws ServletException {
         ComputerDTOValidator computerDTOValidator = new ComputerDTOValidator();
         computerDTOValidator.validate(computerDTO, result);
 

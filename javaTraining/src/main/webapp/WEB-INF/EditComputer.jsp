@@ -1,4 +1,5 @@
 <%@ include file="staticPage/header.jsp"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <section id="main">
 	<div class="container">
 		<div class="row">
@@ -6,35 +7,38 @@
 				<div class="label label-default pull-right">id: ${id}</div>
 				<h1><spring:message code="label.edit" /></h1>
 
-				<form id="addComputer" action="editComputer" method="POST">
-					<input type="hidden" value="${id}" name="id" id="id" />
+				<form:form modelAttribute="computerForm" id="addComputer" action="editComputer" method="POST">
+					<form:hidden path="id" />
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
-							<label for="computerName"><spring:message code="label.name" /></label> <input
+							<label for="computerName"><spring:message code="label.name" /></label> <form:input path="name"
 								type="text" class="form-control" id="computerName"
 								name="computerName" placeholder="Computer name"
 								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$"
-								value="${computer.getName()}" required>
+								value="${computer.getName()}" required></form:input>
 						</div>
 						<div class="form-group">
-							<label for="introduced"><spring:message code="label.introduced" /></label> <input
+							<label for="introduced"><spring:message code="label.introduced" /></label> <form:input
+							path="introduced"
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="introduced" name="introduced"
 								placeholder="Introduced date AAAA-MM-DD"
-								value="${computer.getIntroduced()}">
+								value="${computer.getIntroduced()}"></form:input>
 						</div>
 						<div class="form-group">
-							<label for="discontinued"><spring:message code="label.discontinued" /></label> <input
+							<label for="discontinued"><spring:message code="label.discontinued" /></label> <form:input
+							path="discontinued"
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="discontinued" name="discontinued"
 								placeholder="Discontinued date AAAA-MM-DD"
-								value="${computer.getDiscontinued()}">
+								value="${computer.getDiscontinued()}"></form:input>
 						</div>
 						<div class="form-group">
-							<label for="companyId"><spring:message code="label.company" /></label> <select
+							<label for="companyId"><spring:message code="label.company" /></label> <form:select
+							path="companyId"
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option value="0"></option>
 								<c:forEach items="${companies}" var="company">
@@ -43,7 +47,7 @@
 			                                                	${company.getName()}
 			                                                	</option>
                                                 </c:forEach>
-									</select>
+									</form:select>
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
@@ -60,11 +64,12 @@
 	                       		<c:out value="${e }"/><br/>
 	                       	</c:forEach>
 						</p>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>
     </section>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.i18n.properties.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>  
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
