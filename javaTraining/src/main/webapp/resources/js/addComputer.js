@@ -17,7 +17,7 @@ submitValidate = function() {
 		}
 
 	}else{
-		$("#error").append('nom vide');
+		$("#error").append($("#errorNameEmpty"));
 		isNotError = false;
 	}
 
@@ -28,12 +28,12 @@ submitValidate = function() {
 			Odeb = new Date(tabdeb[2],tabdeb[1],tabdeb[0]);
 			Ofin = new Date(tabfin[2],tabfin[1],tabfin[0]);
 			if(Odeb > Ofin) {
-				$("#error").append('Introduced date must be before discontinued date');
+				$("#error").append($("#errorDateOrder"));
 				isNotError = false;
 			}
 		}
 		else{
-			$("#error").append('Format de la date incorrect');
+			$("#error").append($("#errorDate"));
 			isNotError = false;
 		}
 	}

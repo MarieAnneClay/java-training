@@ -60,10 +60,12 @@ public class EditComputer {
         computerDTOValidator.validate(computerDTO, result);
 
         if (result.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
             ArrayList<String> errors = (ArrayList<String>) result.getAllErrors();
             for (String error : errors) {
-                model.addAttribute("errors", error);
+                sb.append(error);
             }
+            model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {
             serviceComputer.updateComputer(computerDTO);
