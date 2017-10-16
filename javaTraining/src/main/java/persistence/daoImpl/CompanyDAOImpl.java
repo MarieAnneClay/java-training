@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import model.Company;
 import persistence.dao.CompanyDAO;
 import persistence.daoUtil.ConnectionManager;
@@ -19,16 +22,16 @@ import persistence.daoUtil.TransactionManager;
 public class CompanyDAOImpl implements CompanyDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
-    private static final CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
     private TransactionManager transactionManager;
-    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    private static final ConnectionManager connectionManager = (ConnectionManager) context.getBean("ConnectionManager");
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
     private static final String SQL_INSERT = "INSERT INTO company (name) VALUES (?)";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM company WHERE id = ?";
 
-    public static CompanyDAOImpl getInstance() {
-        return INSTANCE;
+    public ConnectionManager getConnection() {
+        return connectionManager;
     }
 
     @Override

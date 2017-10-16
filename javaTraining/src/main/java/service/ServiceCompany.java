@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoImpl.ComputerDAOImpl;
@@ -16,8 +19,10 @@ import persistence.daoUtil.TransactionManager;
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
     private TransactionManager transactionManager;
-    private static CompanyDAOImpl companyDAOImpl = CompanyDAOImpl.getInstance();
-    private static ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    private static CompanyDAOImpl companyDAOImpl = (CompanyDAOImpl) context.getBean("companyDAOImpl");
+    private static ComputerDAOImpl computerDAOImpl = (ComputerDAOImpl) context.getBean("computerDAOImpl");
+    private static final ConnectionManager connectionManager = (ConnectionManager) context.getBean("ConnectionManager");
     private static ServiceCompany INSTANCE = new ServiceCompany();
 
     public static ServiceCompany getInstance() {
@@ -65,7 +70,7 @@ public class ServiceCompany {
     }
 
     public void deleteCompany(long id) throws SQLException {
-        Connection connexion = ConnectionManager.getInstance().getConnection();
+        Connection connexion = connectionManager.getConnection();
         transactionManager.setConnection(connexion);
 
         try {

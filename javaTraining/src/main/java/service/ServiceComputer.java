@@ -2,6 +2,9 @@ package service;
 
 import java.util.ArrayList;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import DTO.ComputerDTO;
 import DTO.ComputerMapper;
 import model.Computer;
@@ -11,35 +14,30 @@ import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
 public class ServiceComputer {
-    private ComputerDAOImpl computerDAOImpl = ComputerDAOImpl.getInstance();
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    private static ComputerDAOImpl computerDAOImpl = (ComputerDAOImpl) context.getBean("computerDAOImpl");
     private static final ServiceComputer INSTANCE = new ServiceComputer();
 
     public static ServiceComputer getInstance() {
         return INSTANCE;
     }
 
-    /** Constructor that instance the connection to the database for Computer
-     * DAO. */
-    public ServiceComputer() {
-        this.computerDAOImpl = new ComputerDAOImpl();
-    }
-
     /** Function to get the computer.
      * @param id of the computer searched
      * @return A list of all the Computer in the database */
     public Computer getComputer(long id) {
-        return this.computerDAOImpl.findByIdComputer(id);
+        return computerDAOImpl.findByIdComputer(id);
     }
 
     /** Function to get the computer.
      * @param name of the computer searched
      * @return A list of all the Computer in the database */
     public ArrayList<Computer> getComputerByName(String name, int numberOfComputerByPage, int currentPage, String sort, String order) {
-        return this.computerDAOImpl.findComputerByNameAndCompany(name, numberOfComputerByPage, currentPage, sort, order);
+        return computerDAOImpl.findComputerByNameAndCompany(name, numberOfComputerByPage, currentPage, sort, order);
     }
 
     public int getCount(String name) {
-        return this.computerDAOImpl.getCount(name);
+        return computerDAOImpl.getCount(name);
     }
 
     /** Function which call the createComputer to create a computer in the database
@@ -48,7 +46,7 @@ public class ServiceComputer {
     public void setComputer(ComputerDTO computerDTO) throws ValidatorException {
         Computer computer = ComputerMapper.convertDTOToComputer(computerDTO);
         Validator.validationComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued());
-        this.computerDAOImpl.createComputer(computer);
+        computerDAOImpl.createComputer(computer);
     }
 
     /** Function which call the updateComputer to update a computer in the database
@@ -64,7 +62,7 @@ public class ServiceComputer {
         computer.setDiscontinued(computerMapper.getDiscontinued());
         computer.setCompanyId(computerMapper.getCompanyId());
 
-        this.computerDAOImpl.updateComputer(computer);
+        computerDAOImpl.updateComputer(computer);
     }
 
     /** Function which call the deleteComputer to delete a computer in the database
@@ -72,7 +70,7 @@ public class ServiceComputer {
      * @param id id of the computer to delete in the database */
     public void deleteComputer(String ids) {
         for (String id : ids.split(",")) {
-            this.computerDAOImpl.deleteComputer(Integer.parseInt(id));
+            computerDAOImpl.deleteComputer(Integer.parseInt(id));
         }
     }
 

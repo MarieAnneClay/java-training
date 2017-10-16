@@ -39,20 +39,14 @@
 	<!-- <location>/WEB-INF/staticPage/500.jsp</location> -->
 	<!-- </error-page> -->
 
-<!-- 	<listener> -->
-<!-- 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
-<!-- 	</listener> -->
-
-<!-- 	<welcome-file-list> -->
-<!-- 		<welcome-file> -->
-<!--       dashboard.jsp -->
-<!--     </welcome-file> -->
-<!-- 	</welcome-file-list> -->
-	
-<!-- 	<context-param> -->
-<!--         <param-name>contextConfigLocation</param-name> -->
-<!--         <param-value>classpath*:**/*Context.xml -->
-<!--         </param-value> -->
-<!--  </context-param> -->
+	<listener>
+      <listener-class>
+        org.springframework.web.context.ContextLoaderListener
+      </listener-class>
+   	</listener>
+   	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>classpath*:applicationContext.xml</param-value>
+	</context-param>
 
 </web-app>
