@@ -50,7 +50,7 @@ public class ServiceCompany {
     /** Function search company by id in the database.
      * @param id id of the searched company
      * @return company searched */
-    public Company getCompany(long id) {
+    public Company getCompany(Long id) {
         return companyDAOImpl.findByIdCompany(id);
     }
 
@@ -77,7 +77,7 @@ public class ServiceCompany {
         companyDAOImpl.createCompany(new Company(name));
     }
 
-    public void deleteCompany(long id) throws SQLException {
+    public void deleteCompany(Long id) throws SQLException {
         Connection connexion = connectionManager.getConnection();
         transactionManager.setConnection(connexion);
 

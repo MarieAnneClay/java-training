@@ -42,7 +42,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public Computer findByIdComputer(long id) throws DAOException {
+    public Computer findByIdComputer(Long id) throws DAOException {
         Computer computer = null;
 
         try (Connection connexion = connectionManager.getConnection();
@@ -103,7 +103,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
         String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES ('" + computer.getName() + "', '" + computer.getIntroduced() + "', '" + computer.getDiscontinued()
-                + "', '" + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + "')";
+                + "', '" + computer.getCompanyId() + "')";
         jdbcTemplate.update(query);
 
     }
@@ -111,12 +111,12 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public void updateComputer(Computer computer) throws DAOException {
         String query = "UPDATE computer SET name = '" + computer.getName() + "', introduced = '" + computer.getIntroduced() + "', discontinued = '" + computer.getDiscontinued() + "', company_id = '"
-                + ((computer.getCompanyId() == 0) ? null : computer.getCompanyId()) + "' WHERE id = '" + computer.getId() + "'";
+                + computer.getCompanyId() + "' WHERE id = '" + computer.getId() + "'";
         jdbcTemplate.update(query);
     }
 
     @Override
-    public void deleteComputer(long id) throws DAOException {
+    public void deleteComputer(Long id) throws DAOException {
         String query = "DELETE FROM computer WHERE id ='" + id + "' ";
         jdbcTemplate.update(query);
     }
@@ -136,7 +136,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public void updateCompanyId(long id) throws DAOException {
+    public void updateCompanyId(Long id) throws DAOException {
         Connection connexion = transactionManager.getConnection();
         try (PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_UPDATE_COMPANY_ID, null, id);) {
             preparedStatement.executeUpdate();

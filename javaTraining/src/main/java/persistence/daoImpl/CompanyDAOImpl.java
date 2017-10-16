@@ -59,7 +59,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public Company findByIdCompany(long id) throws DAOException {
+    public Company findByIdCompany(Long id) throws DAOException {
         Company company = null;
 
         try (Connection connexion = connectionManager.getConnection();
@@ -97,7 +97,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public void deleteCompany(long id) throws DAOException {
+    public void deleteCompany(Long id) throws DAOException {
         String query = "DELETE FROM company WHERE id = '" + id + "' ";
         jdbcTemplate.update(query);
     }

@@ -33,7 +33,7 @@ public class ServiceComputer {
     /** Function to get the computer.
      * @param id of the computer searched
      * @return A list of all the Computer in the database */
-    public Computer getComputer(long id) {
+    public Computer getComputer(Long id) {
         return computerDAOImpl.findByIdComputer(id);
     }
 
@@ -78,7 +78,7 @@ public class ServiceComputer {
      * @param id id of the computer to delete in the database */
     public void deleteComputer(String ids) {
         for (String id : ids.split(",")) {
-            computerDAOImpl.deleteComputer(Integer.parseInt(id));
+            computerDAOImpl.deleteComputer(Long.parseLong(id));
         }
     }
 

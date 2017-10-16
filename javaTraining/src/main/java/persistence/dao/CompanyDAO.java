@@ -15,7 +15,7 @@ public interface CompanyDAO {
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the company search in the database
      * @return A Company */
-    Company findByIdCompany(long id) throws DAOException;
+    Company findByIdCompany(Long id) throws DAOException;
 
     void createCompany(Company company) throws IllegalArgumentException, DAOException;
 
@@ -23,5 +23,5 @@ public interface CompanyDAO {
      * delete a company in the database and the link with his computers.
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the company to delete in the database */
-    void deleteCompany(long id) throws DAOException;
+    void deleteCompany(Long id) throws DAOException;
 }

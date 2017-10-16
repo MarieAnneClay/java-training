@@ -2,7 +2,7 @@ package model;
 
 public class Company {
 
-    private long id;
+    private Long id;
     private String name;
 
     /** DEFAULT CONSTRUCTOR. */
@@ -19,7 +19,7 @@ public class Company {
 
     /** CONSTRUCTOR with id and name.
      * @param id id of the company in the database */
-    public Company(long id) {
+    public Company(Long id) {
         super();
         this.id = id;
     }
@@ -27,7 +27,7 @@ public class Company {
     /** CONSTRUCTOR with id and name.
      * @param id id of the company in the database
      * @param name name of the company in the database */
-    public Company(long id, String name) {
+    public Company(Long id, String name) {
         super();
         this.id = id;
         this.name = name;
@@ -40,7 +40,7 @@ public class Company {
             this.company = new Company();
         }
 
-        public CompanyBuilder setId(long id) {
+        public CompanyBuilder setId(Long id) {
             this.company.setId(id);
             return this;
         }
@@ -56,11 +56,11 @@ public class Company {
     }
 
     /* GETTERS & SETTERS */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

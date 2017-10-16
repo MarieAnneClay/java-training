@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 public class Computer {
 
-    private long id;
+    private Long id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
-    private long companyId;
+    private Long companyId;
 
     /** DEFAULT CONSTRUCTOR. */
     public Computer() {
@@ -22,7 +22,7 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
-    public Computer(long id) {
+    public Computer(Long id) {
         super();
         this.id = id;
     }
@@ -34,7 +34,7 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
-    public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyId) {
+    public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Long companyId) {
         super();
         this.id = id;
         this.name = name;
@@ -49,7 +49,7 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
-    public Computer(String name, LocalDate introduced, LocalDate discontinued, long companyId) {
+    public Computer(String name, LocalDate introduced, LocalDate discontinued, Long companyId) {
         super();
         this.name = name;
         this.introduced = introduced;
@@ -95,11 +95,11 @@ public class Computer {
     }
 
     /* GETTERS & SETTERS */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -127,11 +127,11 @@ public class Computer {
         this.discontinued = discontinued;
     }
 
-    public long getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(long companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 

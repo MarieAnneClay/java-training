@@ -10,7 +10,7 @@ public interface ComputerDAO {
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the company search in the database
      * @return A Company */
-    Computer findByIdComputer(long id) throws DAOException;
+    Computer findByIdComputer(Long id) throws DAOException;
 
     /** function to get the company with the name.
      * @throws DAOException a DAO exception (src/main/daoUtil)
@@ -37,7 +37,7 @@ public interface ComputerDAO {
      * delete a computer in the database.
      * @throws DAOException a DAO exception (src/main/daoUtil)
      * @param id the id of the computer to delete in the database */
-    void deleteComputer(long id) throws DAOException;
+    void deleteComputer(Long id) throws DAOException;
 
-    void updateCompanyId(long id) throws DAOException;
+    void updateCompanyId(Long id) throws DAOException;
 }
