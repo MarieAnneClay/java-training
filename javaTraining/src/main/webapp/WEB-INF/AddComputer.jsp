@@ -3,24 +3,24 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
-				<h1>Add Computer</h1>
+				<h1><spring:message code="label.add" /></h1>
 				<form id="addComputer" action="#" method="POST">
 					<fieldset>
 						<div class="form-group">
-							<label for="computerName">Computer name</label> <input
+							<label for="computerName"><spring:message code="label.name" /></label> <input
 								type="text" class="form-control" id="computerName"
 								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$" name="computerName"
 								placeholder="Computer name" required value="${name}">
 						</div>
 						<div class="form-group">
-							<label for="introduced">Introduced date</label> <input
+							<label for="introduced"><spring:message code="label.introduced" /></label> <input
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="introduced" name="introduced"
 								placeholder="Introduced date AAAA-MM-DD" value="${introduced}">
 						</div>
 						<div class="form-group">
-							<label for="discontinued">Discontinued date</label> <input
+							<label for="discontinued"><spring:message code="label.discontinued" /></label> <input
 								type="date"
 								pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
 								class="form-control" id="discontinued" name="discontinued"
@@ -28,7 +28,7 @@
 								value="${discontinued}">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
+							<label for="companyId"><spring:message code="label.company" /></label> <select
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option value="0"></option>
 								<c:forEach items="${companies}" var="company">
@@ -42,11 +42,11 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<a class="btn btn-primary" id="addComputer" href="#"
-								onclick="submitValidate();">Add</a> or <a
+								onclick="submitValidate();"><spring:message code="label.add" /></a> or <a
 								href="
 				   				<c:url value="/dashboard">
 				   				</c:url>"
-								class="btn btn-default"> Cancel </a>
+								class="btn btn-default"> <spring:message code="label.cancel" /> </a>
 						</div>
 						<div id="error" style="color:red"></div>
 						<p style="${empty errors ? "color:green" : "color:red"}">

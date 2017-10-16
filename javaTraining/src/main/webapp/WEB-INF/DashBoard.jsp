@@ -10,7 +10,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 	<div class="container">
 		<h1 id="dashboardTitle">
 			<c:out value="${size}" />
-			Computers found
+			<spring:message code="label.size" />
 		</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
@@ -26,9 +26,9 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 				<a href="
 		   				<c:url value="/addComputer">
 		   				</c:url>"
-					class="btn btn-success" id="addComputer"> Add Computer </a> <a
+					class="btn btn-success" id="addComputer"> <spring:message code="label.add" /> </a> <a
 					class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();">Edit</a>
+					onclick="$.fn.toggleEditMode();"><spring:message code="label.edit" /></a>
 			</div>
 		</div>
 	</div>
