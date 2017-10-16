@@ -1,13 +1,15 @@
 package controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import DTO.CompanyMapper;
 import DTO.ComputerDTO;
@@ -16,46 +18,50 @@ import service.ServiceCompany;
 import service.ServiceComputer;
 import util.ValidatorException;
 
-@WebServlet("/addComputer")
-public class AddComputer extends HttpServlet {
-    // Obligatoire pour la définition d'un servlet
-    private static final long serialVersionUID = 1L;
-
-    private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
-    private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
-
-    private static final String VIEW = "/WEB-INF/addComputer.jsp";
-    private static final String VIEW_HOME = "/javaTraining/dashboard";
+@Controller
+@RequestMapping("/addComputer")
+public class AddComputer {
+    private ServiceCompany serviceCompany;
+    private ServiceComputer serviceComputer;
 
     private static final String FIELD_NAME = "computerName";
     private static final String FIELD_INTRODUCED = "introduced";
     private static final String FIELD_DISCONTINUED = "discontinued";
     private static final String FIELD_COMPANY_ID = "companyId";
+    private static final String VIEW = "addComputer";
+    private static final String VIEW_HOME = "dashboard";
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Company> companies = serviceCompany.getAllCompanies();
-        request.setAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
-        this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+    @Autowired
+    public ServiceComputer setServiceComputer(ServiceComputer serviceComputer) {
+        return this.serviceComputer = serviceComputer;
     }
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter(FIELD_NAME);
-        String introduced = request.getParameter(FIELD_INTRODUCED);
-        String discontinued = request.getParameter(FIELD_DISCONTINUED);
-        String companyId = request.getParameter(FIELD_COMPANY_ID);
+    @Autowired
+    public ServiceCompany setServiceCompany(ServiceCompany serviceCompany) {
+        return this.serviceCompany = serviceCompany;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String doGet(ModelMap model) throws ServletException {
+        ArrayList<Company> companies = serviceCompany.getAllCompanies();
+        model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        return VIEW;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(ModelMap model, @RequestParam(value = FIELD_NAME, required = true) String name, @RequestParam(value = FIELD_INTRODUCED, required = false) String introduced,
+            @RequestParam(value = FIELD_DISCONTINUED, required = false) String discontinued, @RequestParam(value = FIELD_COMPANY_ID, required = false) String companyId) throws ServletException {
 
         try {
             serviceComputer.setComputer(new ComputerDTO(name, introduced, discontinued, companyId));
-            response.sendRedirect(VIEW_HOME);
+            return VIEW_HOME;
         } catch (ValidatorException e) {
-            request.setAttribute("errors", e.getMessage());
-            request.setAttribute("name", name);
-            request.setAttribute("introduced", introduced);
-            request.setAttribute("discontinued", discontinued);
-            request.setAttribute("companyId", companyId);
-            this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+            model.addAttribute("errors", e.getMessage());
+            model.addAttribute("name", name);
+            model.addAttribute("introduced", introduced);
+            model.addAttribute("discontinued", discontinued);
+            model.addAttribute("companyId", companyId);
+            return VIEW;
         }
 
     }

@@ -1,48 +1,45 @@
 package controller;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import service.ServiceComputer;
 import util.Page;
 
-@WebServlet("/dashboard")
-public class DashBoard extends HttpServlet {
-    // Obligatoire pour la définition d'un servlet
-    private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping("/dashboard")
+public class DashBoard {
 
     private ServiceComputer serviceComputer;
-    private static final String VIEW = "/WEB-INF/dashboard.jsp";
-    private static final String VIEW_HOME = "/javaTraining/dashboard";
+    private static final String VIEW = "dashboard";
 
+    @Autowired
     public ServiceComputer setServiceComputer(ServiceComputer serviceComputer) {
         return this.serviceComputer = serviceComputer;
     }
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public String doGet(HttpServletRequest request) {
         Page page = new Page();
         request = page.getRequest(request);
-
-        this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
-
+        return VIEW;
     }
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("selection") != null) {
-            String idsSelects = request.getParameter("selection");
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(@RequestParam(value = "selection", required = true) String idsSelects) throws ServletException {
+        if (idsSelects != null) {
             serviceComputer.deleteComputer(idsSelects);
-            response.sendRedirect(VIEW_HOME);
 
         } else {
             throw new ServletException("Illegal exception");
         }
+        return VIEW;
 
     }
 

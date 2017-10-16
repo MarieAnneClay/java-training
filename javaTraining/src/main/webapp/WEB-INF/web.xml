@@ -16,14 +16,6 @@
 		</init-param>
 	</filter>
 
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<!-- <include-prelude>/WEB-INF/header.jsp</include-prelude> -->
-			<!-- <include-coda>/WEB-INF/footer.jsp</include-coda> -->
-		</jsp-property-group>
-	</jsp-config>
-
 	<!-- <error-page> -->
 	<!-- <error-code>403</error-code> -->
 	<!-- <location>/WEB-INF/staticPage/403.jsp</location> -->
@@ -48,5 +40,23 @@
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>classpath*:applicationContext.xml</param-value>
 	</context-param>
+
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+</servlet-mapping>
 
 </web-app>

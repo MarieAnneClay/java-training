@@ -53,31 +53,6 @@
 		<property name="computerDAOImpl" value="computerDAOImpl" />
 		<property name="connectionManager" value="connectionManager" />
 	</bean>
-
-	<!-- Servlet -->
-	<beans
-		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-		<!-- Controleur type d'urlMapping : org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping -->
-		<bean id="dashboardController" class="controller.DashBoard">
-			<property name="serviceComputer" ref="serviceComputer" />
-		</bean>
-		<bean id="urlMapping"
-			class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
-		</bean>
-		<bean name="/dashboard"
-			class="controller.DashBoard">
-			<property name="serviceComputer" ref="serviceComputer" />
-		</bean>
-		<!-- View Resolver : Toutes les vues sont des JSP -->
-		<bean id="viewResolver"
-			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-			<property name="prefix">
-				<value>/WEB-INF/</value>
-			</property>
-			<property name="suffix">
-				<value>.jsp</value>
-			</property>
-		</bean>
-	</beans>
-
+	
+	
 </beans>
