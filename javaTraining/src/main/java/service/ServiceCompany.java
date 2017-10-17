@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Service;
+
 import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoImpl.ComputerDAOImpl;
@@ -13,6 +15,7 @@ import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
 import persistence.daoUtil.TransactionManager;
 
+@Service
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
     private TransactionManager transactionManager;
@@ -21,26 +24,40 @@ public class ServiceCompany {
     private ConnectionManager connectionManager;
     private static ServiceCompany INSTANCE = new ServiceCompany();
 
-    public static ServiceCompany getInstance() {
-        return INSTANCE;
+    public TransactionManager getTransactionManager() {
+        return transactionManager;
     }
 
-    public void setConnectionManager(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public void setTransactionManager(TransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
+    public CompanyDAOImpl getCompanyDAOImpl() {
+        return companyDAOImpl;
     }
 
     public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
         this.companyDAOImpl = companyDAOImpl;
     }
 
+    public ComputerDAOImpl getComputerDAOImpl() {
+        return computerDAOImpl;
+    }
+
     public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
         this.computerDAOImpl = computerDAOImpl;
     }
 
-    /** CONSTRUCTOR.
-     * @throws SQLException */
-    public ServiceCompany() {
-        companyDAOImpl = new CompanyDAOImpl();
+    public ConnectionManager getConnectionManager() {
+        return connectionManager;
+    }
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    public static ServiceCompany getInstance() {
+        return INSTANCE;
     }
 
     public ArrayList<Company> getAllCompanies() {

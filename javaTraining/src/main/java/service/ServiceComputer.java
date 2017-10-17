@@ -2,32 +2,31 @@ package service;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Service;
+
 import DTO.ComputerDTO;
 import DTO.ComputerMapper;
 import model.Computer;
-import persistence.daoImpl.CompanyDAOImpl;
 import persistence.daoImpl.ComputerDAOImpl;
-import persistence.daoUtil.ConnectionManager;
 import util.Validator;
 import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
+@Service
 public class ServiceComputer {
     private ComputerDAOImpl computerDAOImpl;
-    private static final ServiceComputer INSTANCE = new ServiceComputer();
+    private static ServiceComputer INSTANCE = new ServiceComputer();
 
-    public static ServiceComputer getInstance() {
-        return INSTANCE;
-    }
-
-    public void setConnectionManager(ConnectionManager connectionManager) {
-    }
-
-    public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
+    public ComputerDAOImpl getComputerDAOImpl() {
+        return computerDAOImpl;
     }
 
     public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
         this.computerDAOImpl = computerDAOImpl;
+    }
+
+    public static ServiceComputer getInstance() {
+        return INSTANCE;
     }
 
     /** Function to get the computer.

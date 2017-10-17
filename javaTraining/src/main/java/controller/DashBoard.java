@@ -15,14 +15,9 @@ import util.Page;
 @Controller
 @RequestMapping("/dashboard")
 public class DashBoard {
-
+    @Autowired
     private ServiceComputer serviceComputer;
     private static final String VIEW = "dashboard";
-
-    @Autowired
-    public ServiceComputer setServiceComputer(ServiceComputer serviceComputer) {
-        return this.serviceComputer = serviceComputer;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(HttpServletRequest request) {

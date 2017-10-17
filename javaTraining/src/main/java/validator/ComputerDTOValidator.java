@@ -9,7 +9,7 @@ import model.Computer;
 public class ComputerDTOValidator implements Validator {
 
     @Override
-    public boolean supports(Class computerDTO) {
+    public boolean supports(Class<?> computerDTO) {
         return Computer.class.equals(computerDTO);
     }
 

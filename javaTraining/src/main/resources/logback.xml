@@ -1,67 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <configuration>
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+            </Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
 
-	<property name="DEV_HOME" value="c:/logs" />
+    <appender name="dailyRollingFileAppender"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>Documents/logs/cdb.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>cdb.%d{yyyy-MM-dd}.log</FileNamePattern>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-			</Pattern>
-		</layout>
-	</appender>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
 
-	<appender name="FILE-AUDIT"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${DEV_HOME}/debug.log</file>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
-			</Pattern>
-		</encoder>
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n
+            </Pattern>
+        </encoder>
+    </appender>
+    <appender name="minuteRollingFileAppender"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover every minute -->
+            <FileNamePattern>Documents/logs/cdb-minutes.%d{yyyy-MM-dd_HH-mm}.log
+            </FileNamePattern>
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- rollover daily -->
-			<fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
-                        </fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>10MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
+            <!-- keep 30 minutes' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
 
-	</appender>
+        <encoder>
+            <Pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n
+            </Pattern>
+        </encoder>
+    </appender>
 
-	<appender name="FILE-ERROR"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${DEV_HOME}/error.log</file>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
-			</Pattern>
-		</encoder>
+    <logger name="org.codingpedia" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="dailyRollingFileAppender" />
+        <appender-ref ref="minuteRollingFileAppender" />
+        <appender-ref ref="consoleAppender" />
+    </logger>
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- rollover daily -->
-			<fileNamePattern>${DEV_HOME}/archived/error.%d{yyyy-MM-dd}.%i.log
-                        </fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>10MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
-
-	</appender>
-
-	<!-- Send logs to both console and file audit -->
-	<logger name="com.mkyong.web" level="debug"
-		additivity="false">
-		<appender-ref ref="FILE-AUDIT" />
-		<appender-ref ref="STDOUT" />
-	</logger>
-
-	<root level="error">
-		<appender-ref ref="FILE-ERROR" />
-	</root>
-
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+    </root>
 </configuration>

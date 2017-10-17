@@ -7,25 +7,21 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 
-	<!-- HikariCP configuration -->
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="poolName" value="computerDatabase" />
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false" />
-		<property name="username" value="admincdb" />
-		<property name="password" value="qwerty1234" />
-	</bean>
-
-	<!-- dataSource -->
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
-		destroy-method="close">
-		<constructor-arg ref="hikariConfig" />
-	</bean>
+	 <!-- DataSource -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/computer-database-db?autoReconnect=true&amp;useSSL=false"/>
+        <property name="username" value="admincdb"/>
+        <property name="password" value="qwerty1234"/>
+</bean>
 
 	<!-- Connection Manager -->
-	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager">
-		<property name="dataSource" value="dataSource" />
+<!-- 	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager"> -->
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+<!-- 	</bean> -->
+	
+	<!-- Connection Manager -->
+	<bean id="transactionManager" class="persistence.daoUtil.TransactionManager">
 	</bean>
 
 	<!-- JDBCTemplate -->
@@ -35,23 +31,26 @@
 
 	<!-- DAO -->
 	<bean id="companyDAOImpl" class="persistence.daoImpl.CompanyDAOImpl">
-		<property name="connectionManager" value="connectionManager" />
+		<property name="connectionManager" ref="connectionManager" />
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
-	<bean id="computerDAOImpl" class="persistence.daoimpl.ComputerDAOImpl">
-		<property name="connectionManager" value="connectionManager" />
+	<bean id="computerDAOImpl" class="persistence.daoImpl.ComputerDAOImpl">
+		<property name="connectionManager" ref="connectionManager" />
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+		<property name="transactionManager" ref="transactionManager" />
 	</bean>
 
 	<!-- Service -->
 	<bean id="serviceCompany" class="service.ServiceCompany">
-		<property name="companyDAOImpl" value="companyDAOImpl" />
+		<property name="companyDAOImpl" ref="companyDAOImpl" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="computerDAOImpl" ref="computerDAOImpl" />
+		<property name="connectionManager" ref="connectionManager" />
 	</bean>
 
 	<bean id="serviceComputer" class="service.ServiceComputer">
-		<property name="computerDAOImpl" value="computerDAOImpl" />
-		<property name="connectionManager" value="connectionManager" />
+		<property name="computerDAOImpl" ref="computerDAOImpl" />
 	</bean>
 	
 	

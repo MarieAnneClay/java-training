@@ -15,31 +15,43 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+	
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<!-- <include-prelude>/WEB-INF/header.jsp</include-prelude> -->
+			<!-- <include-coda>/WEB-INF/footer.jsp</include-coda> -->
+		</jsp-property-group>
+	</jsp-config>
+	
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/classes/applicationContext.xml
+            /WEB-INF/classes/servlet.xml
+        </param-value>
+	</context-param>
 
-	<!-- <error-page> -->
-	<!-- <error-code>403</error-code> -->
-	<!-- <location>/WEB-INF/staticPage/403.jsp</location> -->
-	<!-- </error-page> -->
+<!-- 	<error-page> -->
+<!-- 	<error-code>403</error-code> -->
+<!-- 	<location>/WEB-INF/staticPage/403.jsp</location> -->
+<!-- 	</error-page> -->
 
-	<!-- <error-page> -->
-	<!-- <error-code>404</error-code> -->
-	<!-- <location>/WEB-INF/staticPage/404.jsp</location> -->
-	<!-- </error-page> -->
+<!-- 	<error-page> -->
+<!-- 	<error-code>404</error-code> -->
+<!-- 	<location>/WEB-INF/staticPage/404.jsp</location> -->
+<!-- 	</error-page> -->
 
-	<!-- <error-page> -->
-	<!-- <error-code>500</error-code> -->
-	<!-- <location>/WEB-INF/staticPage/500.jsp</location> -->
-	<!-- </error-page> -->
+<!-- 	<error-page> -->
+<!-- 	<error-code>500</error-code> -->
+<!-- 	<location>/WEB-INF/staticPage/500.jsp</location> -->
+<!-- 	</error-page> -->
 
 	<listener>
       <listener-class>
         org.springframework.web.context.ContextLoaderListener
       </listener-class>
    	</listener>
-   	<context-param>
-	    <param-name>contextConfigLocation</param-name>
-	    <param-value>classpath*:applicationContext.xml</param-value>
-	</context-param>
 
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
@@ -48,7 +60,7 @@
         </servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/servlet.xml</param-value>
+            <param-value>/WEB-INF/classes/servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -57,6 +69,6 @@
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
-</servlet-mapping>
+	</servlet-mapping>
 
 </web-app>

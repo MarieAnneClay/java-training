@@ -3,27 +3,23 @@ package persistence.daoUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 public class ConnectionManager {
+    private DataSource dataSource;
 
-    private static HikariDataSource ds;
+    public DataSource getDataSource() {
+        return this.dataSource;
+    }
 
-    /** CONSTRUCTOR.
-     * @throws DAOConfigurationException a DAO exception (src/main/daoUtil) */
-    private ConnectionManager() throws DAOConfigurationException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext.xml");
-        ds = new HikariDataSource((HikariConfig) context.getBean("dataSource"));
-        // context.close();
+    public void setDataSource(DataSource ds) {
+        this.dataSource = ds;
     }
 
     /** function which connect to the database.
      * @exception SQLException if the connection encounter an issue
      * @return a Connection */
     public Connection getConnection() throws SQLException {
-        return ds.getConnection();
+        return this.dataSource.getConnection();
     }
 }
