@@ -16,9 +16,9 @@
 </bean>
 
 	<!-- Connection Manager -->
-<!-- 	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager"> -->
-<!-- 		<property name="dataSource" ref="dataSource" /> -->
-<!-- 	</bean> -->
+	<bean id="connectionManager" class="persistence.daoUtil.ConnectionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 	
 	<!-- Connection Manager -->
 	<bean id="transactionManager" class="persistence.daoUtil.TransactionManager">
