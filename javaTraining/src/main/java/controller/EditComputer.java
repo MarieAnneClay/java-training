@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import DTO.CompanyMapper;
-import DTO.ComputerDTO;
 import DTO.ComputerMapper;
 import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
-import validator.ComputerDTOValidator;
+import validator.ComputerValidator;
 
 @Controller
 @RequestMapping("/EditComputer")
@@ -58,9 +58,9 @@ public class EditComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(Model model, @ModelAttribute("computerForm") ComputerDTO computerDTO, BindingResult result) throws ServletException {
-        ComputerDTOValidator computerDTOValidator = new ComputerDTOValidator();
-        computerDTOValidator.validate(computerDTO, result);
+    public String doPost(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result, HttpServletRequest request) throws ServletException {
+        ComputerValidator computerValidator = new ComputerValidator();
+        computerValidator.validate(computer, result);
 
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
@@ -71,7 +71,7 @@ public class EditComputer {
             model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {
-            serviceComputer.updateComputer(computerDTO);
+            serviceComputer.updateComputer(computer);
             return VIEW_HOME;
         }
 

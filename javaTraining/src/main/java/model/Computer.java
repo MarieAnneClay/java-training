@@ -2,12 +2,19 @@ package model;
 
 import java.time.LocalDate;
 
-public class Computer {
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
+public class Computer {
+    @NonNull
     private Long id;
+    @NonNull
     private String name;
+    @Nullable
     private LocalDate introduced;
+    @Nullable
     private LocalDate discontinued;
+    @Nullable
     private Long companyId;
 
     /** DEFAULT CONSTRUCTOR. */

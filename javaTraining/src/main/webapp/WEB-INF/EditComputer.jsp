@@ -7,8 +7,8 @@
 				<div class="label label-default pull-right">id: ${id}</div>
 				<h1><spring:message code="label.edit" /></h1>
 
-				<form:form modelAttribute="computerForm" id="addComputer" action="editComputer" method="POST">
-					<form:hidden path="id" />
+				<form:form modelAttribute="computerForm" id="addComputer" action="EditComputer" method="POST">
+					<form:hidden path="id" value="${id}"/>
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
@@ -40,7 +40,7 @@
 							<label for="companyId"><spring:message code="label.company" /></label> <form:select
 							path="companyId"
 								class="input-lg form-control" id="companyId" name="companyId">
-								<option value="0"></option>
+								<option value="null"></option>
 								<c:forEach items="${companies}" var="company">
 									<option value="${company.getId()}"
 										<c:if test="${company.getId() == computer.getCompanyId()}"> selected </c:if> >

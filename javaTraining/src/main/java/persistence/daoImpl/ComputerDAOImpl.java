@@ -125,22 +125,22 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
-        String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES ('" + computer.getName() + "', '" + computer.getIntroduced() + "', '" + computer.getDiscontinued()
-                + "', '" + computer.getCompanyId() + "')";
+        String query = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES ('" + computer.getName() + "', " + computer.getIntroduced() + ", " + computer.getDiscontinued() + ", "
+                + computer.getCompanyId() + ")";
         jdbcTemplate.update(query);
 
     }
 
     @Override
     public void updateComputer(Computer computer) throws DAOException {
-        String query = "UPDATE computer SET name = '" + computer.getName() + "', introduced = '" + computer.getIntroduced() + "', discontinued = '" + computer.getDiscontinued() + "', company_id = '"
-                + computer.getCompanyId() + "' WHERE id = '" + computer.getId() + "'";
+        String query = "UPDATE computer SET name = '" + computer.getName() + "', introduced = " + computer.getIntroduced() + ", discontinued = " + computer.getDiscontinued() + ", company_id = "
+                + computer.getCompanyId() + " WHERE id = " + computer.getId();
         jdbcTemplate.update(query);
     }
 
     @Override
     public void deleteComputer(Long id) throws DAOException {
-        String query = "DELETE FROM computer WHERE id ='" + id + "' ";
+        String query = "DELETE FROM computer WHERE id =" + id + " ";
         jdbcTemplate.update(query);
     }
 

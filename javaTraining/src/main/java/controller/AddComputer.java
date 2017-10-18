@@ -21,7 +21,7 @@ import model.Company;
 import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
-import validator.ComputerDTOValidator;
+import validator.ComputerValidator;
 
 @Controller
 @RequestMapping("/AddComputer")
@@ -52,7 +52,7 @@ public class AddComputer {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doPost(Model model, @ModelAttribute("computerForm") ComputerDTO computerDTO, BindingResult result) throws ServletException {
-        ComputerDTOValidator computerDTOValidator = new ComputerDTOValidator();
+        ComputerValidator computerDTOValidator = new ComputerValidator();
         computerDTOValidator.validate(computerDTO, result);
 
         if (result.hasErrors()) {

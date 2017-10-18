@@ -56,15 +56,13 @@ public class ServiceComputer {
     /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
      * @param computer computer to update to the database */
-    public void updateComputer(ComputerDTO computerDTO) throws ValidatorException {
-        Computer computerMapper = ComputerMapper.convertDTOToComputer(computerDTO);
-        Validator.validationComputer(computerMapper.getName(), computerMapper.getIntroduced(), computerMapper.getDiscontinued());
+    public void updateComputer(Computer result) throws ValidatorException {
 
-        Computer computer = this.getComputer(computerMapper.getId());
-        computer.setName(computerMapper.getName());
-        computer.setIntroduced(computerMapper.getIntroduced());
-        computer.setDiscontinued(computerMapper.getDiscontinued());
-        computer.setCompanyId(computerMapper.getCompanyId());
+        Computer computer = this.getComputer(result.getId());
+        computer.setName(result.getName());
+        computer.setIntroduced(result.getIntroduced());
+        computer.setDiscontinued(result.getDiscontinued());
+        computer.setCompanyId(result.getCompanyId());
 
         computerDAOImpl.updateComputer(computer);
     }
