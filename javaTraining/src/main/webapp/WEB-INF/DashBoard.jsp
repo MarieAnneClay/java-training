@@ -28,7 +28,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 		   				</c:url>"
 					class="btn btn-success" id="addComputer"> <spring:message code="label.add" /> </a> <a
 					class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();"><spring:message code="label.edit" /></a>
+					onclick="$.fn.toggleEditMode();"><spring:message code="label.delete" /></a>
 			</div>
 		</div>
 	</div>
@@ -88,7 +88,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>
 						<td><c:out
-								value="${computer.companyId != 0 ? serviceCompany.getCompany(computer.companyId).getName(): ''}" /></td>
+								value="${computer.companyId != 0 ? computer.companyId: ''}" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

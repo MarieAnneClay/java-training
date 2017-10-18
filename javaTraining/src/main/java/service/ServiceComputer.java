@@ -14,15 +14,15 @@ import util.ValidatorException;
 /** Class of service for Computer DAO. */
 @Service
 public class ServiceComputer {
-    private ComputerDAOImpl computerDAOImpl;
+    private static ComputerDAOImpl computerDAOImpl;
     private static ServiceComputer INSTANCE = new ServiceComputer();
+
+    public void setComputerDAOImpl(ComputerDAOImpl computer) {
+        computerDAOImpl = computer;
+    }
 
     public ComputerDAOImpl getComputerDAOImpl() {
         return computerDAOImpl;
-    }
-
-    public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
-        this.computerDAOImpl = computerDAOImpl;
     }
 
     public static ServiceComputer getInstance() {

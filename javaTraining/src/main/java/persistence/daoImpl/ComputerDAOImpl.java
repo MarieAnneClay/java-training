@@ -64,7 +64,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, id);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
-
+            LOGGER.log(Level.INFO, preparedStatement.toString());
             while (resultSet.next()) {
                 computer = mapComputer(resultSet);
             }
@@ -107,6 +107,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_COUNT, name, name);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
+            LOGGER.log(Level.INFO, preparedStatement.toString());
             resultSet.next();
             count = ((Number) resultSet.getObject(1)).intValue();
         } catch (SQLException e) {

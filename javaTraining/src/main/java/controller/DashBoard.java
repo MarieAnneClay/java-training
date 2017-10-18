@@ -3,7 +3,6 @@ package controller;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +14,13 @@ import util.Page;
 @Controller
 @RequestMapping("/dashboard")
 public class DashBoard {
-    @Autowired
-    private ServiceComputer serviceComputer;
-    private static final String VIEW = "dashboard";
+    private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
+    private static final String VIEW = "DashBoard";
+
+    // @Autowired
+    // public void setServiceComputer(ServiceComputer serviceComputer) {
+    // this.serviceComputer = serviceComputer;
+    // }
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(HttpServletRequest request) {

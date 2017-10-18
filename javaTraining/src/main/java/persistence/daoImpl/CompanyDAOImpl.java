@@ -24,6 +24,11 @@ public class CompanyDAOImpl implements CompanyDAO {
     private JdbcTemplate jdbcTemplate;
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
+    private static CompanyDAOImpl INSTANCE = new CompanyDAOImpl();
+
+    public static CompanyDAOImpl getInstance() {
+        return INSTANCE;
+    }
 
     public ConnectionManager getConnectionManager() {
         return connectionManager;
@@ -73,10 +78,11 @@ public class CompanyDAOImpl implements CompanyDAO {
         try (Connection connexion = connectionManager.getConnection();
                 PreparedStatement preparedStatement = initialisationRequetePreparee(connexion, SQL_SELECT_BY_ID, id);
                 ResultSet resultSet = preparedStatement.executeQuery();) {
-
+            LOGGER.log(Level.INFO, preparedStatement.toString());
             while (resultSet.next()) {
                 company = map(resultSet);
             }
+            LOGGER.log(Level.INFO, company.getName());
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new DAOException(e);

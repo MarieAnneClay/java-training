@@ -27,13 +27,20 @@ import validator.ComputerDTOValidator;
 @Controller
 @RequestMapping("/editComputer")
 public class EditComputer {
-    @Autowired
-    private ServiceCompany serviceCompany;
-    @Autowired
-    private ServiceComputer serviceComputer;
-
     private static final String VIEW = "addComputer";
     private static final String VIEW_HOME = "dashboard";
+    private ServiceCompany serviceCompany;
+    private ServiceComputer serviceComputer;
+
+    @Autowired
+    public void setServiceCompany(ServiceCompany serviceCompany) {
+        this.serviceCompany = serviceCompany;
+    }
+
+    @Autowired
+    public void setServiceComputer(ServiceComputer serviceComputer) {
+        this.serviceComputer = serviceComputer;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {

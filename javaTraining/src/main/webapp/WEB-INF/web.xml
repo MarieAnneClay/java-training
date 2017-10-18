@@ -28,7 +28,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/classes/applicationContext.xml
-            /WEB-INF/classes/servlet.xml
+            /WEB-INF/classes/DashBoard-servlet.xml
         </param-value>
 	</context-param>
 
@@ -54,21 +54,21 @@
    	</listener>
 
     <servlet>
-        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-name>DashBoard</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/classes/servlet.xml</param-value>
+            <param-value>/WEB-INF/classes/DashBoard-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
 
     <servlet-mapping>
-        <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>DashBoard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
 	</servlet-mapping>
 
 </web-app>

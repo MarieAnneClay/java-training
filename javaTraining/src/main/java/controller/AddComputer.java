@@ -23,15 +23,23 @@ import service.ServiceComputer;
 import validator.ComputerDTOValidator;
 
 @Controller
-@RequestMapping("/addComputer")
+@RequestMapping("/AddComputer")
 public class AddComputer {
-    @Autowired
     private ServiceCompany serviceCompany;
-    @Autowired
     private ServiceComputer serviceComputer;
 
-    private static final String VIEW = "addComputer";
-    private static final String VIEW_HOME = "dashboard";
+    @Autowired
+    public void setServiceCompany(ServiceCompany serviceCompany) {
+        this.serviceCompany = serviceCompany;
+    }
+
+    @Autowired
+    public void setServiceComputer(ServiceComputer serviceComputer) {
+        this.serviceComputer = serviceComputer;
+    }
+
+    private static final String VIEW = "AddComputer";
+    private static final String VIEW_HOME = "DashBoard";
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(ModelMap model) throws ServletException {

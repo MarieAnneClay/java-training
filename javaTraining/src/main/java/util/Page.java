@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,7 @@ import service.ServiceComputer;
 
 public class Page {
     private static Map<String, String> initialMap = new HashMap<String, String>();
+    private static Logger LOGGER = Logger.getLogger(Page.class.getName());
 
     static {
         initialMap.put("search", "");

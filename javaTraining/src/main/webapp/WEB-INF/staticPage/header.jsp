@@ -27,11 +27,11 @@
 				</a>
 				<div id="langBox">
 					<spring:message
-							code="label.language" />: <select id="lang">
-						<option value="en" selected><spring:message
-									code="label.en" /></option>
-						<option value="fr"><spring:message
-									code="label.fr" /></option>
+ 							code="label.language" />: <select id="lang"> 
+ 						<option value="en" selected><spring:message 
+ 									code="label.en" /></option> 
+ 						<option value="fr"><spring:message 
+ 									code="label.fr" /></option> 
 
 					</select>
 				</div>
