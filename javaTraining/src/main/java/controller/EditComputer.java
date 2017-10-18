@@ -25,10 +25,10 @@ import service.ServiceComputer;
 import validator.ComputerDTOValidator;
 
 @Controller
-@RequestMapping("/editComputer")
+@RequestMapping("/EditComputer")
 public class EditComputer {
-    private static final String VIEW = "addComputer";
-    private static final String VIEW_HOME = "dashboard";
+    private static final String VIEW = "EditComputer";
+    private static final String VIEW_HOME = "DashBoard";
     private ServiceCompany serviceCompany;
     private ServiceComputer serviceComputer;
 

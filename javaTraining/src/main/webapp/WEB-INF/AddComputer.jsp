@@ -30,19 +30,19 @@
 								placeholder="Discontinued date AAAA-MM-DD"
 								value="${discontinued}"></form:input>
 						</div>
-						<div class="form-group">
-							<label for="companyId"><spring:message code="label.company" /></label> <form:select
-							path="companyId"
-								class="input-lg form-control" id="companyId" name="companyId">
-								<option value="0"></option>
-								<c:forEach items="${companies}" var="company">
-									<option value="${company.getId()}"
-										<c:if test="${company.getId() == companyId}"> selected </c:if> >
-			                                                	${company.getName()}
-			                                                	</option>
-                                                </c:forEach>
-									</form:select>
-                            </div>
+<!-- 						<div class="form-group"> -->
+<%-- 							<label for="companyId"><spring:message code="label.company" /></label> <form:select --%>
+<!-- 							path="companyId" -->
+<!-- 								class="input-lg form-control" id="companyId" name="companyId"> -->
+<!-- 								<option value="0"></option> -->
+<%-- 								<c:forEach items="${companies}" var="company"> --%>
+<%-- 									<option value="${company.getId()}" --%>
+<%-- 										<c:if test="${company.getId() == companyId}"> selected </c:if> > --%>
+<%-- 			                                                	${company.getName()} --%>
+<!-- 			                                                	</option> -->
+<%--                                                 </c:forEach> --%>
+<!-- 									</form:select> -->
+<!--                             </div> -->
 						</fieldset>
 						<div class="actions pull-right">
 							<a class="btn btn-primary" id="addComputer" href="#"

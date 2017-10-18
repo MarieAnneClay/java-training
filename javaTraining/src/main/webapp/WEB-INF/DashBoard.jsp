@@ -24,7 +24,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 			</div>
 			<div class="pull-right">
 				<a href="
-		   				<c:url value="/addComputer">
+		   				<c:url value="/AddComputer">
 		   				</c:url>"
 					class="btn btn-success" id="addComputer"> <spring:message code="label.add" /> </a> <a
 					class="btn btn-default" id="editComputer" href="#"
@@ -80,7 +80,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 							class="cb" value="${computer.id}"></td>
 						<td><a
 							href="
-		   				<c:url value="/editComputer">
+		   				<c:url value="/EditComputer">
 		   					<c:param name="computerId" value="${computer.id}"/>
 		   				</c:url>"
 							id="editComputer"> <span aria-hidden="true">${computer.name}</span>
