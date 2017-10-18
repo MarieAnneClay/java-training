@@ -17,11 +17,4 @@ public interface CompanyDAO {
      * @return A Company */
     Company findByIdCompany(Long id) throws DAOException;
 
-    void createCompany(Company company) throws IllegalArgumentException, DAOException;
-
-    /** function wich call a function in CompanyDAO to execute a sql requete to
-     * delete a company in the database and the link with his computers.
-     * @throws DAOException a DAO exception (src/main/daoUtil)
-     * @param id the id of the company to delete in the database */
-    void deleteCompany(Long id) throws DAOException;
 }

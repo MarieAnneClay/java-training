@@ -103,7 +103,13 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 	</div>
 
 </footer>
-<script src="${pageContext.request.contextPath}/resources/js/jquery.i18n.properties.js"></script>
+<script>
+    var i18n = {
+        "view": "<spring:message code="view" />",
+        "edit": "<spring:message code="edit" />",
+        "confirm": "<spring:message code="confirm" />"
+    };
+</script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script

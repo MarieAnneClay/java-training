@@ -39,5 +39,4 @@ public interface ComputerDAO {
      * @param id the id of the computer to delete in the database */
     void deleteComputer(Long id) throws DAOException;
 
-    void updateCompanyId(Long id) throws DAOException;
 }

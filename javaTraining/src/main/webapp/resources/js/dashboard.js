@@ -47,13 +47,11 @@ $(function() {
 	$.fn.toggleEditMode = function() {
 		if($(".editMode").is(":visible")) {
 			$(".editMode").hide();
-			$("#editComputer").text("Edit");
-//			$("#editComputer").text($.i18n.prop('edit'));
+			$("#editComputer").text(i18n["edit"]);
 		}
 		else {
 			$(".editMode").show();
-			$("#editComputer").text("View");
-//			$("#editComputer").text($.i18n.prop('view'));
+			$("#editComputer").text(i18n["view"]);
 		}
 		return this;
 	};
@@ -64,8 +62,7 @@ $(function() {
 //Function delete selected: Asks for confirmation to delete selected computers, then submits it to the deleteForm
 (function ( $ ) {
 	$.fn.deleteSelected = function() {
-		if (confirm("Are you sure you want to delete the selected computers?")) { 
-//		if (confirm($.i18n.prop('confirm'))) { 
+		if (confirm(i18n["confirm"])) { 
 			$('#deleteForm input[name=selection]').setCheckboxValues('selection','cb');
 			$('#deleteForm').submit();
 		}
@@ -93,13 +90,3 @@ $(document).keydown(function(e) {
 		break;
 	}
 });
-
-//$.i18n.properties({ 
-//	name: 'Messages', 
-//	path: 'bundle/', 
-//	mode: 'both', 
-//	language: lang, 
-//	callback: function() { 
-//	$("#editComputer").text($.i18n.prop('view')); $("#confirm").text($.i18n.prop('confirm')); 
-//	}
-//	 });

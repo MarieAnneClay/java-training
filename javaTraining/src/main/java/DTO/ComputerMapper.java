@@ -2,12 +2,14 @@ package DTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import model.Computer;
 import util.Validator;
 import util.ValidatorException;
 
 public class ComputerMapper {
+    private static Logger LOGGER = Logger.getLogger(ComputerMapper.class.getName());
 
     public static Computer convertDTOToComputer(ComputerDTO computerDTO) throws ValidatorException{
         Validator.validationDate(computerDTO.getIntroduced());
@@ -22,6 +24,7 @@ public class ComputerMapper {
     }
 
     public static ComputerDTO convertComputerToDTO(Computer computer) {
+        LOGGER.warning(computer.getId()== null ? "null" : "NotNull");
         return new ComputerDTO.ComputerBuilder()
                 .setId(Long.toString(computer.getId()))
                 .setName(computer.getName())
@@ -33,6 +36,7 @@ public class ComputerMapper {
     
     public static ArrayList<ComputerDTO> convertComputersToDTOS (ArrayList<Computer> computers){
         ArrayList<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
+        LOGGER.warning(Integer.toString(computersDTO.size()));
         for (Computer computer : computers) {
             computersDTO.add(ComputerMapper.convertComputerToDTO(computer));
         }
