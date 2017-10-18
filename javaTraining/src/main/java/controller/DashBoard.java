@@ -19,6 +19,7 @@ public class DashBoard {
     private ServiceComputer serviceComputer;
     private ServiceCompany serviceCompany;
     private static final String VIEW = "DashBoard";
+    private static final String VIEW_HOME = "dashboard";
 
     @Autowired
     public void setServiceComputer(ServiceComputer serviceComputer) {
@@ -45,7 +46,7 @@ public class DashBoard {
         } else {
             throw new ServletException("Illegal exception");
         }
-        return VIEW;
+        return "redirect:/" + VIEW_HOME;
 
     }
 

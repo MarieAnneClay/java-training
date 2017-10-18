@@ -39,7 +39,7 @@ public class AddComputer {
     }
 
     private static final String VIEW = "AddComputer";
-    private static final String VIEW_HOME = "DashBoard";
+    private static final String VIEW_HOME = "dashboard";
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(ModelMap model) throws ServletException {

@@ -35,7 +35,7 @@
 							<label for="companyId"><spring:message code="label.company" /></label> <form:select
 							path="companyId"
 								class="input-lg form-control" id="companyId" name="companyId">
-								<option value="null"></option>
+								<option></option>
 								<c:forEach items="${companies}" var="company">
 									<option value="${company.getId()}"
 										<c:if test="${company.getId() == companyId}"> selected </c:if> >
