@@ -25,9 +25,7 @@
 				<a class="navbar-brand" href="<c:url value="/dashboard"/>">
 					Application - <spring:message code="label.title" />
 				</a>
-				<div id="langBox">
-					<spring:message
- 							code="label.language" />: <select id="lang"> 
+				<div id="langBox"><select id="lang"> 
  						<option value="en" selected><spring:message 
  									code="label.en" /></option> 
  						<option value="fr"><spring:message 

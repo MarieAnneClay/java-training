@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import model.Computer;
 import persistence.dao.ComputerDAO;
@@ -18,6 +20,7 @@ import persistence.daoUtil.ConnectionManager;
 import persistence.daoUtil.DAOException;
 import persistence.daoUtil.TransactionManager;
 
+@Component
 public class ComputerDAOImpl implements ComputerDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
@@ -33,6 +36,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         return transactionManager;
     }
 
+    @Autowired
     public void setTransactionManager(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
@@ -41,6 +45,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         return connectionManager;
     }
 
+    @Autowired
     public void setConnectionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
@@ -49,6 +54,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         return jdbcTemplate;
     }
 
+    @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

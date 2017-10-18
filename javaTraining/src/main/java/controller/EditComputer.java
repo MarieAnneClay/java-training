@@ -20,6 +20,7 @@ import DTO.CompanyMapper;
 import DTO.ComputerDTO;
 import DTO.ComputerMapper;
 import model.Company;
+import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 import validator.ComputerDTOValidator;
@@ -51,6 +52,7 @@ public class EditComputer {
 
         ArrayList<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        model.addAttribute("computerForm", new Computer());
 
         return VIEW;
     }

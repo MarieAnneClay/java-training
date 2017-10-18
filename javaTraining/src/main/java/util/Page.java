@@ -29,11 +29,16 @@ public class Page {
         initialMap.put("orderCompany", "DESC");
     }
     Map<String, String> map = new HashMap<String, String>(initialMap);
-    private static ServiceComputer serviceComputer = ServiceComputer.getInstance();
-    private static ServiceCompany serviceCompany = ServiceCompany.getInstance();
+    private ServiceComputer serviceComputer;
+    private ServiceCompany serviceCompany;
 
     public Map<String, String> getMap() {
         return map;
+    }
+
+    public Page(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+        this.serviceComputer = serviceComputer;
+        this.serviceCompany = serviceCompany;
     }
 
     public HttpServletRequest getRequest(HttpServletRequest request) {

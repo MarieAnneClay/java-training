@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import DTO.CompanyMapper;
 import DTO.ComputerDTO;
+import model.Company;
+import model.Computer;
 import service.ServiceCompany;
 import service.ServiceComputer;
 import validator.ComputerDTOValidator;
@@ -23,9 +27,11 @@ import validator.ComputerDTOValidator;
 @RequestMapping("/AddComputer")
 public class AddComputer {
     private ServiceComputer serviceComputer;
+    private ServiceCompany serviceCompany;
 
     @Autowired
     public void setServiceCompany(ServiceCompany serviceCompany) {
+        this.serviceCompany = serviceCompany;
     }
 
     @Autowired
@@ -38,9 +44,9 @@ public class AddComputer {
 
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(ModelMap model) throws ServletException {
-        // ArrayList<Company> companies = serviceCompany.getAllCompanies();
-        // model.addAttribute("companies",
-        // CompanyMapper.convertCompaniesToDTOS(companies));
+        ArrayList<Company> companies = serviceCompany.getAllCompanies();
+        model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        model.addAttribute("computerForm", new Computer());
         return VIEW;
     }
 

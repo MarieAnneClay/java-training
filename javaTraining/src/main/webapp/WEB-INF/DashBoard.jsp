@@ -88,7 +88,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>
 						<td><c:out
-								value="${computer.companyId != 0 ? computer.companyId: ''}" /></td>
+								value="${computer.companyId != 0 ? serviceCompany.getCompany(computer.companyId).getName(): ''}" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

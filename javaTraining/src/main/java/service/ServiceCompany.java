@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.Company;
@@ -22,12 +23,12 @@ public class ServiceCompany {
     private CompanyDAOImpl companyDAOImpl;
     private ComputerDAOImpl computerDAOImpl;
     private ConnectionManager connectionManager;
-    private static ServiceCompany INSTANCE = new ServiceCompany();
 
     public TransactionManager getTransactionManager() {
         return transactionManager;
     }
 
+    @Autowired
     public void setTransactionManager(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
@@ -36,6 +37,7 @@ public class ServiceCompany {
         return companyDAOImpl;
     }
 
+    @Autowired
     public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
         this.companyDAOImpl = companyDAOImpl;
     }
@@ -44,6 +46,7 @@ public class ServiceCompany {
         return computerDAOImpl;
     }
 
+    @Autowired
     public void setComputerDAOImpl(ComputerDAOImpl computerDAOImpl) {
         this.computerDAOImpl = computerDAOImpl;
     }
@@ -52,12 +55,9 @@ public class ServiceCompany {
         return connectionManager;
     }
 
+    @Autowired
     public void setConnectionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-    }
-
-    public static ServiceCompany getInstance() {
-        return INSTANCE;
     }
 
     public ArrayList<Company> getAllCompanies() {

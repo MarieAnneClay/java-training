@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DTO.ComputerDTO;
@@ -15,18 +16,14 @@ import util.ValidatorException;
 @Service
 public class ServiceComputer {
     private static ComputerDAOImpl computerDAOImpl;
-    private static ServiceComputer INSTANCE = new ServiceComputer();
 
+    @Autowired
     public void setComputerDAOImpl(ComputerDAOImpl computer) {
         computerDAOImpl = computer;
     }
 
     public ComputerDAOImpl getComputerDAOImpl() {
         return computerDAOImpl;
-    }
-
-    public static ServiceComputer getInstance() {
-        return INSTANCE;
     }
 
     /** Function to get the computer.

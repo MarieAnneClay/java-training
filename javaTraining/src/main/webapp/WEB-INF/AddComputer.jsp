@@ -1,4 +1,5 @@
 <%@ include file="staticPage/header.jsp"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <section id="main">
 	<div class="container">
 		<div class="row">
@@ -11,7 +12,7 @@
 							path="name"
 								type="text" class="form-control" id="computerName"
 								pattern="^[0-9a-zA-Zàâéèëêïîôùüç -]{1,60}$" name="computerName"
-								placeholder="Computer name" required value="${name}"></form:input>
+								placeholder="Computer name" required="true" value="${name}"></form:input>
 						</div>
 						<div class="form-group">
 							<label for="introduced"><spring:message code="label.introduced" /></label> <form:input
@@ -30,19 +31,19 @@
 								placeholder="Discontinued date AAAA-MM-DD"
 								value="${discontinued}"></form:input>
 						</div>
-<!-- 						<div class="form-group"> -->
-<%-- 							<label for="companyId"><spring:message code="label.company" /></label> <form:select --%>
-<!-- 							path="companyId" -->
-<!-- 								class="input-lg form-control" id="companyId" name="companyId"> -->
-<!-- 								<option value="0"></option> -->
-<%-- 								<c:forEach items="${companies}" var="company"> --%>
-<%-- 									<option value="${company.getId()}" --%>
-<%-- 										<c:if test="${company.getId() == companyId}"> selected </c:if> > --%>
-<%-- 			                                                	${company.getName()} --%>
-<!-- 			                                                	</option> -->
-<%--                                                 </c:forEach> --%>
-<!-- 									</form:select> -->
-<!--                             </div> -->
+						<div class="form-group">
+							<label for="companyId"><spring:message code="label.company" /></label> <form:select
+							path="companyId"
+								class="input-lg form-control" id="companyId" name="companyId">
+								<option value="0"></option>
+								<c:forEach items="${companies}" var="company">
+									<option value="${company.getId()}"
+										<c:if test="${company.getId() == companyId}"> selected </c:if> >
+			                                                	${company.getName()}
+			                                                	</option>
+                                                </c:forEach>
+									</form:select>
+                            </div>
 						</fieldset>
 						<div class="actions pull-right">
 							<a class="btn btn-primary" id="addComputer" href="#"
