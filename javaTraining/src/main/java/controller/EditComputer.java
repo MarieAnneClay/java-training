@@ -49,7 +49,6 @@ public class EditComputer {
             model.addAttribute("id", id);
             model.addAttribute("computer", ComputerMapper.convertComputerToDTO(serviceComputer.getComputer(id)));
         }
-
         ArrayList<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
         model.addAttribute("computerForm", new Computer());
@@ -68,6 +67,8 @@ public class EditComputer {
             for (ObjectError error : errors) {
                 sb.append(error.toString());
             }
+            ArrayList<Company> companies = serviceCompany.getAllCompanies();
+            model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
             model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {

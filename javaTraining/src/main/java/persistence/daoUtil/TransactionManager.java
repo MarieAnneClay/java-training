@@ -3,6 +3,9 @@ package persistence.daoUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TransactionManager {
     private ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 

@@ -61,6 +61,8 @@ public class AddComputer {
                 sb.append(error.toString());
             }
             model.addAttribute("errors", sb.toString());
+            ArrayList<Company> companies = serviceCompany.getAllCompanies();
+            model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
             return VIEW;
         } else {
             serviceComputer.setComputer(computer);

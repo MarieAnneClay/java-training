@@ -5,6 +5,10 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConnectionManager {
     private DataSource dataSource;
 
@@ -12,8 +16,9 @@ public class ConnectionManager {
         return this.dataSource;
     }
 
-    public void setDataSource(DataSource ds) {
-        this.dataSource = ds;
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     /** function which connect to the database.

@@ -28,7 +28,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 		   				</c:url>"
 					class="btn btn-success" id="addComputer"> <spring:message code="label.add" /> </a> <a
 					class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();"><spring:message code="label.delete" /></a>
+					onclick="$.fn.toggleEditMode();">View</a>
 			</div>
 		</div>
 	</div>

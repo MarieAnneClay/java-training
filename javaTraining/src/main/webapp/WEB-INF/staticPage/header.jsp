@@ -25,14 +25,15 @@
 				<a class="navbar-brand" href="<c:url value="/dashboard"/>">
 					Application - <spring:message code="label.title" />
 				</a>
-				<div id="langBox"><select id="lang"> 
- 						<option value="en" selected><spring:message 
- 									code="label.en" /></option> 
- 						<option value="fr"><spring:message 
- 									code="label.fr" /></option> 
+<!-- 				<div id="langBox"><select id="lang" name="lang">  -->
+<%--  						<option value="en" selected><spring:message  --%>
+<%--  									code="label.en" /></option>  --%>
+<%--  						<option value="fr"><spring:message  --%>
+<%--  									code="label.fr" /></option>  --%>
 
-					</select>
-				</div>
+<!-- 					</select> -->
+<!-- 				</div> -->
+<spring:message code="label.language" /> : <a href="?lang=en"><spring:message code="label.en" /></a> | <a href="?lang=fr"><spring:message code="label.fr" /></a>
 			</div>
 		</div>
 
