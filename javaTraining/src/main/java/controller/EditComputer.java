@@ -29,7 +29,7 @@ import validator.ComputerValidator;
 @RequestMapping("/EditComputer")
 public class EditComputer {
     private static final String VIEW = "EditComputer";
-    private static final String VIEW_HOME = "DashBoard";
+    private static final String VIEW_HOME = "dashboard";
     private ServiceCompany serviceCompany;
     private ServiceComputer serviceComputer;
 
@@ -72,7 +72,7 @@ public class EditComputer {
             return VIEW;
         } else {
             serviceComputer.updateComputer(computer);
-            return VIEW_HOME;
+            return "redirect:/" + VIEW_HOME;
         }
 
     }

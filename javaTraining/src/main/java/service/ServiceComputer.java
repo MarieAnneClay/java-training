@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import DTO.ComputerDTO;
-import DTO.ComputerMapper;
 import model.Computer;
 import persistence.daoImpl.ComputerDAOImpl;
-import util.Validator;
 import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
@@ -47,10 +44,8 @@ public class ServiceComputer {
     /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
      * @param computer computer to add to the database */
-    public void setComputer(ComputerDTO computerDTO) throws ValidatorException {
-        Computer computer = ComputerMapper.convertDTOToComputer(computerDTO);
-        Validator.validationComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued());
-        computerDAOImpl.createComputer(computer);
+    public void setComputer(Computer result) throws ValidatorException {
+        computerDAOImpl.createComputer(result);
     }
 
     /** Function which call the updateComputer to update a computer in the database

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import DTO.CompanyMapper;
-import DTO.ComputerDTO;
 import model.Company;
 import model.Computer;
 import service.ServiceCompany;
@@ -51,9 +50,9 @@ public class AddComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(Model model, @ModelAttribute("computerForm") ComputerDTO computerDTO, BindingResult result) throws ServletException {
-        ComputerValidator computerDTOValidator = new ComputerValidator();
-        computerDTOValidator.validate(computerDTO, result);
+    public String doPost(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
+        ComputerValidator computerValidator = new ComputerValidator();
+        computerValidator.validate(computer, result);
 
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
@@ -64,8 +63,8 @@ public class AddComputer {
             model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {
-            serviceComputer.setComputer(computerDTO);
-            return VIEW_HOME;
+            serviceComputer.setComputer(computer);
+            return "redirect:/" + VIEW_HOME;
         }
 
     }
