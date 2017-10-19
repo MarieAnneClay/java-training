@@ -1,72 +1,33 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-
-import DTO.ComputerDTO;
-import DTO.ComputerMapper;
-import service.ServiceCompany;
-import service.ServiceComputer;
-
 public class Page {
-    private static Map<String, String> initialMap = new HashMap<String, String>();
     private static Logger LOGGER = Logger.getLogger(Page.class.getName());
+    private String search;
+    private int numberOfComputerByPage;
+    private int currentPage;
+    private String sort;
+    private String order;
+    private static String orderName;
+    private static String orderIntroduced;
+    private static String orderDiscontinued;
+    private static String orderCompany;
 
     static {
-        initialMap.put("search", "");
-        initialMap.put("numberOfComputerByPage", "10");
-        initialMap.put("currentPage", "0");
-        initialMap.put("sort", "cr.name");
-        initialMap.put("order", "ASC");
-        initialMap.put("orderName", "DESC");
-        initialMap.put("orderIntroduced", "DESC");
-        initialMap.put("orderDiscontinued", "DESC");
-        initialMap.put("orderCompany", "DESC");
-    }
-    Map<String, String> map = new HashMap<String, String>(initialMap);
-    private ServiceComputer serviceComputer;
-    private ServiceCompany serviceCompany;
-
-    public Map<String, String> getMap() {
-        return map;
+        orderName = "DESC";
+        orderIntroduced = "DESC";
+        orderDiscontinued = "DESC";
+        orderCompany = "DESC";
     }
 
-    public Page(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
-        this.serviceComputer = serviceComputer;
-        this.serviceCompany = serviceCompany;
-    }
-
-    public HttpServletRequest getRequest(HttpServletRequest request) {
-        for (Entry<String, String> entry : map.entrySet()) {
-            String parameterName = entry.getKey();
-            String parameterValue = request.getParameter(parameterName);
-            if (parameterValue != null) {
-                map.put(parameterName, parameterValue);
-            }
-        }
-
-        map.put(getSort(map.get("sort")), getOrder(map.get("sort"), map.get("order")));
-
-        for (Entry<String, String> entry : map.entrySet()) {
-            request.setAttribute(entry.getKey(), entry.getValue());
-        }
-
-        request.setAttribute("size", serviceComputer.getCount(map.get("search")));
-        request.setAttribute("computers", getComputerDTO());
-        request.setAttribute("serviceCompany", serviceCompany);
-
-        return request;
-
-    }
-
-    public ArrayList<ComputerDTO> getComputerDTO() {
-        return ComputerMapper.convertComputersToDTOS(
-                serviceComputer.getComputerByName(map.get("search"), Integer.parseInt(map.get("numberOfComputerByPage")), Integer.parseInt(map.get("currentPage")), map.get("sort"), map.get("order")));
+    public Page(String search, int numberOfComputerByPage, int currentPage, String sort, String order) {
+        super();
+        this.search = search;
+        this.numberOfComputerByPage = numberOfComputerByPage;
+        this.currentPage = currentPage;
+        this.sort = sort;
+        this.order = getOrder(sort, order);
     }
 
     public String getOrder(String sort, String order) {
@@ -86,6 +47,62 @@ public class Page {
             return reverse(order);
 
         }
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public int getNumberOfComputerByPage() {
+        return numberOfComputerByPage;
+    }
+
+    public void setNumberOfComputerByPage(int numberOfComputerByPage) {
+        this.numberOfComputerByPage = numberOfComputerByPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public String getOrderIntroduced() {
+        return orderIntroduced;
+    }
+
+    public String getOrderDiscontinued() {
+        return orderDiscontinued;
+    }
+
+    public String getOrderCompany() {
+        return orderCompany;
     }
 
     public String getSort(String sort) {

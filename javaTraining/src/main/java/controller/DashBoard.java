@@ -1,10 +1,12 @@
 package controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,20 +34,21 @@ public class DashBoard {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(HttpServletRequest request) {
-        Page page = new Page(serviceComputer, serviceCompany);
-        request = page.getRequest(request);
+    public String doGet(ModelMap map, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "numberOfComputerByPage", defaultValue = "10") int numberOfComputerByPage,
+            @RequestParam(value = "currentPage", defaultValue = "0") int currentPage, @RequestParam(value = "sort", defaultValue = "cr.name") String sort,
+            @RequestParam(value = "order", defaultValue = "ASC") String order) {
+        Page page = new Page(search, numberOfComputerByPage, currentPage, sort, order);
+
+        map.addAttribute("size", serviceComputer.getCount(search));
+        map.addAttribute("computers", serviceComputer.getComputerByName(search, numberOfComputerByPage, currentPage, sort, page.getOrder()));
+        map.addAttribute("serviceCompany", serviceCompany);
+
         return VIEW;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(@RequestParam(value = "selection", required = true) String idsSelects) throws ServletException {
-        if (idsSelects != null) {
-            serviceComputer.deleteComputer(idsSelects);
-
-        } else {
-            throw new ServletException("Illegal exception");
-        }
+    public String doPost(@RequestParam(value = "selection") ArrayList<Long> idsSelects) throws ServletException {
+        serviceComputer.deleteComputer(idsSelects);
         return "redirect:/" + VIEW_HOME;
 
     }
