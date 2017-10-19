@@ -19,7 +19,7 @@ import persistence.daoUtil.DAOException;
 public class CompanyDAOImpl implements CompanyDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
-    private NamedParameterJdbcTemplate jdbc;
+    private final NamedParameterJdbcTemplate jdbc;
     private static final String SQL_SELECT_ALL = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
 

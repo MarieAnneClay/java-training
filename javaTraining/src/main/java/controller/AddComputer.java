@@ -25,17 +25,14 @@ import validator.ComputerValidator;
 @Controller
 @RequestMapping("/AddComputer")
 public class AddComputer {
-    private ServiceComputer serviceComputer;
-    private ServiceCompany serviceCompany;
+    private final ServiceComputer serviceComputer;
+    private final ServiceCompany serviceCompany;
 
     @Autowired
-    public void setServiceCompany(ServiceCompany serviceCompany) {
-        this.serviceCompany = serviceCompany;
-    }
-
-    @Autowired
-    public void setServiceComputer(ServiceComputer serviceComputer) {
+    public AddComputer(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+        super();
         this.serviceComputer = serviceComputer;
+        this.serviceCompany = serviceCompany;
     }
 
     private static final String VIEW = "AddComputer";

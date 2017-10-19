@@ -30,16 +30,13 @@ import validator.ComputerValidator;
 public class EditComputer {
     private static final String VIEW = "EditComputer";
     private static final String VIEW_HOME = "dashboard";
-    private ServiceCompany serviceCompany;
-    private ServiceComputer serviceComputer;
+    private final ServiceCompany serviceCompany;
+    private final ServiceComputer serviceComputer;
 
     @Autowired
-    public void setServiceCompany(ServiceCompany serviceCompany) {
+    public EditComputer(ServiceCompany serviceCompany, ServiceComputer serviceComputer) {
+        super();
         this.serviceCompany = serviceCompany;
-    }
-
-    @Autowired
-    public void setServiceComputer(ServiceComputer serviceComputer) {
         this.serviceComputer = serviceComputer;
     }
 

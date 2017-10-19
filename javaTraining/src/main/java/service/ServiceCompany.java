@@ -12,14 +12,11 @@ import persistence.daoImpl.CompanyDAOImpl;
 @Service
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
-    private CompanyDAOImpl companyDAOImpl;
-
-    public CompanyDAOImpl getCompanyDAOImpl() {
-        return companyDAOImpl;
-    }
+    private final CompanyDAOImpl companyDAOImpl;
 
     @Autowired
-    public void setCompanyDAOImpl(CompanyDAOImpl companyDAOImpl) {
+    public ServiceCompany(CompanyDAOImpl companyDAOImpl) {
+        super();
         this.companyDAOImpl = companyDAOImpl;
     }
 

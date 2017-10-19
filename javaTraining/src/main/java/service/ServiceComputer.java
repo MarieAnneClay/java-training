@@ -12,15 +12,12 @@ import util.ValidatorException;
 /** Class of service for Computer DAO. */
 @Service
 public class ServiceComputer {
-    private static ComputerDAOImpl computerDAOImpl;
+    private final ComputerDAOImpl computerDAOImpl;
 
     @Autowired
-    public void setComputerDAOImpl(ComputerDAOImpl computer) {
-        computerDAOImpl = computer;
-    }
-
-    public ComputerDAOImpl getComputerDAOImpl() {
-        return computerDAOImpl;
+    public ServiceComputer(ComputerDAOImpl computerDAOImpl) {
+        super();
+        this.computerDAOImpl = computerDAOImpl;
     }
 
     /** Function to get the computer.

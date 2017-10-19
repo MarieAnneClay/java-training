@@ -18,18 +18,15 @@ import util.Page;
 @Controller
 @RequestMapping("/dashboard")
 public class DashBoard {
-    private ServiceComputer serviceComputer;
-    private ServiceCompany serviceCompany;
+    private final ServiceComputer serviceComputer;
+    private final ServiceCompany serviceCompany;
     private static final String VIEW = "DashBoard";
     private static final String VIEW_HOME = "dashboard";
 
     @Autowired
-    public void setServiceComputer(ServiceComputer serviceComputer) {
+    public DashBoard(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+        super();
         this.serviceComputer = serviceComputer;
-    }
-
-    @Autowired
-    public void setServiceCompany(ServiceCompany serviceCompany) {
         this.serviceCompany = serviceCompany;
     }
 

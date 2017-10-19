@@ -19,7 +19,7 @@ import persistence.daoUtil.DAOException;
 public class ComputerDAOImpl implements ComputerDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
-    private NamedParameterJdbcTemplate jdbc;
+    private final NamedParameterJdbcTemplate jdbc;
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = :id";
     private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE '% :name %' OR cy.name LIKE '% :name %' ORDER BY :sort :order LIMIT :begin, :end";
     private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE '% :name %' OR cy.name LIKE '% :name %' ";
@@ -35,11 +35,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public Computer findByIdComputer(Long id) throws DAOException {
-        // SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        // Map<String, Object> parameters = new HashMap<String, Object>();
-        // parameters.put("id", id);
-        // return (Computer) jdbcTemplate.queryForList(SQL_SELECT_BY_ID, parameters, new
-        // ComputerMapper());
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
 
@@ -50,16 +45,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     public ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) throws DAOException {
         int beginIndex = currentPage * numberOfComputerByPage;
         int endIndex = numberOfComputerByPage;
-        /* MapSqlParameterSource namedParameters = new MapSqlParameterSource("name",
-         * name); namedParameters.addValue("name", name); */
-        // Map<String, Object> parameters = new HashMap<String, Object>();
-        // parameters.put("name", name);
-        // parameters.put("name", name);
-        // parameters.put("sort", sort);
-        // parameters.put("order", order);
-        // parameters.put("beginIndex", beginIndex);
-        // parameters.put("endIndex", endIndex);
-        //
+
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("name", name);
         paramSource.addValue("name", name);
@@ -69,19 +55,10 @@ public class ComputerDAOImpl implements ComputerDAO {
         paramSource.addValue("end", endIndex);
 
         return (ArrayList<Computer>) jdbc.query(SQL_SELECT_BY_NAME_AND_COMPANY, paramSource, new ComputerMapper());
-
-        // return (ArrayList<Computer>)
-        // jdbcTemplate.query(SQL_SELECT_BY_NAME_AND_COMPANY, parameters, new
-        // ComputerMapper());
     }
 
     @Override
     public int getCount(String name) {
-        /* MapSqlParameterSource namedParameters = new MapSqlParameterSource("name",
-         * name); namedParameters.addValue("name", name); PreparedStatementSetter
-         * preparedStatementSetter; PreparedStatement preparedStatement;
-         * preparedStatement.setString("name", name);
-         * preparedStatementSetter.setValues(preparedStatement); */
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("name", name);
 
