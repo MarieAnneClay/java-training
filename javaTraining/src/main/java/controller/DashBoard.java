@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +29,9 @@ public class DashBoard {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(ModelMap map, @RequestParam(value = "search", required = false) String search, @RequestParam(value = "numberOfComputerByPage", defaultValue = "10") int numberOfComputerByPage,
-            @RequestParam(value = "currentPage", defaultValue = "0") int currentPage, @RequestParam(value = "sort", defaultValue = "cr.name") String sort,
-            @RequestParam(value = "order", defaultValue = "ASC") String order) {
+    public String listOfComputers(ModelMap map, @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "numberOfComputerByPage", defaultValue = "10") int numberOfComputerByPage, @RequestParam(value = "currentPage", defaultValue = "0") int currentPage,
+            @RequestParam(value = "sort", defaultValue = "cr.name") String sort, @RequestParam(value = "order", defaultValue = "ASC") String order) {
         Page page = new Page(search, numberOfComputerByPage, currentPage, sort, order);
 
         map.addAttribute("size", serviceComputer.getCount(search));
@@ -44,7 +42,7 @@ public class DashBoard {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(@RequestParam(value = "selection") ArrayList<Long> idsSelects) throws ServletException {
+    public String deleteComputers(@RequestParam(value = "selection") String idsSelects) throws ServletException {
         serviceComputer.deleteComputer(idsSelects);
         return "redirect:/" + VIEW_HOME;
 

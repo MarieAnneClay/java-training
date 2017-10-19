@@ -62,9 +62,9 @@ public class ServiceComputer {
     /** Function which call the deleteComputer to delete a computer in the database
      * with a SQL request.
      * @param id id of the computer to delete in the database */
-    public void deleteComputer(ArrayList<Long> ids) {
-        for (Long id : ids) {
-            computerDAOImpl.deleteComputer(id);
+    public void deleteComputer(String ids) {
+        for (String id : ids.split(",")) {
+            computerDAOImpl.deleteComputer(Long.parseLong(id));
         }
     }
 

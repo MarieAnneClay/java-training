@@ -2,19 +2,36 @@ package model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+@Entity
+@Table(name = "computer")
 public class Computer {
-    @NonNull
+    @Id
+    @GeneratedValue
     private Long id;
+    @Size(min = 1, max = 50)
     @NonNull
     private String name;
     @Nullable
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate introduced;
     @Nullable
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate discontinued;
     @Nullable
+    @Digits(integer = 8, fraction = 0)
+    @Column(name = "company_id")
     private Long companyId;
 
     /** DEFAULT CONSTRUCTOR. */

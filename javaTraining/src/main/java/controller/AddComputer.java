@@ -23,7 +23,7 @@ import service.ServiceComputer;
 import validator.ComputerValidator;
 
 @Controller
-@RequestMapping("/AddComputer")
+@RequestMapping("/addcomputer")
 public class AddComputer {
     private final ServiceComputer serviceComputer;
     private final ServiceCompany serviceCompany;
@@ -39,7 +39,7 @@ public class AddComputer {
     private static final String VIEW_HOME = "dashboard";
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(ModelMap model) throws ServletException {
+    public String listOfCompanies(ModelMap model) throws ServletException {
         ArrayList<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
         model.addAttribute("computerForm", new Computer());
@@ -47,7 +47,7 @@ public class AddComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
+    public String createComputer(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
         ComputerValidator computerValidator = new ComputerValidator();
         computerValidator.validate(computer, result);
 

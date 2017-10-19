@@ -1,113 +1,71 @@
 package persistence.daoImpl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import model.Computer;
 import persistence.dao.ComputerDAO;
-import persistence.daoUtil.DAOException;
 
-@Component
+@Repository
 public class ComputerDAOImpl implements ComputerDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
-    private final NamedParameterJdbcTemplate jdbc;
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = :id";
-    private static final String SQL_SELECT_BY_NAME_AND_COMPANY = "SELECT * FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE '% :name %' OR cy.name LIKE '% :name %' ORDER BY :sort :order LIMIT :begin, :end";
-    private static final String SQL_COUNT = "SELECT COUNT(*) FROM computer cr LEFT JOIN company cy ON cr.company_id = cy.id WHERE cr.name LIKE '% :name %' OR cy.name LIKE '% :name %' ";
-    private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES ( :name, :introduced, :discontinued, :companyId)";
-    private static final String SQL_UPDATE = "UPDATE computer SET name = :name, introduced = :introduced, discontinued = :discontinued, company_id = :companyId WHERE id = :id";
-    private static final String SQL_DELETE = "DELETE FROM computer WHERE id = :id";
+    private SessionFactory sessionFactory;
+    private Session session = sessionFactory.getCurrentSession();
 
     @Autowired
-    public ComputerDAOImpl(NamedParameterJdbcTemplate jdbc) {
+    public ComputerDAOImpl(SessionFactory sessionFactory) {
         super();
-        this.jdbc = jdbc;
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Computer findByIdComputer(Long id) throws DAOException {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("id", id);
-
-        return jdbc.queryForObject(SQL_SELECT_BY_ID, paramSource, new ComputerMapper());
+    public Computer findByIdComputer(Long id) {
+        return (Computer) session.load(Computer.class, new Long(id));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) throws DAOException {
+    public ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order) {
         int beginIndex = currentPage * numberOfComputerByPage;
         int endIndex = numberOfComputerByPage;
 
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("name", name);
-        paramSource.addValue("name", name);
-        paramSource.addValue("sort", sort);
-        paramSource.addValue("order", order);
-        paramSource.addValue("begin", beginIndex);
-        paramSource.addValue("end", endIndex);
-
-        return (ArrayList<Computer>) jdbc.query(SQL_SELECT_BY_NAME_AND_COMPANY, paramSource, new ComputerMapper());
+        return (ArrayList<Computer>) session.createCriteria(Computer.class).createCriteria("computer", "company", JoinType.LEFT_OUTER_JOIN)
+                .add(Restrictions.or(Restrictions.like("computer.name", "%" + name + "%"), Restrictions.like("company.name", "%" + name + "%")))
+                .addOrder(order.equals("ASC") ? Order.asc(sort) : Order.desc(sort)).setFirstResult(beginIndex).setMaxResults(endIndex);
     }
 
     @Override
     public int getCount(String name) {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("name", name);
-
-        return jdbc.queryForList(SQL_COUNT, paramSource, Integer.class).get(0);
+        return (int) session.createCriteria(Computer.class).createCriteria("computer", "company", JoinType.LEFT_OUTER_JOIN)
+                .add(Restrictions.or(Restrictions.like("computer.name", "%" + name + "%"), Restrictions.like("company.name", "%" + name + "%"))).setProjection(Projections.rowCount()).uniqueResult();
     }
 
     @Override
-    public void createComputer(Computer computer) throws IllegalArgumentException, DAOException {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("name", computer.getName());
-        paramSource.addValue("introduced", computer.getIntroduced());
-        paramSource.addValue("discontinued", computer.getDiscontinued());
-        paramSource.addValue("companyId", computer.getCompanyId());
-        jdbc.update(SQL_INSERT, paramSource);
+    public void createComputer(Computer computer) {
+        session.persist(computer);
 
     }
 
     @Override
-    public void updateComputer(Computer computer) throws DAOException {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("name", computer.getName());
-        paramSource.addValue("introduced", computer.getIntroduced());
-        paramSource.addValue("discontinued", computer.getDiscontinued());
-        paramSource.addValue("companyId", computer.getCompanyId());
-        paramSource.addValue("id", computer.getId());
-        jdbc.update(SQL_UPDATE, paramSource);
+    public void updateComputer(Computer computer) {
+        session.update(computer);
     }
 
     @Override
-    public void deleteComputer(Long id) throws DAOException {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("id", id);
-        jdbc.update(SQL_DELETE, paramSource);
-    }
-
-    /** Mapper function for computerDAO.
-     * @throws SQLException if the resultSet of the query as an exception
-     * @param resultSet result of the query select
-     * @return return the computer mapped */
-    public class ComputerMapper implements RowMapper<Computer> {
-        @Override
-        public Computer mapRow(ResultSet resultSet, int rownumber) throws SQLException {
-            Computer computer = new Computer();
-            computer.setId(resultSet.getLong("id"));
-            computer.setName(resultSet.getString("name"));
-            computer.setIntroduced(resultSet.getDate("introduced") == null ? null : resultSet.getDate("introduced").toLocalDate());
-            computer.setDiscontinued(resultSet.getDate("discontinued") == null ? null : resultSet.getDate("discontinued").toLocalDate());
-            computer.setCompanyId(resultSet.getLong("company_id"));
-            return computer;
+    public void deleteComputer(Long id) {
+        Computer p = (Computer) session.load(Computer.class, new Long(id));
+        if (null != p) {
+            session.delete(p);
         }
     }
 

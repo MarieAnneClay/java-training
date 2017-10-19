@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,7 @@ import service.ServiceComputer;
 import validator.ComputerValidator;
 
 @Controller
-@RequestMapping("/EditComputer")
+@RequestMapping("/editcomputer")
 public class EditComputer {
     private static final String VIEW = "EditComputer";
     private static final String VIEW_HOME = "dashboard";
@@ -41,7 +40,7 @@ public class EditComputer {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {
+    public String oldComputer(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {
         if (id != null) {
             model.addAttribute("id", id);
             model.addAttribute("computer", ComputerMapper.convertComputerToDTO(serviceComputer.getComputer(id)));
@@ -54,7 +53,7 @@ public class EditComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result, HttpServletRequest request) throws ServletException {
+    public String updateComputer(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
         ComputerValidator computerValidator = new ComputerValidator();
         computerValidator.validate(computer, result);
 
