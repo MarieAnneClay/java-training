@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import DTO.CompanyMapper;
-import DTO.ComputerMapper;
 import model.Company;
 import model.Computer;
 import service.ServiceCompany;
@@ -43,10 +41,10 @@ public class EditComputer {
     public String oldComputer(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {
         if (id != null) {
             model.addAttribute("id", id);
-            model.addAttribute("computer", ComputerMapper.convertComputerToDTO(serviceComputer.getComputer(id)));
+            model.addAttribute("computer", serviceComputer.getComputer(id));
         }
         ArrayList<Company> companies = serviceCompany.getAllCompanies();
-        model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+        model.addAttribute("companies", companies);
         model.addAttribute("computerForm", new Computer());
 
         return VIEW;
@@ -64,7 +62,7 @@ public class EditComputer {
                 sb.append(error.toString());
             }
             ArrayList<Company> companies = serviceCompany.getAllCompanies();
-            model.addAttribute("companies", CompanyMapper.convertCompaniesToDTOS(companies));
+            model.addAttribute("companies", companies);
             model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {

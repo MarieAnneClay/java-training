@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import model.Computer;
 import persistence.daoImpl.ComputerDAOImpl;
@@ -11,6 +12,7 @@ import util.ValidatorException;
 
 /** Class of service for Computer DAO. */
 @Service
+@Transactional
 public class ServiceComputer {
     private final ComputerDAOImpl computerDAOImpl;
 
@@ -34,7 +36,7 @@ public class ServiceComputer {
         return computerDAOImpl.findComputerByNameAndCompany(name, numberOfComputerByPage, currentPage, sort, order);
     }
 
-    public int getCount(String name) {
+    public Long getCount(String name) {
         return computerDAOImpl.getCount(name);
     }
 
@@ -54,7 +56,7 @@ public class ServiceComputer {
         computer.setName(result.getName());
         computer.setIntroduced(result.getIntroduced());
         computer.setDiscontinued(result.getDiscontinued());
-        computer.setCompanyId(result.getCompanyId());
+        computer.setCompany(result.getCompany());
 
         computerDAOImpl.updateComputer(computer);
     }

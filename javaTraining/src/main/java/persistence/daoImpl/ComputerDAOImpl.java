@@ -3,7 +3,6 @@ package persistence.daoImpl;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -20,17 +19,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     private static Logger LOGGER = Logger.getLogger(ComputerDAOImpl.class.getName());
     private SessionFactory sessionFactory;
-    private Session session = sessionFactory.getCurrentSession();
 
     @Autowired
     public ComputerDAOImpl(SessionFactory sessionFactory) {
-        super();
         this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Computer findByIdComputer(Long id) {
-        return (Computer) session.load(Computer.class, new Long(id));
+        return sessionFactory.getCurrentSession().load(Computer.class, new Long(id));
     }
 
     @SuppressWarnings("unchecked")
@@ -39,33 +36,34 @@ public class ComputerDAOImpl implements ComputerDAO {
         int beginIndex = currentPage * numberOfComputerByPage;
         int endIndex = numberOfComputerByPage;
 
-        return (ArrayList<Computer>) session.createCriteria(Computer.class).createCriteria("computer", "company", JoinType.LEFT_OUTER_JOIN)
+        return (ArrayList<Computer>) sessionFactory.getCurrentSession().createCriteria(Computer.class, "computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
                 .add(Restrictions.or(Restrictions.like("computer.name", "%" + name + "%"), Restrictions.like("company.name", "%" + name + "%")))
                 .addOrder(order.equals("ASC") ? Order.asc(sort) : Order.desc(sort)).setFirstResult(beginIndex).setMaxResults(endIndex);
     }
 
     @Override
-    public int getCount(String name) {
-        return (int) session.createCriteria(Computer.class).createCriteria("computer", "company", JoinType.LEFT_OUTER_JOIN)
+    public Long getCount(String name) {
+        sessionFactory.openSession();
+        return (Long) sessionFactory.getCurrentSession().createCriteria(Computer.class, "computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
                 .add(Restrictions.or(Restrictions.like("computer.name", "%" + name + "%"), Restrictions.like("company.name", "%" + name + "%"))).setProjection(Projections.rowCount()).uniqueResult();
     }
 
     @Override
     public void createComputer(Computer computer) {
-        session.persist(computer);
+        sessionFactory.getCurrentSession().persist(computer);
 
     }
 
     @Override
     public void updateComputer(Computer computer) {
-        session.update(computer);
+        sessionFactory.getCurrentSession().update(computer);
     }
 
     @Override
     public void deleteComputer(Long id) {
-        Computer p = (Computer) session.load(Computer.class, new Long(id));
+        Computer p = sessionFactory.getCurrentSession().load(Computer.class, new Long(id));
         if (null != p) {
-            session.delete(p);
+            sessionFactory.getCurrentSession().delete(p);
         }
     }
 

@@ -5,11 +5,13 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import model.Company;
 import persistence.daoImpl.CompanyDAOImpl;
 
 @Service
+@Transactional
 public class ServiceCompany {
     private static Logger LOGGER = Logger.getLogger(ServiceCompany.class.getName());
     private final CompanyDAOImpl companyDAOImpl;

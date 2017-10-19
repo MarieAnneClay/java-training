@@ -18,7 +18,7 @@ public interface ComputerDAO {
      * @return A Company */
     ArrayList<Computer> findComputerByNameAndCompany(String name, int numberOfComputerByPage, int currentPage, String sort, String order);
 
-    int getCount(String name);
+    Long getCount(String name);
 
     /** function wich call a function in ComputerDAO to execute a sql requete to
      * create a computer in the database.

@@ -2,12 +2,11 @@ package model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,10 +28,8 @@ public class Computer {
     @Nullable
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate discontinued;
-    @Nullable
-    @Digits(integer = 8, fraction = 0)
-    @Column(name = "company_id")
-    private Long companyId;
+    @OneToOne
+    private Company company;
 
     /** DEFAULT CONSTRUCTOR. */
     public Computer() {
@@ -58,13 +55,13 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
-    public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Long companyId) {
+    public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company companyId) {
         super();
         this.id = id;
         this.name = name;
         this.introduced = introduced;
         this.discontinued = discontinued;
-        this.companyId = companyId;
+        this.company = company;
     }
 
     /** CONSTRUCTOR with id.
@@ -73,12 +70,12 @@ public class Computer {
      * company
      * @param discontinued DATETIME of the day the computer has been discontinued
      * @param companyId id of the company which possess this computer */
-    public Computer(String name, LocalDate introduced, LocalDate discontinued, Long companyId) {
+    public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
         super();
         this.name = name;
         this.introduced = introduced;
         this.discontinued = discontinued;
-        this.companyId = companyId;
+        this.company = company;
     }
 
     public static class ComputerBuilder {
@@ -108,8 +105,8 @@ public class Computer {
             return this;
         }
 
-        public ComputerBuilder setCompanyId(Long companyId) {
-            this.computer.setCompanyId(companyId);
+        public ComputerBuilder setCompanyId(Company company) {
+            this.computer.setCompany(company);
             return this;
         }
 
@@ -151,12 +148,12 @@ public class Computer {
         this.discontinued = discontinued;
     }
 
-    public Long getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
 }
