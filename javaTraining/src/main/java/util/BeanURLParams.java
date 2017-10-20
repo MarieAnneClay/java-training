@@ -46,8 +46,8 @@ public class BeanURLParams {
         paramNameVSValue.put(key, val);
     }
 
-    public void overrideParam(String key, Integer val) {
-        paramNameVSValue.put(key, String.valueOf(val.intValue()));
-    }
+    // public void overrideParam(String key, Integer val) {
+    // paramNameVSValue.put(key, String.valueOf(val.intValue()));
+    // }
 
 }

@@ -38,7 +38,7 @@
 						</div>
 						<div class="form-group">
 							<label for="companyId"><spring:message code="label.company" /></label> <form:select
-							path="companyId"
+							path="company.id"
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option></option>
 								<c:forEach items="${companies}" var="company">
@@ -69,7 +69,6 @@
             </div>
         </div>
     </section>
-<script src="${pageContext.request.contextPath}/resources/js/jquery.i18n.properties.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>  
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>

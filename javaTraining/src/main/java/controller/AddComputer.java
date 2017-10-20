@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -39,7 +38,7 @@ public class AddComputer {
 
     @RequestMapping(method = RequestMethod.GET)
     public String listOfCompanies(ModelMap model) throws ServletException {
-        ArrayList<Company> companies = serviceCompany.getAllCompanies();
+        List<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", companies);
         model.addAttribute("computerForm", new Computer());
         return VIEW;
@@ -57,8 +56,9 @@ public class AddComputer {
                 sb.append(error.toString());
             }
             model.addAttribute("errors", sb.toString());
-            ArrayList<Company> companies = serviceCompany.getAllCompanies();
+            List<Company> companies = serviceCompany.getAllCompanies();
             model.addAttribute("companies", companies);
+            model.addAttribute("computer", computer);
             return VIEW;
         } else {
             serviceComputer.setComputer(computer);

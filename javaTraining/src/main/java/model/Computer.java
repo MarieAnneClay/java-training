@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -24,9 +26,11 @@ public class Computer {
     private String name;
     @Nullable
     @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @Convert(converter = LocalDateConverter.class)
     private LocalDate introduced;
     @Nullable
     @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @Convert(converter = LocalDateConverter.class)
     private LocalDate discontinued;
     @OneToOne
     private Company company;

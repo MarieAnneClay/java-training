@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -41,9 +40,9 @@ public class EditComputer {
     public String oldComputer(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {
         if (id != null) {
             model.addAttribute("id", id);
-            model.addAttribute("computer", serviceComputer.getComputer(id));
+            model.addAttribute("computer", serviceComputer.getComputerById(id));
         }
-        ArrayList<Company> companies = serviceCompany.getAllCompanies();
+        List<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", companies);
         model.addAttribute("computerForm", new Computer());
 
@@ -61,7 +60,7 @@ public class EditComputer {
             for (ObjectError error : errors) {
                 sb.append(error.toString());
             }
-            ArrayList<Company> companies = serviceCompany.getAllCompanies();
+            List<Company> companies = serviceCompany.getAllCompanies();
             model.addAttribute("companies", companies);
             model.addAttribute("errors", sb.toString());
             return VIEW;
