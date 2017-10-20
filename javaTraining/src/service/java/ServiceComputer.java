@@ -1,4 +1,4 @@
-package service;
+package service.java;
 
 import java.util.logging.Logger;
 
@@ -8,9 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import model.Computer;
-import persistence.ComputerRepository;
-import util.ValidatorException;
+import core.java.model.Computer;
+import persistence.java.ComputerRepository;
 
 /** Class of service for Computer DAO. */
 @Service
@@ -47,14 +46,14 @@ public class ServiceComputer {
     /** Function which call the createComputer to create a computer in the database
      * with a SQL request.
      * @param computer computer to add to the database */
-    public void setComputer(Computer result) throws ValidatorException {
+    public void setComputer(Computer result) {
         computerRepository.saveAndFlush(result);
     }
 
     /** Function which call the updateComputer to update a computer in the database
      * with a SQL request.
      * @param computer computer to update to the database */
-    public void updateComputer(Computer result) throws ValidatorException {
+    public void updateComputer(Computer result) {
         computerRepository.saveAndFlush(result);
     }
 

@@ -1,4 +1,4 @@
-package controller;
+package webapp.java.controller;
 
 import java.util.List;
 
@@ -13,39 +13,44 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import model.Company;
-import model.Computer;
-import service.ServiceCompany;
-import service.ServiceComputer;
-import validator.ComputerValidator;
+import binding.java.validator.ComputerValidator;
+import core.java.model.Company;
+import core.java.model.Computer;
+import service.java.ServiceCompany;
+import service.java.ServiceComputer;
 
 @Controller
-@RequestMapping("/addcomputer")
-public class AddComputer {
-    private final ServiceComputer serviceComputer;
+@RequestMapping("/editcomputer")
+public class EditComputer {
+    private static final String VIEW = "EditComputer";
+    private static final String VIEW_HOME = "dashboard";
     private final ServiceCompany serviceCompany;
+    private final ServiceComputer serviceComputer;
 
     @Autowired
-    public AddComputer(ServiceComputer serviceComputer, ServiceCompany serviceCompany) {
+    public EditComputer(ServiceCompany serviceCompany, ServiceComputer serviceComputer) {
         super();
-        this.serviceComputer = serviceComputer;
         this.serviceCompany = serviceCompany;
+        this.serviceComputer = serviceComputer;
     }
 
-    private static final String VIEW = "AddComputer";
-    private static final String VIEW_HOME = "dashboard";
-
     @RequestMapping(method = RequestMethod.GET)
-    public String listOfCompanies(ModelMap model) throws ServletException {
+    public String oldComputer(ModelMap model, @RequestParam(value = "computerId", required = true) Long id) throws ServletException {
+        if (id != null) {
+            model.addAttribute("id", id);
+            model.addAttribute("computer", serviceComputer.getComputerById(id));
+        }
         List<Company> companies = serviceCompany.getAllCompanies();
         model.addAttribute("companies", companies);
         model.addAttribute("computerForm", new Computer());
+
         return VIEW;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createComputer(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
+    public String updateComputer(Model model, @ModelAttribute("computerForm") Computer computer, BindingResult result) throws ServletException {
         ComputerValidator computerValidator = new ComputerValidator();
         computerValidator.validate(computer, result);
 
@@ -55,13 +60,12 @@ public class AddComputer {
             for (ObjectError error : errors) {
                 sb.append(error.toString());
             }
-            model.addAttribute("errors", sb.toString());
             List<Company> companies = serviceCompany.getAllCompanies();
             model.addAttribute("companies", companies);
-            model.addAttribute("computer", computer);
+            model.addAttribute("errors", sb.toString());
             return VIEW;
         } else {
-            serviceComputer.setComputer(computer);
+            serviceComputer.updateComputer(computer);
             return "redirect:/" + VIEW_HOME;
         }
 
