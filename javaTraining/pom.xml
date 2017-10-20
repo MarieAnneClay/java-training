@@ -4,6 +4,14 @@
 	<groupId>javaTraining</groupId>
 	<artifactId>javaTraining</artifactId>
 	<version>4.5.2</version>
+	<modules>
+        <module>binding</module>
+        <module>console</module>
+        <module>core</module>
+        <module>persistence</module>
+        <module>service</module>
+        <module>webapp</module>
+    </modules>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
