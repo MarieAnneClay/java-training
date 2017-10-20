@@ -33,11 +33,11 @@
 						</div>
 						<div class="form-group">
 							<label for="companyId"><spring:message code="label.company" /></label> <form:select
-							path="company.id"
+							path="company"
 								class="input-lg form-control" id="companyId" name="companyId">
 								<option></option>
 								<c:forEach items="${companies}" var="company">
-									<option value="${company.getId()}"
+									<option value="${company}"
 										<c:if test="${company.getId() == computer.getCompany().getId()}"> selected </c:if> >
 			                                                	${company.getName()}
 			                                                	</option>

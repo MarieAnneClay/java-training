@@ -51,7 +51,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><a ${paramsFromRequest.overrideParam("sort", "cr.name")}
+					<th><a ${paramsFromRequest.overrideParam("sort", "name")}
 						${paramsFromRequest.overrideParam("order", orderName)}
 						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Computer
 							name</a></th>
@@ -66,7 +66,7 @@ ${paramsFromRequest.getParameterFromRequest(pageContext.request)}
 						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Discontinued
 							date</a></th>
 					<th><a
-						${paramsFromRequest.overrideParam("sort", "cy.name")}
+						${paramsFromRequest.overrideParam("sort", "company.name")}
 						${paramsFromRequest.overrideParam("order", orderCompany)}
 						href="${pageContext.request.contextPath}/dashboard${linkGenerated}${paramsFromRequest.buildUrl()}">Company</a></th>
 

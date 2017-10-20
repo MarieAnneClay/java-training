@@ -2,11 +2,12 @@ package model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -32,7 +33,7 @@ public class Computer {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Convert(converter = LocalDateConverter.class)
     private LocalDate discontinued;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Company company;
 
     /** DEFAULT CONSTRUCTOR. */
